@@ -4,6 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Glider IQ Challenge</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg-main: #0b0e14;
@@ -20,138 +23,125 @@
     body {
       background: var(--bg-main);
       color: var(--text-light);
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      display: flex;
-      min-height: 100vh;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
+      font-family: 'Inter', sans-serif;
+      display: flex; align-items: center; justify-content: center;
+      min-height: 100vh; padding: 20px;
     }
     .container {
-      width: 100%;
-      max-width: 700px;
+      width: 100%; max-width: 720px;
       background: var(--card-bg);
       border-radius: var(--radius);
       overflow: hidden;
       box-shadow: 0 8px 30px rgba(0,0,0,0.7);
     }
     .header {
-      padding: 40px 30px;
-      text-align: center;
+      padding: 40px 30px; text-align: center;
       background: linear-gradient(90deg, var(--accent-light), var(--accent-dark));
     }
     .header h1 {
-      font-size: 2.2rem;
-      color: white;
+      font-size: 2.6rem; color: #fff; letter-spacing: .8px;
     }
     .header p {
-      margin-top: 8px;
-      color: var(--text-light);
-      font-size: 1rem;
+      margin-top: 10px; color: var(--text-light); font-size: 1.1rem;
     }
     .section {
-      padding: 30px;
-      display: none;
+      padding: 30px; display: none;
     }
-    .section.active {
-      display: block;
+    .section.active { display: block; animation: fadeIn 0.4s var(--transition); }
+    @keyframes fadeIn {
+      from { opacity:0; transform: translateY(20px); }
+      to { opacity:1; transform: translateY(0); }
+    }
+    .intro-section {
+      text-align: center; color: var(--text-light);
+      margin-bottom: 30px;
+    }
+    .intro-section h2 {
+      font-size: 1.8rem; margin-bottom: 12px;
+    }
+    .intro-section p {
+      font-size: 1rem; line-height:1.6; max-width:600px; margin:0 auto 25px;
     }
     .btn {
-      display: inline-block;
-      padding: 12px 28px;
-      background: var(--accent-dark);
-      color: white;
-      border: none;
-      border-radius: var(--radius);
-      cursor: pointer;
-      transition: background var(--transition), transform var(--transition);
+      display: inline-block; padding: 14px 32px;
+      font-size:1rem; color:#fff; background: var(--accent-dark);
+      border:none; border-radius: var(--radius);
+      cursor:pointer; transition: var(--transition);
     }
     .btn:hover {
-      background: var(--accent-light);
-      transform: translateY(-2px);
+      background: var(--accent-light); transform: translateY(-2px);
     }
     .question-counter {
-      text-align: center;
-      color: var(--text-muted);
-      margin-bottom: 20px;
+      text-align:center; color: var(--text-muted); margin-bottom:20px;
     }
     .progress-bar {
-      background: var(--border-color);
-      height: 8px;
-      border-radius: 4px;
-      overflow: hidden;
-      margin-bottom: 25px;
+      width:100%; height: 8px; background: var(--border-color);
+      border-radius: 4px; overflow:hidden; margin-bottom:30px;
     }
     .progress-fill {
-      height: 100%;
-      width: 0%;
-      background: var(--accent-light);
+      height:100%; width:0%; background: var(--accent-light);
       transition: width var(--transition);
     }
     .question-card {
-      background: var(--card-bg);
-      border-radius: var(--radius);
-      padding: 24px;
-      margin-bottom: 25px;
+      background: var(--card-bg); border-radius: var(--radius);
+      padding: 28px; margin-bottom: 30px;
       border: 1px solid var(--border-color);
     }
     .question-card h3 {
-      font-size: 1.3rem;
-      margin-bottom: 20px;
+      font-size:1.4rem; margin-bottom:22px;
     }
     .options {
-      display: grid;
-      gap: 14px;
+      display:grid; gap:16px;
     }
     .option {
-      background: #262d3a;
-      padding: 16px 20px;
+      background:#2e343e; padding:18px 22px;
       border-radius: var(--radius);
-      border: 1px solid var(--border-color);
-      cursor: pointer;
-      transition: background var(--transition), border-color var(--transition);
+      border:1px solid var(--border-color);
+      cursor:pointer; transition: all var(--transition);
     }
     .option:hover {
-      border-color: var(--accent-light);
-      background: #2f3846;
+      border-color: var(--accent-light); background:#373f4a;
     }
     .option.correct {
-      border-color: #22c55e;
-      background: rgba(34,197,94,0.15);
+      border-color:#22c55e; background:rgba(34,197,94,0.15);
     }
     .option.incorrect {
-      border-color: #ef4444;
-      background: rgba(239,68,68,0.15);
+      border-color:#ef4444; background:rgba(239,68,68,0.15);
     }
     .feedback {
-      text-align: center;
-      margin-top: 18px;
-      font-weight: bold;
+      text-align:center; margin-top:22px; font-weight:600;
     }
-    .feedback.correct {
-      color: #22c55e;
-    }
-    .feedback.incorrect {
-      color: #ef4444;
-    }
-    .results {
-      text-align: center;
-    }
+    .feedback.correct { color:#22c55e; }
+    .feedback.incorrect { color:#ef4444; }
+    .results { text-align:center; padding:40px 30px; }
     .results .score {
-      font-size: 2.8rem;
-      background: linear-gradient(90deg, var(--accent-light), var(--accent-dark));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin: 20px 0;
+      font-size:3rem; background:linear-gradient(90deg,var(--accent-light),var(--accent-dark));
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      margin:30px 0;
     }
     .results .message {
-      color: var(--text-light);
-      font-size: 1.2rem;
-      margin-bottom: 15px;
+      color: var(--text-light); font-size:1.3rem; margin-bottom:20px;
     }
-    @media (max-width: 600px) {
-      .header h1 { font-size: 1.8rem; }
-      .question-card h3 { font-size: 1.1rem; }
+    @media(max-width:600px){
+      .header h1 { font-size:2rem; }
+      .question-card h3 { font-size:1.2rem; }
+      .btn { padding:12px 24px; }
+    }
+    /* Loading spinner */
+    .loader {
+      display:flex; align-items:center; justify-content:center;
+      height:150px;
+    }
+    .loader span {
+      width:12px; height:12px; margin:0 4px;
+      background: var(--accent-light); border-radius:50%;
+      display:inline-block;
+      animation: bounce 0.6s infinite alternate;
+    }
+    .loader span:nth-child(2){ animation-delay:0.2s;}
+    .loader span:nth-child(3){ animation-delay:0.4s;}
+    @keyframes bounce {
+      to { transform: translateY(-12px); opacity:0.6; }
     }
   </style>
 </head>
@@ -159,34 +149,44 @@
   <div class="container">
     <div class="header">
       <h1>Glider IQ Challenge</h1>
-      <p>Test your knowledge on Glider, Beta Points & more</p>
+      <p>Test your knowledge on Glider, Beta Points & beyond</p>
     </div>
 
+    <!-- Start / Intro Screen -->
     <div id="start-screen" class="section active">
-      <p style="text-align:center; font-size:1.05rem; color: var(--text-light); margin-bottom:25px;">
-        Ready to test yourself? Click below to begin the quiz!
-      </p>
-      <div style="text-align:center">
-        <button class="btn" onclick="startQuiz()">Begin Quiz</button>
+      <div class="intro-section">
+        <h2>What is this challenge?</h2>
+        <p>Welcome to the <strong>Glider IQ Challenge</strong> — a fun and interactive quiz tailored around the Glider blog, Beta Points and DeFi fundamentals. Accept the challenge and see how well you score!</p>
       </div>
+      <div style="text-align:center"><button class="btn" onclick="startQuiz()">Start Quiz</button></div>
     </div>
 
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="section">
+      <div class="loader">
+        <span></span><span></span><span></span>
+      </div>
+      <p style="text-align:center; color: var(--text-muted); margin-top:10px;">Preparing questions…</p>
+    </div>
+
+    <!-- Quiz Screen -->
     <div id="quiz-screen" class="section">
       <div class="question-counter"><span id="cur">1</span> / <span id="tot">10</span></div>
       <div class="progress-bar"><div id="fill" class="progress-fill"></div></div>
       <div class="question-card">
-        <h3 id="qtext"></h3>
+        <h3 id="qtext">Question text here</h3>
         <div class="options" id="optbox"></div>
       </div>
       <div id="fb" class="feedback"></div>
       <div style="text-align:center"><button id="nextBtn" class="btn" onclick="nextQ()" disabled>Next</button></div>
     </div>
 
+    <!-- Results Screen -->
     <div id="result-screen" class="section results">
       <div class="score" id="scorePct">0%</div>
-      <div class="message" id="msg"></div>
+      <div class="message" id="msg">You completed the challenge!</div>
       <p>Correct: <span id="corr">0</span> | Wrong: <span id="wrng">0</span> | Total: <span id="total">10</span></p>
-      <div style="text-align:center"><button class="btn" onclick="restart()">Try Again</button></div>
+      <div style="text-align:center"><button class="btn" onclick="restartQuiz()">Try Again</button></div>
     </div>
   </div>
 
@@ -207,9 +207,13 @@
 
     function startQuiz(){
       document.getElementById('start-screen').classList.remove('active');
-      document.getElementById('quiz-screen').classList.add('active');
-      document.getElementById('tot').textContent = quiz.length;
-      loadQ();
+      document.getElementById('loading-screen').classList.add('active');
+      setTimeout(() => {
+        document.getElementById('loading-screen').classList.remove('active');
+        document.getElementById('quiz-screen').classList.add('active');
+        document.getElementById('tot').textContent = quiz.length;
+        loadQ();
+      }, 800); // loading delay
     }
 
     function loadQ(){
@@ -265,14 +269,14 @@
       document.getElementById('scorePct').textContent = pct + '%';
       document.getElementById('corr').textContent = correctCount;
       document.getElementById('wrng').textContent = quiz.length - correctCount;
-      document.getElementById('msg').textContent = 
+      document.getElementById('msg').textContent =
         pct >= 80 ? '🏆 Excellent! You’re a Glider Genius!' :
-        pct >= 60 ? '👏 Great job! You did well!' :
+        pct >= 60 ? '👏 Great job! You know your stuff!' :
         pct >= 40 ? '👍 Good effort! Keep going!' :
-        '💪 Keep practicing — you’ll get better!';
+        '💪 Keep practising — you’ll get better!';
     }
 
-    function restart(){
+    function restartQuiz(){
       idx = 0; correctCount = 0;
       document.getElementById('result-screen').classList.remove('active');
       document.getElementById('start-screen').classList.add('active');
