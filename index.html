@@ -9,48 +9,48 @@
     :root {
       --bg-main: #0e1118;
       --card-bg: #1a1f2b;
-      --accent1: #4ade80;  /* নিয়ন-সবুজ */
-      --accent2: #22d3ee;  /* নিয়ন সায়ান */
+      --accent1: #4ade80;  /* neon green */
+      --accent2: #22d3ee;  /* neon cyan */
       --text-light: #f1f3f5;
       --text-muted: #8a8f99;
       --border-color: #343a40;
       --radius: 14px;
       --transition: 0.3s ease;
     }
-    * { margin:0; padding:0; box-sizing:border-box; }
+    * { margin:0; padding:0; box‐sizing:border‐box; }
     body {
       background: var(--bg-main);
       color: var(--text-light);
-      font-family: 'Poppins', sans-serif;
+      font-family: 'Poppins', sans‐serif;
       display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
+      align‐items: center;
+      justify‐content: center;
+      min‐height: 100vh;
       padding: 20px;
     }
     .container {
       width: 100%;
-      max-width: 760px;
+      max‐width: 760px;
       background: var(--card-bg);
-      border-radius: var(--radius);
+      border‐radius: var(--radius);
       overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+      box‐shadow: 0 10px 30px rgba(0,0,0,0.7);
       position: relative;
     }
     .header {
       padding: 50px 30px;
-      text-align: center;
-      background: linear-gradient(45deg, var(--accent1), var(--accent2));
+      text‐align: center;
+      background: linear‐gradient(45deg, var(--accent1), var(--accent2));
     }
     .header h1 {
-      font-size: 2.8rem;
+      font‐size: 2.8rem;
       color: #fff;
-      letter-spacing: 1px;
+      letter‐spacing: 1px;
     }
     .header p {
-      margin-top: 10px;
+      margin‐top:10px;
       color: var(--text-light);
-      font-size: 1.1rem;
+      font‐size:1.1rem;
     }
     .section {
       padding: 30px;
@@ -65,28 +65,28 @@
       to { opacity: 1; transform: translateY(0); }
     }
     .intro {
-      text-align: center;
+      text‐align:center;
     }
     .intro h2 {
-      font-size: 1.9rem;
-      margin-bottom: 14px;
+      font‐size:1.9rem;
+      margin‐bottom:14px;
     }
     .intro p {
-      font-size: 1rem;
-      line-height: 1.6;
+      font‐size:1rem;
+      line‐height:1.6;
       color: var(--text-muted);
-      margin-bottom: 30px;
-      max-width: 650px;
-      margin-left: auto;
-      margin-right: auto;
+      margin‐bottom:30px;
+      max‐width:650px;
+      margin‐left:auto;
+      margin‐right:auto;
     }
     .btn {
-      padding: 14px 36px;
+      padding:14px 36px;
       background: var(--accent2);
       color: #fff;
-      font-weight: 600;
+      font‐weight:600;
       border: none;
-      border-radius: var(--radius);
+      border‐radius: var(--radius);
       cursor: pointer;
       transition: background var(--transition), transform var(--transition);
     }
@@ -96,117 +96,117 @@
     }
     .loader {
       display: flex;
-      justify-content: center;
-      align-items: center;
+      justify‐content: center;
+      align‐items: center;
       height: 180px;
     }
     .loader span {
-      width: 14px;
-      height: 14px;
-      margin: 0 5px;
+      width:14px;
+      height:14px;
+      margin:0 5px;
       background: var(--accent2);
-      border-radius: 50%;
-      display: inline-block;
+      border‐radius:50%;
+      display:inline‐block;
       animation: bounce 0.6s infinite alternate;
     }
-    .loader span:nth-child(2) { animation-delay: 0.2s; }
-    .loader span:nth-child(3) { animation-delay: 0.4s; }
+    .loader span:nth‐child(2) { animation‐delay:0.2s; }
+    .loader span:nth‐child(3) { animation‐delay:0.4s; }
     @keyframes bounce {
-      to { transform: translateY(-15px); opacity: 0.6; }
+      to { transform: translateY(-15px); opacity:0.6; }
     }
-    .question-counter {
-      text-align: center;
+    .question‐counter {
+      text‐align:center;
       color: var(--text-muted);
-      margin-bottom: 20px;
-      font-size: 0.95rem;
+      margin‐bottom:20px;
+      font‐size:0.95rem;
     }
-    .progress-bar {
-      width: 100%;
-      height: 10px;
+    .progress‐bar {
+      width:100%;
+      height:10px;
       background: var(--border-color);
-      border-radius: 5px;
-      overflow: hidden;
-      margin-bottom: 30px;
+      border‐radius:5px;
+      overflow:hidden;
+      margin‐bottom:30px;
     }
-    .progress-fill {
-      height: 100%;
-      width: 0%;
+    .progress‐fill {
+      height:100%;
+      width:0%;
       background: var(--accent1);
       transition: width var(--transition);
     }
-    .question-card {
+    .question‐card {
       background: var(--card-bg);
-      padding: 28px;
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius);
-      margin-bottom: 30px;
+      padding:28px;
+      border:1px solid var(--border-color);
+      border‐radius: var(--radius);
+      margin-bottom:30px;
     }
-    .question-card h3 {
-      font-size: 1.4rem;
-      margin-bottom: 22px;
+    .question‐card h3 {
+      font‐size:1.4rem;
+      margin‐bottom:22px;
       color: var(--text-light);
     }
     .options {
-      display: grid;
-      gap: 16px;
+      display:grid;
+      gap:16px;
     }
     .option {
-      padding: 18px 22px;
+      padding:18px 22px;
       background: #2b3038;
-      border: 2px solid #343a40;
-      border-radius: var(--radius);
-      cursor: pointer;
-      transition: background var(--transition), border-color var(--transition);
+      border:2px solid #343a40;
+      border‐radius: var(--radius);
+      cursor:pointer;
+      transition: background var(--transition), border‐color var(--transition);
     }
     .option:hover {
       background: #323a45;
-      border-color: var(--accent1);
+      border‐color: var(--accent1);
     }
     .option.correct {
-      border-color: #51cf66;
+      border‐color: #51cf66;
       background: rgba(81,207,102,0.15);
     }
     .option.incorrect {
-      border-color: #f03e3e;
+      border‐color: #f03e3e;
       background: rgba(240,62,62,0.15);
     }
     .feedback {
-      text-align: center;
-      margin-top: 22px;
-      font-size: 1rem;
-      font-weight: 600;
-      display: none; /* feedback text hidden, using confetti instead */
+      text‐align:center;
+      margin‐top:22px;
+      font‐size:1rem;
+      font‐weight:600;
+      display:none; /* using confetti instead */
     }
     .results {
-      text-align: center;
-      padding: 40px 30px;
+      text‐align:center;
+      padding:40px 30px;
     }
     .results .score {
-      font-size: 3.4rem;
-      background: linear-gradient(45deg, var(--accent2), var(--accent1));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin: 30px 0;
+      font‐size:3.4rem;
+      background: linear‐gradient(45deg, var(--accent2), var(--accent1));
+      -webkit‐background‐clip:text;
+      -webkit‐text‐fill‐color:transparent;
+      margin:30px 0;
     }
     .results .message {
-      font-size: 1.3rem;
+      font‐size:1.3rem;
       color: var(--text-light);
-      margin-bottom: 24px;
+      margin‐bottom:24px;
     }
     #chartContainer {
-      width: 100%;
-      max-width: 480px;
-      margin: 0 auto 30px;
+      width:100%;
+      max‐width:480px;
+      margin:0 auto 30px;
     }
-    @media(max-width: 600px) {
-      .header h1 { font-size: 2.2rem; }
-      .intro h2 { font-size: 1.6rem; }
-      .question-card h3 { font-size: 1.2rem; }
-      .btn { padding: 12px 28px; }
+    @media(max‐width:600px) {
+      .header h1 { font‐size:2.2rem; }
+      .intro h2 { font‐size:1.6rem; }
+      .question‐card h3 { font‐size:1.2rem; }
+      .btn { padding:12px 28px; }
     }
   </style>
   <!-- Confetti library -->
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>  <!-- :contentReference[oaicite:0]{index=0} -->
   <!-- Chart.js library -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
@@ -222,10 +222,10 @@
       <div class="intro">
         <h2>Project Overview</h2>
         <p>
-          Welcome to the <strong>Glider IQ Challenge</strong> — an interactive quiz crafted to test your understanding of the Glider, Beta Points, and DeFi fundamentals. Dive in and see how sharp your knowledge is!
+          Welcome to the <strong>Glider IQ Challenge</strong> — an interactive quiz crafted to test your understanding of the Glider ecosystem and the Beta Points program. Dive in and test your knowledge!
         </p>
       </div>
-      <div style="text-align:center">
+      <div style="text‐align:center">
         <button class="btn" onclick="goToLoading()">Start Quiz</button>
       </div>
     </div>
@@ -233,19 +233,19 @@
     <!-- Loading Screen -->
     <div id="loading-screen" class="section">
       <div class="loader"><span></span><span></span><span></span></div>
-      <p style="text-align:center; color: var(--text-muted); margin-top:10px;">Loading questions…</p>
+      <p style="text‐align:center; color: var(--text-muted); margin‐top:10px;">Loading questions…</p>
     </div>
 
     <!-- Quiz Screen -->
     <div id="quiz-screen" class="section">
-      <div class="question-counter"><span id="cur">1</span> / <span id="tot">10</span></div>
-      <div class="progress-bar"><div id="fill" class="progress-fill"></div></div>
-      <div class="question-card">
+      <div class="question‐counter"><span id="cur">1</span> / <span id="tot">10</span></div>
+      <div class="progress‐bar"><div id="fill" class="progress‐fill"></div></div>
+      <div class="question‐card">
         <h3 id="qtext"></h3>
         <div class="options" id="optbox"></div>
       </div>
       <div id="fb" class="feedback"></div>
-      <div style="text-align:center"><button id="nextBtn" class="btn" onclick="nextQ()" disabled>Next</button></div>
+      <div style="text‐align:center"><button id="nextBtn" class="btn" onclick="nextQ()" disabled>Next</button></div>
     </div>
 
     <!-- Results Screen -->
@@ -254,22 +254,62 @@
       <div class="message" id="msg"></div>
       <div id="chartContainer"><canvas id="resultChart"></canvas></div>
       <p>Correct: <span id="corr">0</span> | Wrong: <span id="wrng">0</span> | Total: <span id="total">10</span></p>
-      <div style="text-align:center"><button class="btn" onclick="restartQuiz()">Play Again</button></div>
+      <div style="text‐align:center"><button class="btn" onclick="restartQuiz()">Play Again</button></div>
     </div>
   </div>
 
   <script>
     const quizData = [
-      {q:"What is the main purpose of the “Archive a Portfolio” feature on Glider?", o:["To permanently delete a portfolio","To temporarily pause activity on a portfolio and restore it later","To transfer a portfolio to another user","To convert the portfolio into tokens"], c:1},
-      {q:"How many Beta Points does one earn per $1 in Glider each day?", o:["0.5","1","2","5"], c:1},
-      {q:"When will Beta Points convert into Real Points according to Glider’s blog?", o:["Immediately","At the project’s public launch","After one year","When a user reaches a threshold"], c:1},
-      {q:"From which date are Beta Points being tracked?", o:["January 1, 2025","July 1, 2025","September 1, 2025","April 1, 2025"], c:1},
-      {q:"What is required to start earning Beta Points on Glider?", o:["Only sign up","Deposit funds into Glider portfolios","Refer 10 users","Pay a subscription"], c:1},
-      {q:"Which of the following is NOT one of the categories on the Glider blog?", o:["News","Podcasts","How to Guides","Marketplace"], c:3},
-      {q:"Which section includes ‘The $15,000,000,000,000 Opportunity’ post?", o:["News","Podcasts","From the Founders","How to Guides"], c:2},
-      {q:"How does Glider describe earning Beta Points?", o:["Manually claim them each day","Complete quizzes","Automatically without extra steps","Borrow funds and hold them"], c:2},
-      {q:"Which of the following is NOT a way to track Beta Points?", o:["Dashboard","Email report","Activity log","Blog page"], c:1},
-      {q:"Which statement matches how the blog describes the ‘Archive Portfolio’ feature?", o:["It’s irreversible","It takes hours to complete","You can restore the portfolio ‘just as easily’","It automatically sells your assets"], c:2}
+      {
+        q: "What is the main purpose of Beta Points in Glider?",
+        o: ["To reward early participation in the beta period", "To function as the final token immediately", "To replace portfolio values", "To serve as referral credits only"],
+        c: 0
+      },
+      {
+        q: "How many Beta Points do you earn per dollar deposited per day in Glider?",
+        o: ["0.5 points", "1 point", "2 points", "5 points"],
+        c: 1
+      },
+      {
+        q: "From what date are Beta Points being tracked on Glider?",
+        o: ["January 1, 2025", "April 1, 2025", "July 1, 2025", "September 1, 2025"],
+        c: 2
+      },
+      {
+        q: "Where can you view your Beta Points in Glider?",
+        o: ["Only via email report", "On the dashboard UI", "On a downloadable spreadsheet", "In the mobile app only"],
+        c: 1
+      },
+      {
+        q: "What happens to Beta Points once the Glider public launch occurs?",
+        o: ["They expire.", "They convert into permanent points (conversion rate TBA)", "They become tokens immediately.", "They become referral credits only."],
+        c: 1
+      },
+      {
+        q: "Which of the following best describes the status of Glider during Beta Points accumulation?",
+        o: ["Fully launched public product", "Closed beta / early access", "No deposit required", "Referral only program"],
+        c: 1
+      },
+      {
+        q: "If you deposit $500 for a week in Glider during the beta period, how many Beta Points would you approximately earn (ignoring portfolio value change)?",
+        o: ["~500 points", "~3,500 points", "~7,000 points", "~1,000 points"],
+        c: 1
+      },
+      {
+        q: "Which action is *not* explicitly required to earn Beta Points according to the FAQ?",
+        o: ["Join Discord", "Deposit funds", "Maintain deposit over time", "Create multiple portfolios"],
+        c: 0
+      },
+      {
+        q: "Does portfolio value change affect the number of Beta Points earned?",
+        o: ["No — it remains fixed.", "Yes — points adjust with portfolio value.", "Only if portfolio is archived.", "Only if you withdraw."],
+        c: 1
+      },
+      {
+        q: "Is there retroactive credit for activity before the tracking date?",
+        o: ["Yes — everything counts.", "Only for referral activity.", "No — activity before start date isn’t counted.", "Yes — but only for large deposits."],
+        c: 2
+      }
     ];
     let idx = 0, correctCount = 0;
 
@@ -291,7 +331,7 @@
       document.getElementById('qtext').textContent = q.q;
       const box = document.getElementById('optbox');
       box.innerHTML = '';
-      q.o.forEach((opt, i) => {
+      q.o.forEach((opt,i) => {
         const div = document.createElement('div');
         div.className = 'option';
         div.textContent = opt;
@@ -309,7 +349,7 @@
     function selectOpt(i){
       const q = quizData[idx];
       const opts = document.querySelectorAll('.option');
-      opts.forEach((el, j) => {
+      opts.forEach((el,j) => {
         el.style.pointerEvents = 'none';
         if(j === q.c) el.classList.add('correct');
         else if(j === i && i !== q.c) el.classList.add('incorrect');
@@ -317,15 +357,15 @@
 
       if(i === q.c){
         correctCount++;
-        // trigger confetti
+        // celebration animation: confetti
         confetti({
           particleCount: 100,
           spread: 70,
           origin: { y: 0.6 },
-          colors: [varColor('--accent1'), varColor('--accent2'), "#fff"]
+          colors: [ getComputedStyle(document.documentElement).getPropertyValue('--accent1').trim(), getComputedStyle(document.documentElement).getPropertyValue('--accent2').trim(), '#ffffff' ]
         });
       } else {
-        // optionally, you can add a small shake or color effect for wrong answer
+        // wrong answer: you could add shake or color effect here if desired
       }
 
       document.getElementById('nextBtn').disabled = false;
@@ -356,24 +396,22 @@
       new Chart(ctx, {
         type: 'doughnut',
         data: {
-          labels: ['Correct', 'Wrong'],
+          labels: ['Correct','Wrong'],
           datasets: [{
             data: [corr, wrong],
-            backgroundColor: ['#51cf66', '#f03e3e'],
-            hoverOffset: 10
+            backgroundColor:['#51cf66','#f03e3e'],
+            hoverOffset:10
           }]
         },
-        options: {
-          cutout: '65%',
-          plugins: {
-            legend: {
-              position: 'bottom',
-              labels: {
-                color: varColor('--text-light')
-              }
+        options:{
+          cutout:'65%',
+          plugins:{
+            legend:{
+              position:'bottom',
+              labels:{ color: getComputedStyle(document.documentElement).getPropertyValue('--text-light').trim() }
             },
-            tooltip: {
-              callbacks: {
+            tooltip:{
+              callbacks:{
                 label: (context) => context.label + ': ' + context.parsed
               }
             }
@@ -382,12 +420,8 @@
       });
     }
 
-    function varColor(name){
-      return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
-    }
-
     function restartQuiz(){
-      idx = 0; correctCount = 0;
+      idx=0; correctCount=0;
       document.getElementById('result-screen').classList.remove('active');
       document.getElementById('start-screen').classList.add('active');
     }
