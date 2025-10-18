@@ -33,7 +33,7 @@
       max-width:760px;
       background: var(--card-bg);
       border-radius: var(--radius);
-      overflow:hidden;
+      overflow: hidden;
       box-shadow: 0 10px 30px rgba(0,0,0,0.7);
       position: relative;
     }
@@ -93,22 +93,6 @@
     .btn:hover {
       background: var(--accent1);
       transform: translateY(-2px);
-    }
-    .join-btn {
-      padding:14px 36px;
-      background: none;
-      color:#fff;
-      font-weight:600;
-      border:none;
-      border-radius: var(--radius);
-      cursor:pointer;
-      text-decoration:none;
-      transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
-    }
-    .join-btn:hover {
-      background: rgba(34,211,238,0.2);
-      transform: translateY(-2px) scale(1.03);
-      box-shadow: 0 6px 15px rgba(34,211,238,0.3);
     }
     .loader {
       display:flex;
@@ -229,7 +213,12 @@
 
     <!-- Top Referral Link Section -->
     <div style="text-align:center; padding:20px; background: var(--card-bg);">
-      <a href="https://glider.fi/?invite=f33c4abc" target="_blank" class="join-btn">
+      <a href="https://glider.fi/?invite=f33c4abc" target="_blank" style="
+            font-size:1.2rem;
+            color: var(--accent2);
+            text-decoration:none;
+            font-weight:600;
+          ">
         Join Glider
       </a>
     </div>
@@ -287,11 +276,8 @@
             color: var(--accent1);
             text-decoration:none;
             font-weight:600;
-            display:inline-flex;
-            align-items:center;
           ">
-        <img src="./assets/twitter-logo-white.png" alt="Twitter Logo" style="width:16px; height:16px; margin-right:6px;" />
-        @nexodrops
+        🐦 @nexodrops
       </a>
     </div>
 
@@ -299,16 +285,56 @@
 
   <script>
     const quizData = [
-      { q:"What is the main purpose of Beta Points in Glider?", o:["To reward early participation in the beta period","To function as the final token immediately","To replace portfolio values","To serve as referral credits only"], c:0},
-      { q:"How many Beta Points do you earn per dollar deposited per day in Glider?", o:["0.5 points","1 point","2 points","5 points"], c:1},
-      { q:"From what date are Beta Points being tracked on Glider?", o:["January 1, 2025","April 1, 2025","July 1, 2025","September 1, 2025"], c:2},
-      { q:"Where can you view your Beta Points in Glider?", o:["Only via email report","On the dashboard UI","On a downloadable spreadsheet","In the mobile app only"], c:1},
-      { q:"What happens to Beta Points once the Glider public launch occurs?", o:["They expire.","They convert into permanent points (conversion rate TBA)","They become tokens immediately.","They become referral credits only."], c:1},
-      { q:"Which of the following best describes the status of Glider during Beta Points accumulation?", o:["Fully launched public product","Closed beta / early access","No deposit required","Referral only program"], c:1},
-      { q:"If you deposit $500 for a week in Glider during the beta period, how many Beta Points would you approximately earn (ignoring portfolio value change)?", o:["~500 points","~3,500 points","~7,000 points","~1,000 points"], c:1},
-      { q:"Which action is *not* explicitly required to earn Beta Points according to the FAQ?", o:["Join Discord","Deposit funds","Maintain deposit over time","Create multiple portfolios"], c:0},
-      { q:"Does portfolio value change affect the number of Beta Points earned?", o:["No — it remains fixed.","Yes — points adjust with portfolio value.","Only if portfolio is archived.","Only if you withdraw."], c:1},
-      { q:"Is there retroactive credit for activity before the tracking date?", o:["Yes — everything counts.","Only for referral activity.","No — activity before start date isn’t counted.","Yes — but only for large deposits."], c:2},
+      {
+        q: "What is the main purpose of Beta Points in Glider?",
+        o: ["To reward early participation in the beta period", "To function as the final token immediately", "To replace portfolio values", "To serve as referral credits only"],
+        c: 0
+      },
+      {
+        q: "How many Beta Points do you earn per dollar deposited per day in Glider?",
+        o: ["0.5 points", "1 point", "2 points", "5 points"],
+        c: 1
+      },
+      {
+        q: "From what date are Beta Points being tracked on Glider?",
+        o: ["January 1, 2025", "April 1, 2025", "July 1, 2025", "September 1, 2025"],
+        c: 2
+      },
+      {
+        q: "Where can you view your Beta Points in Glider?",
+        o: ["Only via email report", "On the dashboard UI", "On a downloadable spreadsheet", "In the mobile app only"],
+        c: 1
+      },
+      {
+        q: "What happens to Beta Points once the Glider public launch occurs?",
+        o: ["They expire.", "They convert into permanent points (conversion rate TBA)", "They become tokens immediately.", "They become referral credits only."],
+        c: 1
+      },
+      {
+        q: "Which of the following best describes the status of Glider during Beta Points accumulation?",
+        o: ["Fully launched public product", "Closed beta / early access", "No deposit required", "Referral only program"],
+        c: 1
+      },
+      {
+        q: "If you deposit $500 for a week in Glider during the beta period, how many Beta Points would you approximately earn (ignoring portfolio value change)?",
+        o: ["~500 points", "~3,500 points", "~7,000 points", "~1,000 points"],
+        c: 1
+      },
+      {
+        q: "Which action is *not* explicitly required to earn Beta Points according to the FAQ?",
+        o: ["Join Discord", "Deposit funds", "Maintain deposit over time", "Create multiple portfolios"],
+        c: 0
+      },
+      {
+        q: "Does portfolio value change affect the number of Beta Points earned?",
+        o: ["No — it remains fixed.", "Yes — points adjust with portfolio value.", "Only if portfolio is archived.", "Only if you withdraw."],
+        c: 1
+      },
+      {
+        q: "Is there retroactive credit for activity before the tracking date?",
+        o: ["Yes — everything counts.", "Only for referral activity.", "No — activity before start date isn’t counted.", "Yes — but only for large deposits."],
+        c: 2
+      }
     ];
     let idx=0, correctCount=0;
 
@@ -320,20 +346,21 @@
         document.getElementById('quiz-screen').classList.add('active');
         document.getElementById('tot').textContent = quizData.length;
         loadQ();
-      },800);
+      }, 800);
     }
+
     function loadQ(){
       if(idx >= quizData.length) return showResult();
       const q = quizData[idx];
-      document.getElementById('cur').textContent = idx+1;
+      document.getElementById('cur').textContent = idx + 1;
       document.getElementById('qtext').textContent = q.q;
       const box = document.getElementById('optbox');
       box.innerHTML = '';
       q.o.forEach((opt,i)=>{
-        const div=document.createElement('div');
-        div.className='option';
-        div.textContent=opt;
-        div.onclick=()=> selectOpt(i);
+        const div = document.createElement('div');
+        div.className = 'option';
+        div.textContent = opt;
+        div.onclick = ()=> selectOpt(i);
         box.appendChild(div);
       });
       document.getElementById('fill').style.width = (idx/quizData.length*100)+'%';
@@ -343,9 +370,10 @@
       fb.textContent='';
       fb.className='feedback';
     }
+
     function selectOpt(i){
-      const q=quizData[idx];
-      const opts=document.querySelectorAll('.option');
+      const q = quizData[idx];
+      const opts = document.querySelectorAll('.option');
       opts.forEach((el,j)=>{
         el.style.pointerEvents='none';
         if(j===q.c) el.classList.add('correct');
@@ -357,26 +385,24 @@
           particleCount:100,
           spread:70,
           origin:{ y:0.6 },
-          colors:[
-            getComputedStyle(document.documentElement).getPropertyValue('--accent1').trim(),
-            getComputedStyle(document.documentElement).getPropertyValue('--accent2').trim(),
-            '#ffffff'
-          ]
+          colors:[ getComputedStyle(document.documentElement).getPropertyValue('--accent1').trim(), getComputedStyle(document.documentElement).getPropertyValue('--accent2').trim(), "#ffffff" ]
         });
       }
       document.getElementById('nextBtn').disabled=false;
     }
+
     function nextQ(){
       idx++;
       loadQ();
     }
+
     function showResult(){
       document.getElementById('quiz-screen').classList.remove('active');
       document.getElementById('result-screen').classList.add('active');
-      const pct=Math.round(correctCount/quizData.length*100);
-      document.getElementById('scorePct').textContent = pct+'%';
+      const pct = Math.round(correctCount/quizData.length*100);
+      document.getElementById('scorePct').textContent = pct + '%';
       document.getElementById('corr').textContent = correctCount;
-      document.getElementById('wrng').textContent = quizData.length-correctCount;
+      document.getElementById('wrng').textContent = quizData.length - correctCount;
       document.getElementById('msg').textContent =
         pct>=80 ? '🏆 Excellent! You’re a Glider Pro!' :
         pct>=60 ? '👏 Great job! You know your stuff!' :
@@ -384,22 +410,35 @@
         '💪 Keep practising — you’ll get better!';
       renderResultChart(correctCount, quizData.length-correctCount);
     }
+
     function renderResultChart(corr, wrong){
-      const ctx=document.getElementById('resultChart').getContext('2d');
-      new Chart(ctx,{
+      const ctx = document.getElementById('resultChart').getContext('2d');
+      new Chart(ctx, {
         type:'doughnut',
         data:{
           labels:['Correct','Wrong'],
-          datasets:[{data:[corr,wrong],backgroundColor:['#51cf66','#f03e3e'],hoverOffset:10}]
+          datasets:[{
+            data:[corr,wrong],
+            backgroundColor:['#51cf66','#f03e3e'],
+            hoverOffset:10
+          }]
         },
-        options:{cutout:'65%',plugins:{legend:{position:'bottom',labels:{color:getComputedStyle(document.documentElement).getPropertyValue('--text-light').trim()}},tooltip:{callbacks:{label:(ctx)=>ctx.label+': '+ctx.parsed}}}}
+        options:{
+          cutout:'65%',
+          plugins:{
+            legend:{ position:'bottom', labels:{ color: getComputedStyle(document.documentElement).getPropertyValue('--text-light').trim() } },
+            tooltip:{ callbacks:{ label:(ctx)=> ctx.label + ': ' + ctx.parsed } }
+          }
+        }
       });
     }
+
     function restartQuiz(){
       idx=0; correctCount=0;
       document.getElementById('result-screen').classList.remove('active');
       document.getElementById('start-screen').classList.add('active');
     }
   </script>
+
 </body>
 </html>
