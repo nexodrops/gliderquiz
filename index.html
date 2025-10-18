@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Glider IQ Challenge</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-main: #0f1118;
-      --card-bg: #1c2028;
-      --accent1: #ff8c42;
-      --accent2: #f953c6;
-      --text-light: #ececec;
-      --text-muted: #8a8f99;
+      --bg-main: #0c111a;
+      --card-bg: #1f242d;
+      --accent1: #ff6b6b;
+      --accent2: #f06595;
+      --text-light: #e9ecef;
+      --text-muted: #adb5bd;
+      --border-color: #343a40;
       --radius: 16px;
       --transition: 0.3s ease;
     }
@@ -28,23 +29,25 @@
       padding: 20px;
     }
     .container {
-      width: 100%; max-width: 750px;
+      width: 100%;
+      max-width: 760px;
       background: var(--card-bg);
       border-radius: var(--radius);
       overflow: hidden;
-      box-shadow: 0 12px 40px rgba(0,0,0,0.8);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
     }
     .header {
       padding: 50px 30px;
       text-align: center;
-      background: linear-gradient(135deg, var(--accent1), var(--accent2));
+      background: linear-gradient(45deg, var(--accent1), var(--accent2));
     }
     .header h1 {
       font-size: 2.8rem;
       color: #fff;
+      letter-spacing: 1px;
     }
     .header p {
-      margin-top: 12px;
+      margin-top: 10px;
       color: var(--text-light);
       font-size: 1.1rem;
     }
@@ -54,10 +57,10 @@
     }
     .section.active {
       display: block;
-      animation: fadeInUp var(--transition);
+      animation: fadeIn 0.4s var(--transition);
     }
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(30px); }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
     .intro {
@@ -65,19 +68,19 @@
     }
     .intro h2 {
       font-size: 1.9rem;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
     .intro p {
       font-size: 1rem;
       line-height: 1.6;
       color: var(--text-muted);
       margin-bottom: 30px;
-      max-width: 600px;
+      max-width: 650px;
       margin-left: auto;
       margin-right: auto;
     }
     .btn {
-      padding: 14px 34px;
+      padding: 14px 36px;
       background: var(--accent2);
       color: #fff;
       font-weight: 600;
@@ -90,183 +93,228 @@
       background: var(--accent1);
       transform: translateY(-2px);
     }
+    .loader {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 180px;
+    }
+    .loader span {
+      width: 14px;
+      height: 14px;
+      margin: 0 5px;
+      background: var(--accent2);
+      border-radius: 50%;
+      display: inline-block;
+      animation: bounce 0.6s infinite alternate;
+    }
+    .loader span:nth-child(2) { animation-delay: 0.2s; }
+    .loader span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes bounce {
+      to { transform: translateY(-15px); opacity: 0.6; }
+    }
     .question-counter {
       text-align: center;
       color: var(--text-muted);
       margin-bottom: 20px;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
     }
-    .progress {
-      width:100%;
-      height:10px;
-      background: #2d323c;
-      border-radius:5px;
-      overflow:hidden;
-      margin-bottom:30px;
+    .progress-bar {
+      width: 100%;
+      height: 10px;
+      background: var(--border-color);
+      border-radius: 5px;
+      overflow: hidden;
+      margin-bottom: 30px;
     }
     .progress-fill {
-      height:100%;
-      width:0%;
-      background: var(--accent2);
+      height: 100%;
+      width: 0%;
+      background: var(--accent1);
       transition: width var(--transition);
     }
     .question-card {
-      background: #232a37;
-      padding:26px;
+      background: var(--card-bg);
+      padding: 28px;
+      border: 1px solid var(--border-color);
       border-radius: var(--radius);
       margin-bottom: 30px;
     }
     .question-card h3 {
-      font-size:1.4rem;
-      margin-bottom:20px;
-      color: #fff;
+      font-size: 1.4rem;
+      margin-bottom: 22px;
+      color: var(--text-light);
     }
     .options {
-      display:grid;
-      gap:15px;
+      display: grid;
+      gap: 16px;
     }
     .option {
-      padding:18px 22px;
-      background: #2d343f;
-      border:2px solid #303842;
+      padding: 18px 22px;
+      background: #2b3038;
+      border: 2px solid #343a40;
       border-radius: var(--radius);
-      cursor:pointer;
-      transition: border-color var(--transition), background var(--transition);
+      cursor: pointer;
+      transition: background var(--transition), border-color var(--transition);
     }
     .option:hover {
-      background: #33404e;
-      border-color: var(--accent2);
+      background: #323a45;
+      border-color: var(--accent1);
     }
     .option.correct {
-      border-color: #53d06c;
-      background: rgba(83,208,108,0.15);
+      border-color: #51cf66;
+      background: rgba(81, 207, 102, 0.15);
     }
     .option.incorrect {
-      border-color: #e95353;
-      background: rgba(233,83,83,0.15);
+      border-color: #f03e3e;
+      background: rgba(240, 62, 62, 0.15);
     }
     .feedback {
-      text-align:center;
-      margin-top:22px;
-      font-size:1rem;
-      font-weight:600;
+      text-align: center;
+      margin-top: 22px;
+      font-size: 1rem;
+      font-weight: 600;
     }
-    .feedback.correct { color:#53d06c; }
-    .feedback.incorrect { color:#e95353; }
+    .feedback.correct { color: #51cf66; }
+    .feedback.incorrect { color: #f03e3e; }
     .results {
-      text-align:center;
+      text-align: center;
+      padding: 40px 30px;
     }
     .results .score {
-      font-size:3.2rem;
-      background: linear-gradient(135deg, var(--accent1), var(--accent2));
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
-      margin:30px 0;
+      font-size: 3.4rem;
+      background: linear-gradient(45deg, var(--accent2), var(--accent1));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin: 30px 0;
     }
     .results .message {
-      font-size:1.3rem;
+      font-size: 1.3rem;
       color: var(--text-light);
-      margin-bottom:24px;
+      margin-bottom: 24px;
     }
-    @media(max-width:600px){
-      .header h1 { font-size:2.2rem; }
-      .intro h2 { font-size:1.6rem; }
-      .question-card h3 { font-size:1.2rem; }
+    #chartContainer {
+      width: 100%;
+      max-width: 480px;
+      margin: 0 auto 30px;
+    }
+    @media (max-width: 600px) {
+      .header h1 { font-size: 2.2rem; }
+      .intro h2 { font-size: 1.6rem; }
+      .question-card h3 { font-size: 1.2rem; }
+      .btn { padding: 12px 28px; }
     }
   </style>
+  <!-- Chart.js library -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
   <div class="container">
     <div class="header">
       <h1>Glider IQ Challenge</h1>
-      <p>Discover your knowledge about the Glider blog & DeFi trends</p>
+      <p>Test your knowledge on Glider, Beta Points & DeFi insights</p>
     </div>
 
-    <div id="start" class="section active">
+    <!-- Start / Intro Screen -->
+    <div id="start-screen" class="section active">
       <div class="intro">
         <h2>Project Overview</h2>
         <p>
-          Welcome to the <strong>Glider IQ Challenge</strong>! This interactive quiz is designed to test your knowledge on the Glider blog, Beta Points, and the world of DeFi investing. Whether you're a beginner or a seasoned user, challenge yourself and see how well you score.
+          Welcome to the <strong>Glider IQ Challenge</strong> — an interactive quiz made to test your understanding of the Glider blog, Beta Points, and DeFi fundamentals. Take the quiz, see your results, and challenge yourself!
         </p>
       </div>
       <div style="text-align:center">
-        <button class="btn" onclick="startQuiz()">Start Now</button>
+        <button class="btn" onclick="goToLoading()">Start Quiz</button>
       </div>
     </div>
 
-    <div id="quiz" class="section">
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="section">
+      <div class="loader"><span></span><span></span><span></span></div>
+      <p style="text-align:center; color:var(--text-muted); margin-top:10px;">Loading questions…</p>
+    </div>
+
+    <!-- Quiz Screen -->
+    <div id="quiz-screen" class="section">
       <div class="question-counter"><span id="cur">1</span> / <span id="tot">10</span></div>
-      <div class="progress"><div class="progress-fill" id="bar"></div></div>
+      <div class="progress-bar"><div id="fill" class="progress-fill"></div></div>
       <div class="question-card">
-        <h3 id="qtext">Question goes here…</h3>
+        <h3 id="qtext"></h3>
         <div class="options" id="optbox"></div>
       </div>
       <div id="fb" class="feedback"></div>
       <div style="text-align:center"><button id="nextBtn" class="btn" onclick="nextQ()" disabled>Next</button></div>
     </div>
 
-    <div id="result" class="section results">
+    <!-- Results Screen -->
+    <div id="result-screen" class="section results">
       <div class="score" id="scorePct">0%</div>
       <div class="message" id="msg">You completed the challenge!</div>
+      <div id="chartContainer"><canvas id="resultChart"></canvas></div>
       <p>Correct: <span id="corr">0</span> | Wrong: <span id="wrng">0</span> | Total: <span id="total">10</span></p>
       <div style="text-align:center"><button class="btn" onclick="restart()">Play Again</button></div>
     </div>
   </div>
 
   <script>
-    const quizData = [
-      {q:"What is the main purpose of the “Archive a Portfolio” feature on Glider?",o:["To permanently delete a portfolio","To temporarily pause activity on a portfolio and restore it later","To transfer a portfolio to another user","To convert the portfolio into tokens"],c:1},
-      {q:"How many Beta Points does one earn per $1 in Glider each day?",o:["0.5","1","2","5"],c:1},
-      {q:"When will Beta Points convert into Real Points according to Glider’s blog?",o:["Immediately","At the project’s public launch","After one year","When a user reaches a threshold"],c:1},
-      {q:"From which date are Beta Points being tracked?",o:["January 1, 2025","July 1, 2025","September 1, 2025","April 1, 2025"],c:1},
-      {q:"What is required to start earning Beta Points on Glider?",o:["Only sign up","Deposit funds into Glider portfolios","Refer 10 users","Pay a subscription"],c:1},
-      {q:"Which of the following is NOT one of the categories on the Glider blog?",o:["News","Podcasts","How to Guides","Marketplace"],c:3},
-      {q:"Which section includes ‘The $15,000,000,000,000 Opportunity’ post?",o:["News","Podcasts","From the Founders","How to Guides"],c:2},
-      {q:"How does Glider describe earning Beta Points?",o:["Manually claim them each day","Complete quizzes","Automatically without extra steps","Borrow funds and hold them"],c:2},
-      {q:"Which of the following is NOT a way to track Beta Points?",o:["Dashboard","Email report","Activity log","Blog page"],c:1},
-      {q:"Which statement matches how the blog describes the ‘Archive Portfolio’ feature?",o:["It’s irreversible","It takes hours to complete","You can restore the portfolio ‘just as easily’","It automatically sells your assets"],c:2}
+    const quiz = [
+      {q:"What is the main purpose of the “Archive a Portfolio” feature on Glider?", o:["To permanently delete a portfolio","To temporarily pause activity on a portfolio and restore it later","To transfer a portfolio to another user","To convert the portfolio into tokens"], c:1},
+      {q:"How many Beta Points does one earn per $1 in Glider each day?", o:["0.5","1","2","5"], c:1},
+      {q:"When will Beta Points convert into Real Points according to Glider’s blog?", o:["Immediately","At the project’s public launch","After one year","When a user reaches a threshold"], c:1},
+      {q:"From which date are Beta Points being tracked?", o:["January 1, 2025","July 1, 2025","September 1, 2025","April 1, 2025"], c:1},
+      {q:"What is required to start earning Beta Points on Glider?", o:["Only sign up","Deposit funds into Glider portfolios","Refer 10 users","Pay a subscription"], c:1},
+      {q:"Which of the following is NOT one of the categories on the Glider blog?", o:["News","Podcasts","How to Guides","Marketplace"], c:3},
+      {q:"Which section includes ‘The $15,000,000,000,000 Opportunity’ post?", o:["News","Podcasts","From the Founders","How to Guides"], c:2},
+      {q:"How does Glider describe earning Beta Points?", o:["Manually claim them each day","Complete quizzes","Automatically without extra steps","Borrow funds and hold them"], c:2},
+      {q:"Which of the following is NOT a way to track Beta Points?", o:["Dashboard","Email report","Activity log","Blog page"], c:1},
+      {q:"Which statement matches how the blog describes the ‘Archive Portfolio’ feature?", o:["It’s irreversible","It takes hours to complete","You can restore the portfolio ‘just as easily’","It automatically sells your assets"], c:2}
     ];
-    let idx=0, correct=0;
+    let idx = 0, correctCount = 0;
 
-    function startQuiz(){
-      document.getElementById('start').classList.remove('active');
-      document.getElementById('quiz').classList.add('active');
-      document.getElementById('tot').textContent = quizData.length;
-      loadQuestion();
+    function goToLoading(){
+      document.getElementById('start-screen').classList.remove('active');
+      document.getElementById('loading-screen').classList.add('active');
+      setTimeout(() => {
+        document.getElementById('loading-screen').classList.remove('active');
+        document.getElementById('quiz-screen').classList.add('active');
+        document.getElementById('tot').textContent = quiz.length;
+        loadQ();
+      }, 1000);
     }
 
-    function loadQuestion(){
-      if(idx >= quizData.length) return showResult();
-      const q = quizData[idx];
-      document.getElementById('cur').textContent = idx+1;
+    function loadQ(){
+      if(idx >= quiz.length) return showResult();
+      const q = quiz[idx];
+      document.getElementById('cur').textContent = idx + 1;
       document.getElementById('qtext').textContent = q.q;
-      const optbox = document.getElementById('optbox');
-      optbox.innerHTML = '';
-      q.o.forEach((opt,i)=>{
-        const el = document.createElement('div');
-        el.className = 'option';
-        el.textContent = opt;
-        el.onclick = ()=>selectOption(i);
-        optbox.appendChild(el);
+      const box = document.getElementById('optbox');
+      box.innerHTML = '';
+      q.o.forEach((opt, i) => {
+        const div = document.createElement('div');
+        div.className = 'option';
+        div.textContent = opt;
+        div.onclick = () => selectOpt(i);
+        box.appendChild(div);
       });
-      document.getElementById('bar').style.width = (idx/quizData.length*100)+'%';
+      document.getElementById('fill').style.width = (idx / quiz.length * 100) + '%';
       document.getElementById('nextBtn').disabled = true;
       const fb = document.getElementById('fb');
-      fb.textContent = ''; fb.className='feedback';
+      fb.textContent = '';
+      fb.className = 'feedback';
     }
 
-    function selectOption(i){
-      const q = quizData[idx];
+    function selectOpt(i){
+      const q = quiz[idx];
       const opts = document.querySelectorAll('.option');
-      opts.forEach((el,j)=>{
-        el.style.pointerEvents='none';
-        if(j===q.c) el.classList.add('correct');
-        else if(j===i && i!==q.c) el.classList.add('incorrect');
+      opts.forEach((el, j) => {
+        el.style.pointerEvents = 'none';
+        if(j === q.c) el.classList.add('correct');
+        else if(j === i && i !== q.c) el.classList.add('incorrect');
       });
       const fb = document.getElementById('fb');
-      if(i===q.c){
-        correct++;
-        fb.textContent = '🎉 Correct!';
+      if(i === q.c){
+        correctCount++;
+        fb.textContent = '✅ Correct!';
         fb.classList.add('correct');
       } else {
         fb.textContent = '❌ Wrong! Correct: ' + q.o[q.c];
@@ -277,27 +325,66 @@
 
     function nextQ(){
       idx++;
-      loadQuestion();
+      loadQ();
     }
 
     function showResult(){
-      document.getElementById('quiz').classList.remove('active');
-      document.getElementById('result').classList.add('active');
-      const pct = Math.round(correct/quizData.length*100);
+      document.getElementById('quiz-screen').classList.remove('active');
+      document.getElementById('result-screen').classList.add('active');
+      const pct = Math.round(correctCount / quiz.length * 100);
       document.getElementById('scorePct').textContent = pct + '%';
-      document.getElementById('corr').textContent = correct;
-      document.getElementById('wrng').textContent = quizData.length - correct;
+      document.getElementById('corr').textContent = correctCount;
+      document.getElementById('wrng').textContent = quiz.length - correctCount;
       document.getElementById('msg').textContent =
-        pct >= 80 ? '🏆 Outstanding! You’re a Glider Pro!' :
-        pct >= 60 ? '👏 Well done! Good knowledge!' :
+        pct >= 80 ? '🏆 Excellent! You’re a Glider Pro!' :
+        pct >= 60 ? '👏 Great job! You know your stuff!' :
         pct >= 40 ? '👍 Nice try! Keep improving!' :
-        '💪 Don’t give up! Try again!';
+        '💪 Keep practising — you’ll get better!';
+
+      renderResultChart(correctCount, quiz.length - correctCount);
+    }
+
+    function renderResultChart(corr, wrong){
+      const ctx = document.getElementById('resultChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Correct', 'Wrong'],
+          datasets: [{
+            data: [corr, wrong],
+            backgroundColor: ['#51cf66', '#f03e3e'],
+            hoverOffset: 10
+          }]
+        },
+        options: {
+          cutout: '70%',
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: {
+                color: varColor('--text-light')
+              }
+            },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  return context.label + ': ' + context.parsed;
+                }
+              }
+            }
+          }
+        }
+      });
+    }
+
+    function varColor(name) {
+      return getComputedStyle(document.documentElement).getPropertyValue(name);
     }
 
     function restart(){
-      idx=0; correct=0;
-      document.getElementById('result').classList.remove('active');
-      document.getElementById('start').classList.add('active');
+      idx = 0; correctCount = 0;
+      document.getElementById('result-screen').classList.remove('active');
+      document.getElementById('start-screen').classList.add('active');
     }
   </script>
 </body>
