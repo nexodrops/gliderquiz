@@ -1,150 +1,112 @@
-import React, { useState } from 'react';
-
-function App() {
-  const questions = [
-    {
-      question: "What is the main purpose of the “Archive a Portfolio” feature on Glider?",
-      options: [
-        "To permanently delete a portfolio",
-        "To temporarily pause activity on a portfolio and restore it later",
-        "To transfer a portfolio to another user",
-        "To convert the portfolio into tokens"
-      ],
-      answer: 1
-    },
-    {
-      question: "How many Beta Points does one earn per $1 in Glider each day?",
-      options: ["0.5", "1", "2", "5"],
-      answer: 1
-    },
-    {
-      question: "When will Beta Points convert into Real Points according to Glider’s blog?",
-      options: ["Immediately", "At the project’s public launch", "After one year", "When a user reaches a threshold"],
-      answer: 1
-    },
-    {
-      question: "From which date are Beta Points being tracked?",
-      options: ["January 1, 2025", "July 1, 2025", "September 1, 2025", "April 1, 2025"],
-      answer: 1
-    },
-    {
-      question: "What is required to start earning Beta Points on Glider?",
-      options: ["Only sign up for an account", "Deposit funds into Glider portfolios", "Refer 10 users", "Pay a subscription"],
-      answer: 1
-    },
-    {
-      question: "Which of the following is NOT one of the categories on the Glider blog?",
-      options: ["News", "Podcasts", "How to Guides", "Marketplace"],
-      answer: 3
-    },
-    {
-      question: "Which section includes ‘The $15,000,000,000,000 Opportunity’ post?",
-      options: ["News", "Podcasts", "From the Founders", "How to Guides"],
-      answer: 2
-    },
-    {
-      question: "How does Glider describe earning Beta Points?",
-      options: [
-        "Manually claim them each day",
-        "Complete quizzes",
-        "Automatically without extra steps",
-        "Borrow funds and hold them"
-      ],
-      answer: 2
-    },
-    {
-      question: "Which of the following is NOT a way to track Beta Points?",
-      options: ["Dashboard", "Email report", "Activity log", "Blog page"],
-      answer: 1
-    },
-    {
-      question: "Which statement matches how the blog describes the ‘Archive Portfolio’ feature?",
-      options: [
-        "It’s irreversible",
-        "It takes hours to complete",
-        "You can restore the portfolio ‘just as easily’",
-        "It automatically sells your assets"
-      ],
-      answer: 2
-    }
-  ];
-
-  const [userName, setUserName] = useState("");
-  const [startQuiz, setStartQuiz] = useState(false);
-  const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [selectedOption, setSelectedOption] = useState(null);
-  const [score, setScore] = useState(0);
-
-  const handleStartQuiz = () => {
-    if (userName.trim() !== "") setStartQuiz(true);
-    else alert("Please enter your name to start the quiz.");
-  };
-
-  const handleOptionChange = (e) => {
-    setSelectedOption(parseInt(e.target.value));
-  };
-
-  const handleNextQuestion = () => {
-    if (selectedOption === null) return;
-    if (selectedOption === questions[currentQuestion].answer) {
-      setScore(score + 1);
-    }
-    setSelectedOption(null);
-    setCurrentQuestion(currentQuestion + 1);
-  };
-
-  return (
-    <div style={{ maxWidth: "600px", margin: "0 auto", textAlign: "center" }}>
-      {!startQuiz ? (
-        <div>
-          <h2>Welcome to the Glider.fi Quiz!</h2>
-          <input
-            type="text"
-            placeholder="Enter your name"
-            value={userName}
-            onChange={(e) => setUserName(e.target.value)}
-          />
-          <button onClick={handleStartQuiz}>Start Quiz</button>
-        </div>
-      ) : currentQuestion < questions.length ? (
-        <div>
-          <h3>
-            Question {currentQuestion + 1} of {questions.length}
-          </h3>
-          <p>{questions[currentQuestion].question}</p>
-          <div>
-            {questions[currentQuestion].options.map((option, index) => (
-              <label key={index} style={{ display: "block", margin: "8px 0" }}>
-                <input
-                  type="radio"
-                  name="quizOption"
-                  value={index}
-                  checked={selectedOption === index}
-                  onChange={handleOptionChange}
-                />{" "}
-                {option}
-              </label>
-            ))}
-          </div>
-          <button
-            onClick={handleNextQuestion}
-            disabled={selectedOption === null}
-          >
-            {currentQuestion < questions.length - 1
-              ? "Next Question"
-              : "Submit Quiz"}
-          </button>
-        </div>
-      ) : (
-        <div>
-          <h2>Thank you, {userName}!</h2>
-          <p>
-            You scored {score} out of {questions.length}.
-          </p>
-        </div>
-      )}
-    </div>
-  );
+/* styles.css */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #F4F7FF;
+  color: #333;
 }
 
-export default App;
+.landing-screen,
+.result-screen,
+.quiz-container {
+  max-width: 500px;
+  margin: 3rem auto;
+  background: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  text-align: center;
+}
+
+.title {
+  font-size: 2.5rem;
+  margin-bottom: .5rem;
+  color: #1E1E1E;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  color: #555;
+}
+
+.input-name {
+  width: 80%;
+  padding: .8rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.btn-start,
+.btn-submit,
+.btn-next,
+.btn-restart {
+  background: #4C6EF5;
+  color: #fff;
+  padding: .9rem 1.8rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: background .3s ease;
+}
+
+.btn-start:hover,
+.btn-submit:hover,
+.btn-next:hover,
+.btn-restart:hover {
+  background: #3B5BDB;
+}
+
+.quiz-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1.2rem;
+  font-weight: bold;
+}
+
+.question-text {
+  font-size: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.options-list {
+  margin-bottom: 1.5rem;
+}
+
+.option-label {
+  display: block;
+  padding: .9rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin: .6rem 0;
+  cursor: pointer;
+  transition: border .2s ease, background .2s ease;
+}
+
+.option-label input {
+  margin-right: .5rem;
+}
+
+.option-label.correct {
+  background: #DFF6E5;
+  border-color: #46B267;
+}
+
+.option-label.wrong {
+  background: #FFE5E5;
+  border-color: #E03E3E;
+}
+
+.timer {
+  color: #F03E3E;
+}
+
+.result-text {
+  font-size: 1.5rem;
+  margin-top: 1rem;
+}
