@@ -1,209 +1,171 @@
-import React, { useState, useEffect } from "react";
-import "./styles.css";
-
-const QUESTIONS = [
-  {
-    question: "What is the main purpose of the “Archive a Portfolio” feature on Glider?",
-    options: [
-      "To permanently delete a portfolio",
-      "To temporarily pause activity on a portfolio and restore it later",
-      "To transfer a portfolio to another user",
-      "To convert the portfolio into tokens"
-    ],
-    answer: 1
-  },
-  {
-    question: "How many Beta Points does one earn per $1 in Glider each day?",
-    options: ["0.5", "1", "2", "5"],
-    answer: 1
-  },
-  {
-    question: "When will Beta Points convert into Real Points according to Glider’s blog?",
-    options: ["Immediately", "At the project’s public launch", "After one year", "When a user reaches a threshold"],
-    answer: 1
-  },
-  {
-    question: "From which date are Beta Points being tracked?",
-    options: ["January 1, 2025", "July 1, 2025", "September 1, 2025", "April 1, 2025"],
-    answer: 1
-  },
-  {
-    question: "What is required to start earning Beta Points on Glider?",
-    options: ["Only sign up for an account", "Deposit funds into Glider portfolios", "Refer 10 users", "Pay a subscription"],
-    answer: 1
-  },
-  {
-    question: "Which of the following is NOT one of the categories on the Glider blog?",
-    options: ["News", "Podcasts", "How to Guides", "Marketplace"],
-    answer: 3
-  },
-  {
-    question: "Which section includes ‘The $15,000,000,000,000 Opportunity’ post?",
-    options: ["News", "Podcasts", "From the Founders", "How to Guides"],
-    answer: 2
-  },
-  {
-    question: "How does Glider describe earning Beta Points?",
-    options: [
-      "Manually claim them each day",
-      "Complete quizzes",
-      "Automatically without extra steps",
-      "Borrow funds and hold them"
-    ],
-    answer: 2
-  },
-  {
-    question: "Which of the following is NOT a way to track Beta Points?",
-    options: ["Dashboard", "Email report", "Activity log", "Blog page"],
-    answer: 1
-  },
-  {
-    question: "Which statement matches how the blog describes the ‘Archive Portfolio’ feature?",
-    options: [
-      "It’s irreversible",
-      "It takes hours to complete",
-      "You can restore the portfolio ‘just as easily’",
-      "It automatically sells your assets"
-    ],
-    answer: 2
-  }
-];
-
-function App() {
-  const QUESTION_TIME = 20;
-
-  const [userName, setUserName] = useState("");
-  const [quizStarted, setQuizStarted] = useState(false);
-  const [current, setCurrent] = useState(0);
-  const [selected, setSelected] = useState(null);
-  const [score, setScore] = useState(0);
-  const [timeLeft, setTimeLeft] = useState(QUESTION_TIME);
-  const [showFeedback, setShowFeedback] = useState(false);
-
-  useEffect(() => {
-    if (!quizStarted) return;
-    if (current >= QUESTIONS.length) return;
-
-    setTimeLeft(QUESTION_TIME);
-    setShowFeedback(false);
-    setSelected(null);
-
-    const timer = setInterval(() => {
-      setTimeLeft((t) => {
-        if (t <= 1) {
-          clearInterval(timer);
-          submitAnswer();
-          return 0;
-        }
-        return t - 1;
-      });
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, [quizStarted, current]);
-
-  const startQuiz = () => {
-    if (userName.trim() === "") {
-      alert("দয়া করে নাম লিখুন");
-      return;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🚀 Glider Quiz - Test Your Web3 Knowledge</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{
+      font-family:'Poppins',sans-serif;
+      background:linear-gradient(135deg,#0f172a,#1e293b,#334155);
+      min-height:100vh;display:flex;align-items:center;justify-content:center;
+      color:#f1f5f9;
     }
-    setQuizStarted(true);
-  };
-
-  const handleSelect = (e) => {
-    if (showFeedback) return;
-    setSelected(parseInt(e.target.value));
-  };
-
-  const submitAnswer = () => {
-    if (showFeedback) return;
-    const correctIdx = QUESTIONS[current].answer;
-    if (selected === correctIdx) {
-      setScore((s) => s + 1);
+    .container{
+      background:rgba(255,255,255,0.05);
+      border-radius:20px;
+      padding:40px;
+      max-width:800px;width:100%;
+      backdrop-filter:blur(10px);
+      box-shadow:0 10px 40px rgba(0,0,0,0.4);
     }
-    setShowFeedback(true);
-  };
-
-  const nextQuestion = () => {
-    if (current + 1 < QUESTIONS.length) {
-      setCurrent((c) => c + 1);
-    } else {
-      // end quiz
-      setQuizStarted(false);
+    .logo{text-align:center;font-size:2rem;font-weight:700;
+      background:linear-gradient(90deg,#38bdf8,#818cf8,#a855f7);
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+      margin-bottom:10px;
     }
-  };
-
-  if (!quizStarted) {
-    return (
-      <div className="landing">
-        <h1 className="title">Quiz Challenge</h1>
-        <p className="subtitle">১০টি প্রশ্নের মাধ্যমে আপনার জ্ঞান যাচাই করুন</p>
-        <input
-          className="input-name"
-          type="text"
-          placeholder="আপনার নাম লিখুন"
-          value={userName}
-          onChange={(e) => setUserName(e.target.value)}
-        />
-        <br />
-        <button className="btn-start" onClick={startQuiz}>শুরু করুন</button>
-      </div>
-    );
-  }
-
-  if (!quizStarted && current >= QUESTIONS.length) {
-    // result screen
-    return (
-      <div className="result">
-        <h2>অভিনন্দন, {userName}!</h2>
-        <p className="result-text">আপনার স্কোর: {score} / {QUESTIONS.length}</p>
-        <button className="btn-restart" onClick={() => {
-          setUserName("");
-          setCurrent(0);
-          setScore(0);
-          setQuizStarted(false);
-        }}>আবার শুরু করুন</button>
-      </div>
-    );
-  }
-
-  const q = QUESTIONS[current];
-  const correctIdx = q.answer;
-
-  return (
-    <div className="quiz-container">
-      <div className="quiz-header">
-        <div>প্রশ্ন {current + 1} / {QUESTIONS.length}</div>
-        <div className="timer">সময় বাকি: {timeLeft}s</div>
-      </div>
-      <div className="question-text">{q.question}</div>
-      <div className="options-list">
-        {q.options.map((opt, idx) => (
-          <label
-            key={idx}
-            className={`option-label ${showFeedback ? (idx === correctIdx ? "correct" : (idx === selected ? "wrong" : "")) : ""}`}
-          >
-            <input
-              type="radio"
-              name="option"
-              value={idx}
-              checked={selected === idx}
-              onChange={handleSelect}
-              disabled={showFeedback}
-            />
-            {opt}
-          </label>
-        ))}
-      </div>
-      <div className="controls">
-        {!showFeedback ? (
-          <button className="btn-submit" onClick={submitAnswer} disabled={selected === null}>জমা দিন</button>
-        ) : (
-          <button className="btn-next" onClick={nextQuestion}>{ current + 1 < QUESTIONS.length ? "পরবর্তী" : "রেজাল্ট দেখুন" }</button>
-        )}
-      </div>
+    .subtitle{text-align:center;color:#cbd5e1;margin-bottom:30px}
+    .question-counter{text-align:center;margin-bottom:10px;color:#94a3b8}
+    .progress{height:6px;background:#475569;border-radius:3px;margin-bottom:25px;overflow:hidden}
+    .fill{height:100%;background:linear-gradient(90deg,#38bdf8,#818cf8);width:0%;transition:width .3s ease}
+    .question{background:rgba(255,255,255,0.1);padding:20px;border-radius:12px;margin-bottom:25px}
+    .question h3{font-size:1.2rem;margin-bottom:20px}
+    .options{display:grid;gap:12px}
+    .option{padding:14px;border-radius:10px;border:1px solid #475569;cursor:pointer;transition:all .25s ease}
+    .option:hover{background:rgba(255,255,255,0.08)}
+    .option.correct{border-color:#22c55e;background:rgba(34,197,94,0.15)}
+    .option.incorrect{border-color:#ef4444;background:rgba(239,68,68,0.15)}
+    .feedback{text-align:center;margin-top:15px;font-weight:600}
+    .feedback.correct{color:#22c55e}
+    .feedback.incorrect{color:#ef4444}
+    .btn{
+      display:inline-block;
+      background:linear-gradient(90deg,#38bdf8,#818cf8);
+      color:white;border:none;padding:12px 28px;border-radius:30px;
+      font-weight:600;cursor:pointer;transition:all .25s ease;margin-top:15px
+    }
+    .btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(56,189,248,0.4)}
+    .results{text-align:center}
+    .score{
+      font-size:3rem;margin:20px 0;
+      background:linear-gradient(90deg,#38bdf8,#818cf8);
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+      font-weight:700;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div id="start">
+      <div class="logo">🪙 Glider Quiz</div>
+      <div class="subtitle">Test Your Web3 & Glider Knowledge</div>
+      <p style="text-align:center;margin-bottom:25px;color:#cbd5e1">
+        Discover how much you know about Glider, Beta Points, and DeFi investing.<br/>Click below to begin!
+      </p>
+      <div style="text-align:center"><button class="btn" onclick="startQuiz()">Start Quiz</button></div>
     </div>
-  );
-}
 
-export default App;
+    <div id="quiz" style="display:none">
+      <div class="question-counter"><span id="qnum">1</span> / <span id="total">10</span></div>
+      <div class="progress"><div class="fill" id="bar"></div></div>
+      <div class="question"><h3 id="questionText"></h3><div class="options" id="opts"></div></div>
+      <div class="feedback" id="feedback"></div>
+      <div style="text-align:center"><button class="btn" id="nextBtn" onclick="nextQ()" disabled>Next</button></div>
+    </div>
+
+    <div id="result" style="display:none" class="results">
+      <div class="logo">🏁 Glider Quiz</div>
+      <div class="score" id="scorePercent">0%</div>
+      <p id="msg"></p>
+      <p>Correct: <span id="right"></span> | Wrong: <span id="wrong"></span></p>
+      <button class="btn" onclick="restart()">Play Again</button>
+    </div>
+  </div>
+
+  <script>
+    const data = [
+      {q:"What is the main purpose of the “Archive a Portfolio” feature on Glider?",
+       o:["To permanently delete a portfolio","To temporarily pause activity on a portfolio and restore it later","To transfer a portfolio to another user","To convert the portfolio into tokens"],c:1},
+      {q:"How many Beta Points does one earn per $1 in Glider each day?",o:["0.5","1","2","5"],c:1},
+      {q:"When will Beta Points convert into Real Points according to Glider’s blog?",
+       o:["Immediately","At the project’s public launch","After one year","When a user reaches a threshold"],c:1},
+      {q:"From which date are Beta Points being tracked?",o:["January 1, 2025","July 1, 2025","September 1, 2025","April 1, 2025"],c:1},
+      {q:"What is required to start earning Beta Points on Glider?",o:["Only sign up","Deposit funds into Glider portfolios","Refer 10 users","Pay a subscription"],c:1},
+      {q:"Which of the following is NOT one of the categories on the Glider blog?",o:["News","Podcasts","How to Guides","Marketplace"],c:3},
+      {q:"Which section includes ‘The $15,000,000,000,000 Opportunity’ post?",o:["News","Podcasts","From the Founders","How to Guides"],c:2},
+      {q:"How does Glider describe earning Beta Points?",o:["Manually claim them each day","Complete quizzes","Automatically without extra steps","Borrow funds and hold them"],c:2},
+      {q:"Which of the following is NOT a way to track Beta Points?",o:["Dashboard","Email report","Activity log","Blog page"],c:1},
+      {q:"Which statement matches how the blog describes the ‘Archive Portfolio’ feature?",
+       o:["It’s irreversible","It takes hours to complete","You can restore the portfolio ‘just as easily’","It automatically sells your assets"],c:2}
+    ];
+    let i=0,score=0;
+
+    function startQuiz(){
+      document.getElementById('start').style.display='none';
+      document.getElementById('quiz').style.display='block';
+      document.getElementById('total').textContent=data.length;
+      loadQ();
+    }
+
+    function loadQ(){
+      const q=data[i];
+      document.getElementById('qnum').textContent=i+1;
+      document.getElementById('questionText').textContent=q.q;
+      const opts=document.getElementById('opts');
+      opts.innerHTML='';
+      q.o.forEach((opt,idx)=>{
+        const div=document.createElement('div');
+        div.className='option';
+        div.textContent=opt;
+        div.onclick=()=>select(idx);
+        opts.appendChild(div);
+      });
+      document.getElementById('feedback').textContent='';
+      document.getElementById('nextBtn').disabled=true;
+      document.getElementById('bar').style.width=(i/data.length)*100+'%';
+    }
+
+    function select(idx){
+      const q=data[i];
+      const opts=document.querySelectorAll('.option');
+      opts.forEach((o,k)=>{
+        if(k===q.c) o.classList.add('correct');
+        else if(k===idx && idx!==q.c) o.classList.add('incorrect');
+        o.style.pointerEvents='none';
+      });
+      const fb=document.getElementById('feedback');
+      if(idx===q.c){score++;fb.textContent='✅ Correct!';fb.className='feedback correct';}
+      else{fb.textContent='❌ Wrong! Correct answer: '+q.o[q.c];fb.className='feedback incorrect';}
+      document.getElementById('nextBtn').disabled=false;
+    }
+
+    function nextQ(){
+      i++;
+      if(i<data.length) loadQ();
+      else showResult();
+    }
+
+    function showResult(){
+      document.getElementById('quiz').style.display='none';
+      document.getElementById('result').style.display='block';
+      const pct=Math.round((score/data.length)*100);
+      document.getElementById('scorePercent').textContent=pct+'%';
+      document.getElementById('right').textContent=score;
+      document.getElementById('wrong').textContent=data.length-score;
+      let msg='';
+      if(pct>=80) msg='🏆 Excellent! You’re a Glider Pro!';
+      else if(pct>=60) msg='👏 Great! You know your DeFi!';
+      else if(pct>=40) msg='👍 Not bad! Keep learning!';
+      else msg='💪 Keep practicing — explore the Glider blog!';
+      document.getElementById('msg').textContent=msg;
+    }
+
+    function restart(){
+      i=0;score=0;
+      document.getElementById('result').style.display='none';
+      document.getElementById('start').style.display='block';
+    }
+  </script>
+</body>
+</html>
