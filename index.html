@@ -96,7 +96,7 @@
     }
     .join-btn {
       padding:14px 36px;
-      background: var(--accent2);
+      background: none;
       color:#fff;
       font-weight:600;
       border:none;
@@ -106,7 +106,7 @@
       transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
     }
     .join-btn:hover {
-      background: var(--accent1);
+      background: rgba(34,211,238,0.2);
       transform: translateY(-3px) scale(1.05);
       box-shadow: 0 8px 20px rgba(34,211,238,0.3);
     }
@@ -290,7 +290,7 @@
             display:inline-flex;
             align-items:center;
           ">
-        <img src="./assets/X_logo_2023.svg.png" alt="X Logo" style="width:18px; height:18px; margin-right:6px;" />
+        <img src="./assets/X_logo_2023_(white).png" alt="X Logo" style="width:18px; height:18px; margin-right:6px;" />
         @nexodrops
       </a>
     </div>
@@ -390,15 +390,9 @@
         type:'doughnut',
         data:{
           labels:['Correct','Wrong'],
-          datasets:[{data:[corr,wrong], backgroundColor:['#51cf66','#f03e3e'], hoverOffset:10}]
+          datasets:[{data:[corr,wrong],backgroundColor:['#51cf66','#f03e3e'],hoverOffset:10}]
         },
-        options:{
-          cutout:'65%',
-          plugins:{
-            legend:{ position:'bottom', labels:{ color:getComputedStyle(document.documentElement).getPropertyValue('--text-light').trim() } },
-            tooltip:{ callbacks:{ label:(ctx)=> ctx.label + ': ' + ctx.parsed } }
-          }
-        }
+        options:{cutout:'65%',plugins:{legend:{position:'bottom',labels:{color:getComputedStyle(document.documentElement).getPropertyValue('--text-light').trim()}},tooltip:{callbacks:{label:(ctx)=>ctx.label+': '+ctx.parsed}}}}
       });
     }
     function restartQuiz(){
