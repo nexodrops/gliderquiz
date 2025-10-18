@@ -1,112 +1,209 @@
-/* styles.css */
-body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: #F4F7FF;
-  color: #333;
+import React, { useState, useEffect } from "react";
+import "./styles.css";
+
+const QUESTIONS = [
+  {
+    question: "What is the main purpose of the “Archive a Portfolio” feature on Glider?",
+    options: [
+      "To permanently delete a portfolio",
+      "To temporarily pause activity on a portfolio and restore it later",
+      "To transfer a portfolio to another user",
+      "To convert the portfolio into tokens"
+    ],
+    answer: 1
+  },
+  {
+    question: "How many Beta Points does one earn per $1 in Glider each day?",
+    options: ["0.5", "1", "2", "5"],
+    answer: 1
+  },
+  {
+    question: "When will Beta Points convert into Real Points according to Glider’s blog?",
+    options: ["Immediately", "At the project’s public launch", "After one year", "When a user reaches a threshold"],
+    answer: 1
+  },
+  {
+    question: "From which date are Beta Points being tracked?",
+    options: ["January 1, 2025", "July 1, 2025", "September 1, 2025", "April 1, 2025"],
+    answer: 1
+  },
+  {
+    question: "What is required to start earning Beta Points on Glider?",
+    options: ["Only sign up for an account", "Deposit funds into Glider portfolios", "Refer 10 users", "Pay a subscription"],
+    answer: 1
+  },
+  {
+    question: "Which of the following is NOT one of the categories on the Glider blog?",
+    options: ["News", "Podcasts", "How to Guides", "Marketplace"],
+    answer: 3
+  },
+  {
+    question: "Which section includes ‘The $15,000,000,000,000 Opportunity’ post?",
+    options: ["News", "Podcasts", "From the Founders", "How to Guides"],
+    answer: 2
+  },
+  {
+    question: "How does Glider describe earning Beta Points?",
+    options: [
+      "Manually claim them each day",
+      "Complete quizzes",
+      "Automatically without extra steps",
+      "Borrow funds and hold them"
+    ],
+    answer: 2
+  },
+  {
+    question: "Which of the following is NOT a way to track Beta Points?",
+    options: ["Dashboard", "Email report", "Activity log", "Blog page"],
+    answer: 1
+  },
+  {
+    question: "Which statement matches how the blog describes the ‘Archive Portfolio’ feature?",
+    options: [
+      "It’s irreversible",
+      "It takes hours to complete",
+      "You can restore the portfolio ‘just as easily’",
+      "It automatically sells your assets"
+    ],
+    answer: 2
+  }
+];
+
+function App() {
+  const QUESTION_TIME = 20;
+
+  const [userName, setUserName] = useState("");
+  const [quizStarted, setQuizStarted] = useState(false);
+  const [current, setCurrent] = useState(0);
+  const [selected, setSelected] = useState(null);
+  const [score, setScore] = useState(0);
+  const [timeLeft, setTimeLeft] = useState(QUESTION_TIME);
+  const [showFeedback, setShowFeedback] = useState(false);
+
+  useEffect(() => {
+    if (!quizStarted) return;
+    if (current >= QUESTIONS.length) return;
+
+    setTimeLeft(QUESTION_TIME);
+    setShowFeedback(false);
+    setSelected(null);
+
+    const timer = setInterval(() => {
+      setTimeLeft((t) => {
+        if (t <= 1) {
+          clearInterval(timer);
+          submitAnswer();
+          return 0;
+        }
+        return t - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [quizStarted, current]);
+
+  const startQuiz = () => {
+    if (userName.trim() === "") {
+      alert("দয়া করে নাম লিখুন");
+      return;
+    }
+    setQuizStarted(true);
+  };
+
+  const handleSelect = (e) => {
+    if (showFeedback) return;
+    setSelected(parseInt(e.target.value));
+  };
+
+  const submitAnswer = () => {
+    if (showFeedback) return;
+    const correctIdx = QUESTIONS[current].answer;
+    if (selected === correctIdx) {
+      setScore((s) => s + 1);
+    }
+    setShowFeedback(true);
+  };
+
+  const nextQuestion = () => {
+    if (current + 1 < QUESTIONS.length) {
+      setCurrent((c) => c + 1);
+    } else {
+      // end quiz
+      setQuizStarted(false);
+    }
+  };
+
+  if (!quizStarted) {
+    return (
+      <div className="landing">
+        <h1 className="title">Quiz Challenge</h1>
+        <p className="subtitle">১০টি প্রশ্নের মাধ্যমে আপনার জ্ঞান যাচাই করুন</p>
+        <input
+          className="input-name"
+          type="text"
+          placeholder="আপনার নাম লিখুন"
+          value={userName}
+          onChange={(e) => setUserName(e.target.value)}
+        />
+        <br />
+        <button className="btn-start" onClick={startQuiz}>শুরু করুন</button>
+      </div>
+    );
+  }
+
+  if (!quizStarted && current >= QUESTIONS.length) {
+    // result screen
+    return (
+      <div className="result">
+        <h2>অভিনন্দন, {userName}!</h2>
+        <p className="result-text">আপনার স্কোর: {score} / {QUESTIONS.length}</p>
+        <button className="btn-restart" onClick={() => {
+          setUserName("");
+          setCurrent(0);
+          setScore(0);
+          setQuizStarted(false);
+        }}>আবার শুরু করুন</button>
+      </div>
+    );
+  }
+
+  const q = QUESTIONS[current];
+  const correctIdx = q.answer;
+
+  return (
+    <div className="quiz-container">
+      <div className="quiz-header">
+        <div>প্রশ্ন {current + 1} / {QUESTIONS.length}</div>
+        <div className="timer">সময় বাকি: {timeLeft}s</div>
+      </div>
+      <div className="question-text">{q.question}</div>
+      <div className="options-list">
+        {q.options.map((opt, idx) => (
+          <label
+            key={idx}
+            className={`option-label ${showFeedback ? (idx === correctIdx ? "correct" : (idx === selected ? "wrong" : "")) : ""}`}
+          >
+            <input
+              type="radio"
+              name="option"
+              value={idx}
+              checked={selected === idx}
+              onChange={handleSelect}
+              disabled={showFeedback}
+            />
+            {opt}
+          </label>
+        ))}
+      </div>
+      <div className="controls">
+        {!showFeedback ? (
+          <button className="btn-submit" onClick={submitAnswer} disabled={selected === null}>জমা দিন</button>
+        ) : (
+          <button className="btn-next" onClick={nextQuestion}>{ current + 1 < QUESTIONS.length ? "পরবর্তী" : "রেজাল্ট দেখুন" }</button>
+        )}
+      </div>
+    </div>
+  );
 }
 
-.landing-screen,
-.result-screen,
-.quiz-container {
-  max-width: 500px;
-  margin: 3rem auto;
-  background: #fff;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-  text-align: center;
-}
-
-.title {
-  font-size: 2.5rem;
-  margin-bottom: .5rem;
-  color: #1E1E1E;
-}
-
-.subtitle {
-  font-size: 1.1rem;
-  margin-bottom: 2rem;
-  color: #555;
-}
-
-.input-name {
-  width: 80%;
-  padding: .8rem;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  margin-bottom: 1.5rem;
-}
-
-.btn-start,
-.btn-submit,
-.btn-next,
-.btn-restart {
-  background: #4C6EF5;
-  color: #fff;
-  padding: .9rem 1.8rem;
-  font-size: 1rem;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  margin-top: 1rem;
-  transition: background .3s ease;
-}
-
-.btn-start:hover,
-.btn-submit:hover,
-.btn-next:hover,
-.btn-restart:hover {
-  background: #3B5BDB;
-}
-
-.quiz-header {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 1.2rem;
-  font-weight: bold;
-}
-
-.question-text {
-  font-size: 1.25rem;
-  margin-bottom: 1.5rem;
-}
-
-.options-list {
-  margin-bottom: 1.5rem;
-}
-
-.option-label {
-  display: block;
-  padding: .9rem;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  margin: .6rem 0;
-  cursor: pointer;
-  transition: border .2s ease, background .2s ease;
-}
-
-.option-label input {
-  margin-right: .5rem;
-}
-
-.option-label.correct {
-  background: #DFF6E5;
-  border-color: #46B267;
-}
-
-.option-label.wrong {
-  background: #FFE5E5;
-  border-color: #E03E3E;
-}
-
-.timer {
-  color: #F03E3E;
-}
-
-.result-text {
-  font-size: 1.5rem;
-  margin-top: 1rem;
-}
+export default App;
