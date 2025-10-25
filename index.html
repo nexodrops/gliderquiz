@@ -1,444 +1,420 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Glider IQ Challenge</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Glider IQ Challenge — 5 levels (50 Qs)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet"/>
   <style>
-    :root {
-      --bg-main: #0e1118;
-      --card-bg: #1a1f2b;
-      --accent1: #4ade80;
-      --accent2: #22d3ee;
-      --text-light: #f1f3f5;
-      --text-muted: #8a8f99;
-      --border-color: #343a40;
-      --radius: 14px;
-      --transition: 0.3s ease;
+    :root{
+      --bg-main:#0e1118;
+      --card-bg:#0f1620;
+      --accent-cyan:#22d3ee;
+      --accent-mint:#4ade80;
+      --text-light:#f1f3f5;
+      --text-muted:#8a8f99;
+      --border:#232a32;
+      --radius:14px;
+      --trans:0.28s ease;
     }
-    * { margin:0; padding:0; box-sizing:border-box; }
-    body {
-      background: var(--bg-main);
-      color: var(--text-light);
-      font-family: 'Poppins', sans-serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      padding: 20px;
-    }
-    .container {
-      width:100%;
-      max-width:760px;
-      background: var(--card-bg);
-      border-radius: var(--radius);
-      overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.7);
-      position: relative;
-    }
-    .header {
-      padding:50px 30px;
-      text-align:center;
-      background: linear-gradient(45deg, var(--accent1), var(--accent2));
-    }
-    .header h1 {
-      font-size:2.8rem;
-      color:#fff;
-      letter-spacing:1px;
-    }
-    .header p {
-      margin-top:10px;
-      color: var(--text-light);
-      font-size:1.1rem;
-    }
-    .section {
-      padding:30px;
-      display:none;
-    }
-    .section.active {
-      display:block;
-      animation: fadeIn 0.4s var(--transition);
-    }
-    @keyframes fadeIn {
-      from { opacity:0; transform: translateY(20px); }
-      to   { opacity:1; transform: translateY(0); }
-    }
-    .intro {
-      text-align:center;
-    }
-    .intro h2 {
-      font-size:1.9rem;
-      margin-bottom:14px;
-    }
-    .intro p {
-      font-size:1rem;
-      line-height:1.6;
-      color: var(--text-muted);
-      margin-bottom:30px;
-      max-width:650px;
-      margin-left:auto;
-      margin-right:auto;
-    }
-    .btn {
-      padding:14px 36px;
-      background: var(--accent2);
-      color:#fff;
-      font-weight:600;
-      border:none;
-      border-radius: var(--radius);
-      cursor:pointer;
-      transition: background var(--transition), transform var(--transition);
-    }
-    .btn:hover {
-      background: var(--accent1);
-      transform: translateY(-2px);
-    }
-    .loader {
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      background:var(--bg-main);
+      color:var(--text-light);
+      font-family:'Poppins',system-ui,Segoe UI,Arial;
       display:flex;
-      justify-content:center;
       align-items:center;
-      height:180px;
+      justify-content:center;
+      min-height:100vh;
+      padding:20px;
     }
-    .loader span {
-      width:14px;
-      height:14px;
-      margin:0 5px;
-      background: var(--accent2);
-      border-radius:50%;
-      display:inline-block;
-      animation: bounce 0.6s infinite alternate;
-    }
-    .loader span:nth-child(2){ animation-delay:0.2s; }
-    .loader span:nth-child(3){ animation-delay:0.4s; }
-    @keyframes bounce {
-      to { transform: translateY(-15px); opacity:0.6; }
-    }
-    .question-counter {
-      text-align:center;
-      color: var(--text-muted);
-      margin-bottom:20px;
-      font-size:0.95rem;
-    }
-    .progress-bar {
+    .container{
       width:100%;
-      height:10px;
-      background: var(--border-color);
-      border-radius:5px;
+      max-width:820px;
+      background:var(--card-bg);
+      border-radius:var(--radius);
       overflow:hidden;
-      margin-bottom:30px;
+      box-shadow:0 18px 40px rgba(0,0,0,.6);
     }
-    .progress-fill {
-      height:100%;
-      width:0%;
-      background: var(--accent1);
-      transition: width var(--transition);
+
+    .topbar {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:06px;
+      padding:12px 18px;
+      background:linear-gradient(90deg,var(--accent-cyan),var(--accent-mint));
     }
-    .question-card {
-      background: var(--card-bg);
-      padding:28px;
-      border:1px solid var(--border-color);
-      border-radius: var(--radius);
-      margin-bottom:30px;
+    .brand { display:flex; gap:06px; align-items:center; }
+    .brand img { height:60px; width:auto; display:block; }
+    .title h1{ font-size:1.25rem; margin:0; color:#012; font-weight:700; }
+    .title p{ margin:0; color:#012; font-size:0.85rem; font-weight:600; opacity:0.95; }
+
+    .toplink a{
+      display:inline-block;
+      padding:8px 10px;
+      border-radius:8px;
+      background:rgba(1,34,41,0.06);
+      color:#012;
+      font-weight:700;
+      text-decoration:none;
     }
-    .question-card h3 {
-      font-size:1.4rem;
-      margin-bottom:22px;
-      color: var(--text-light);
-    }
-    .options {
-      display:grid;
-      gap:16px;
-    }
-    .option {
-      padding:18px 22px;
-      background:#2b3038;
-      border:2px solid #343a40;
-      border-radius: var(--radius);
-      cursor:pointer;
-      transition: background var(--transition), border-color var(--transition);
-    }
-    .option:hover {
-      background:#323a45;
-      border-color: var(--accent1);
-    }
-    .option.correct {
-      border-color:#51cf66;
-      background:rgba(81,207,102,0.15);
-    }
-    .option.incorrect {
-      border-color:#f03e3e;
-      background:rgba(240,62,62,0.15);
-    }
-    .feedback {
+
+    .header{
+      padding:28px 22px;
       text-align:center;
-      margin-top:22px;
-      font-size:1rem;
-      font-weight:600;
-      display:none;
+      background:linear-gradient(180deg, rgba(2,34,41,0.04), transparent);
     }
-    .results {
-      text-align:center;
-      padding:40px 30px;
+    .header h1{ font-size:2rem; margin:0; color:var(--text-light); letter-spacing:0.4px; }
+    .header p{ margin-top:8px; color:var(--text-muted); }
+
+    .section{ padding:20px; display:none; }
+    .section.active{ display:block; animation:fadeIn .32s var(--trans); }
+    @keyframes fadeIn{ from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:none} }
+
+    .intro { text-align:center; margin-bottom:12px; }
+    .intro h2{ font-size:1.4rem; margin-bottom:8px; }
+    .intro p{ color:var(--text-muted); max-width:720px; margin:0 auto 18px; line-height:1.5 }
+
+    .levels{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-bottom:14px;}
+    .level-btn{
+      padding:9px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);
+      background:transparent;color:var(--text-light);cursor:pointer;font-weight:600;
     }
-    .results .score {
-      font-size:3.4rem;
-      background: linear-gradient(45deg, var(--accent2), var(--accent1));
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
-      margin:30px 0;
+    .level-btn.sel{ background:linear-gradient(90deg,var(--accent-cyan),var(--accent-mint)); color:#012; border:none; }
+
+    .btn{ padding:12px 30px; border-radius:12px; border:none; cursor:pointer; font-weight:700;
+          background:linear-gradient(90deg,var(--accent-cyan),var(--accent-mint)); color:#012; }
+    .btn.ghost{ background:transparent;border:1px solid rgba(255,255,255,0.04); color:var(--text-light); }
+
+    .loader{ display:flex; justify-content:center; align-items:center; height:120px; }
+    .loader span{ width:12px;height:12px;border-radius:50%;display:inline-block;margin:0 6px;background:var(--accent-cyan); animation:bounce .6s infinite alternate;}
+    .loader span:nth-child(2){ animation-delay:.12s }
+    .loader span:nth-child(3){ animation-delay:.24s }
+    @keyframes bounce{ to{ transform:translateY(-12px); opacity:.6 } }
+
+    .question-counter{ text-align:center;color:var(--text-muted); margin-bottom:12px }
+    .progress-bar{ width:100%;height:10px;background:var(--border);border-radius:8px;overflow:hidden;margin-bottom:14px}
+    .progress-fill{ height:100%; width:0%; background:linear-gradient(90deg,var(--accent-cyan),var(--accent-mint)); transition:width var(--trans) }
+
+    .question-card{ background:transparent;padding:18px;border-radius:12px;border:1px solid rgba(255,255,255,0.03); margin-bottom:14px }
+    .question-card h3{ font-size:1.15rem; color:var(--text-light); margin-bottom:12px }
+
+    .options{ display:grid; gap:12px }
+    .option{
+      padding:12px 14px;border-radius:10px;background:#11161b;border:2px solid #1f262b;color:var(--text-light);
+      cursor:pointer; transition:transform .18s ease, border-color .18s ease, background .18s ease;
+      user-select:none;
     }
-    .results .message {
-      font-size:1.3rem;
-      color: var(--text-light);
-      margin-bottom:24px;
-    }
-    #chartContainer {
-      width:100%;
-      max-width:480px;
-      margin:0 auto 30px;
-    }
-    @media(max-width:600px){
-      .header h1 { font-size:2.2rem; }
-      .intro h2 { font-size:1.6rem; }
-      .question-card h3 { font-size:1.2rem; }
-      .btn { padding:12px 28px; }
+    .option:hover{ transform:translateY(-4px); border-color:var(--accent-mint) }
+    .option.correct{ border-color:#51cf66; background:rgba(81,207,102,0.08) }
+    .option.incorrect{ border-color:#f03e3e; background:rgba(240,62,62,0.06) }
+
+    .controls{ display:flex; gap:10px; justify-content:center; margin-top:12px }
+
+    .results{ text-align:center; padding:20px 24px }
+    .results .score{ font-size:3rem; margin:10px 0; background:linear-gradient(90deg,var(--accent-cyan),var(--accent-mint)); -webkit-background-clip:text; -webkit-text-fill-color:transparent }
+    .results .message{ color:var(--text-light); margin-bottom:10px }
+
+    .footer{ padding:12px 18px; text-align:center; color:var(--text-muted); background:var(--card-bg) }
+
+    @media(max-width:680px){
+      .brand img{height:32px}
+      .header h1{ font-size:1.5rem }
+      .btn{ padding:10px 20px }
     }
   </style>
+
+  <!-- libs -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
   <div class="container">
-
-    <!-- Top Referral Link Section -->
-    <div style="text-align:center; padding:20px; background: var(--card-bg);">
-      <a href="https://glider.fi/?invite=f33c4abc" target="_blank" style="
-            font-size:1.2rem;
-            color: var(--accent2);
-            text-decoration:none;
-            font-weight:600;
-          ">
-        Join Glider
-      </a>
+    <div class="topbar">
+      <div class="brand">
+        <!-- put your glider logo file next to this HTML, e.g. glider_logo.png -->
+        <img src="glider_logo.png" alt="Glider logo" />
+        <div class="title">
+          <h1>Glider IQ Challenge</h1>
+          <p>50 questions — 5 levels (Beginner → Expert)</p>
+        </div>
+      </div>
+      <div class="toplink"><a href="https://glider.fi/?invite=f33c4abc" target="_blank" rel="noopener">Open Glider</a></div>
     </div>
 
     <div class="header">
       <h1>Glider IQ Challenge</h1>
-      <p>Test your knowledge on Glider, Beta Points & DeFi insights</p>
+      <p>Test your knowledge on Glider — portfolio automation, non-custodial wallets & multi-chain rebalancing.</p>
     </div>
 
-    <!-- Start / Intro Screen -->
-    <div id="start-screen" class="section active">
+    <!-- START -->
+    <div id="start" class="section active">
       <div class="intro">
-        <h2>Project Overview</h2>
-        <p>
-          Welcome to the <strong>Glider IQ Challenge</strong> — an interactive quiz crafted to test your understanding of the Glider ecosystem and the Beta Points program. Dive in and test your knowledge!
-        </p>
+        <h2>Choose a level</h2>
+        <p>Select a level below — each level contains 10 questions drawn from glider.fi (product & docs).</p>
       </div>
-      <div style="text-align:center">
-        <button class="btn" onclick="goToLoading()">Start Quiz</button>
+
+      <div class="levels" id="levels">
+        <button class="level-btn sel" data-level="Beginner">Beginner</button>
+        <button class="level-btn" data-level="Novice">Novice</button>
+        <button class="level-btn" data-level="Intermediate">Intermediate</button>
+        <button class="level-btn" data-level="Advanced">Advanced</button>
+        <button class="level-btn" data-level="Expert">Expert</button>
+      </div>
+
+      <div style="text-align:center;margin-bottom:8px">
+        <button id="startBtn" class="btn">Start Quiz (Beginner)</button>
       </div>
     </div>
 
-    <!-- Loading Screen -->
-    <div id="loading-screen" class="section">
+    <!-- LOADING -->
+    <div id="loading" class="section">
       <div class="loader"><span></span><span></span><span></span></div>
-      <p style="text-align:center; color: var(--text-muted); margin-top:10px;">Loading questions…</p>
+      <p style="text-align:center;color:var(--text-muted);margin-top:8px">Preparing questions…</p>
     </div>
 
-    <!-- Quiz Screen -->
-    <div id="quiz-screen" class="section">
+    <!-- QUIZ -->
+    <div id="quiz" class="section">
       <div class="question-counter"><span id="cur">1</span> / <span id="tot">10</span></div>
       <div class="progress-bar"><div id="fill" class="progress-fill"></div></div>
+
       <div class="question-card">
-        <h3 id="qtext"></h3>
-        <div class="options" id="optbox"></div>
+        <h3 id="qtext">Question</h3>
+        <div class="options" id="opts"></div>
       </div>
-      <div id="fb" class="feedback"></div>
-      <div style="text-align:center"><button id="nextBtn" class="btn" onclick="nextQ()" disabled>Next</button></div>
+
+      <div class="controls">
+        <button class="btn ghost" id="endBtn">End Early</button>
+        <button class="btn" id="nextBtn" disabled>Next</button>
+      </div>
     </div>
 
-    <!-- Results Screen -->
-    <div id="result-screen" class="section results">
-      <div class="score" id="scorePct">0%</div>
-      <div class="message" id="msg"></div>
-      <div id="chartContainer"><canvas id="resultChart"></canvas></div>
-      <p>Correct: <span id="corr">0</span> | Wrong: <span id="wrng">0</span> | Total: <span id="total">10</span></p>
-      <div style="text-align:center"><button class="btn" onclick="restartQuiz()">Play Again</button></div>
+    <!-- RESULTS -->
+    <div id="results" class="section">
+      <div class="results">
+        <div class="score" id="finalPct">0%</div>
+        <div class="message" id="finalMsg">Message</div>
+
+        <div style="max-width:420px;margin:10px auto">
+          <canvas id="resultChart" width="420" height="320"></canvas>
+        </div>
+
+        <p style="color:var(--text-muted)">Correct: <span id="finalCorrect">0</span> | Wrong: <span id="finalWrong">0</span> | Total: <span id="finalTot">10</span></p>
+
+        <div style="text-align:center;margin-top:12px">
+          <button id="playAgain" class="btn">Play Again</button>
+        </div>
+      </div>
     </div>
 
-    <!-- Bottom “Created By” Section -->
-    <div style="padding:20px 0; text-align:center; background: var(--card-bg);">
-      <span style="color: var(--text-muted); font-size:0.9rem;">Created by</span>
-      <a href="https://x.com/nexodrops" target="_blank" style="
-            margin-left:8px;
-            color: var(--accent1);
-            text-decoration:none;
-            font-weight:600;
-          ">
-        🐦 @nexodrops
-      </a>
+    <div class="footer">
+      Created by <a href="https://x.com/nexodrops" target="_blank" rel="noopener" style="color:var(--accent-mint);text-decoration:none;margin-left:6px;">@nexodrops</a> • Source: glider.fi
     </div>
-
   </div>
 
   <script>
-    const quizData = [
-      {
-        q: "What is the main purpose of Beta Points in Glider?",
-        o: ["To reward early participation in the beta period", "To function as the final token immediately", "To replace portfolio values", "To serve as referral credits only"],
-        c: 0
-      },
-      {
-        q: "How many Beta Points do you earn per dollar deposited per day in Glider?",
-        o: ["0.5 points", "1 point", "2 points", "5 points"],
-        c: 1
-      },
-      {
-        q: "From what date are Beta Points being tracked on Glider?",
-        o: ["January 1, 2025", "April 1, 2025", "July 1, 2025", "September 1, 2025"],
-        c: 2
-      },
-      {
-        q: "Where can you view your Beta Points in Glider?",
-        o: ["Only via email report", "On the dashboard UI", "On a downloadable spreadsheet", "In the mobile app only"],
-        c: 1
-      },
-      {
-        q: "What happens to Beta Points once the Glider public launch occurs?",
-        o: ["They expire.", "They convert into permanent points (conversion rate TBA)", "They become tokens immediately.", "They become referral credits only."],
-        c: 1
-      },
-      {
-        q: "Which of the following best describes the status of Glider during Beta Points accumulation?",
-        o: ["Fully launched public product", "Closed beta / early access", "No deposit required", "Referral only program"],
-        c: 1
-      },
-      {
-        q: "If you deposit $500 for a week in Glider during the beta period, how many Beta Points would you approximately earn (ignoring portfolio value change)?",
-        o: ["~500 points", "~3,500 points", "~7,000 points", "~1,000 points"],
-        c: 1
-      },
-      {
-        q: "Which action is *not* explicitly required to earn Beta Points according to the FAQ?",
-        o: ["Join Discord", "Deposit funds", "Maintain deposit over time", "Create multiple portfolios"],
-        c: 0
-      },
-      {
-        q: "Does portfolio value change affect the number of Beta Points earned?",
-        o: ["No — it remains fixed.", "Yes — points adjust with portfolio value.", "Only if portfolio is archived.", "Only if you withdraw."],
-        c: 1
-      },
-      {
-        q: "Is there retroactive credit for activity before the tracking date?",
-        o: ["Yes — everything counts.", "Only for referral activity.", "No — activity before start date isn’t counted.", "Yes — but only for large deposits."],
-        c: 2
-      }
-    ];
-    let idx=0, correctCount=0;
+    // Full QUIZ: 5 levels × 10 questions (50 total) — based on content from glider.fi
+    const QUIZ = {
+      "Beginner": [
+        { q: "What is Glider primarily described as on its homepage?", o: ["A custodial exchange","Portfolio automation platform for crypto","A hardware wallet maker","A price oracle"], c: 1 },
+        { q: "Which phrase appears prominently on Glider's landing page?", o: ["Portfolio meets automation","Trade-to-earn platform","NFT marketplace","Centralized lending"], c: 0 },
+        { q: "According to the site, what does Glider automate for you?", o: ["Only token swaps","Portfolio rebalancing and automation","Legal paperwork","Tax filings"], c: 1 },
+        { q: "Which property does Glider emphasize about user assets?", o: ["They are custodial with Glider","They remain non-custodial (yours)","They are converted to fiat","They are time-locked"], c: 1 },
+        { q: "Glider promises automation across what kind of intervals?", o: ["Only monthly","From minutes to daily","Only yearly","Only hourly"], c: 1 },
+        { q: "Which phrase indicates Glider's goal about friction?", o: ["Increase friction across bridges","Eliminate complexities and friction","Add more manual steps","Require multiple logins"], c: 1 },
+        { q: "Glider states it helps navigate multiple chains with what feature?", o: ["Single-chain only support","Instant exposure and dynamic asset allocation","Manual bridging required","Custodial cross-chain swaps"], c: 1 },
+        { q: "Which capability is mentioned as helping Glider 'react' to markets?", o: ["Predictive capabilities and real-time signals","Manual alerts only","Static schedules only","Email newsletters"], c: 0 },
+        { q: "What does Glider claim about execution and liquidity?", o: ["Poor execution intentionally","Secure the best execution through deep liquidity","No liquidity provided","Only peer-to-peer liquidity"], c: 1 },
+        { q: "Where can you find more info from Glider according to their footer?", o: ["FAQ and Blog links","No information at all","Only an email address","A paywalled report"], c: 0 }
+      ],
 
-    function goToLoading(){
-      document.getElementById('start-screen').classList.remove('active');
-      document.getElementById('loading-screen').classList.add('active');
+      "Novice": [
+        { q: "Which of these is listed among Glider's backers/partners on the homepage?", o: ["Anagram","Uniswap","GSR","All of the above"], c: 3 },
+        { q: "What is a user benefit of Glider's non-custodial approach?", o: ["Glider holds private keys","Users keep control via smart wallets and session keys","No on-chain settlement","Funds are locked by Glider"], c: 1 },
+        { q: "Glider's automation can rebalance portfolios based on:", o: ["Only manual inputs","Real-time market signals and conditions","Astrology charts","Only fiat price updates"], c: 1 },
+        { q: "Which page is explicitly linked in Glider's navigation for deeper reading?", o: ["Blog","Private Slack only","Offline pamphlet","Hidden forum"], c: 0 },
+        { q: "What visualization types appear on the Glider homepage (indicative)?", o: ["Liquidity and market anticipation visuals","Only text blocks","Only tables","Static logos with no visuals"], c: 0 },
+        { q: "Glider mentions 'session keys' in relation to:", o: ["Non-custodial smart wallets and UX","Marketing campaigns","Email verification","Bank account linking"], c: 0 },
+        { q: "Which of these best describes Glider's target users?", o: ["People who want automated portfolio management","Only NFT artists","Only fiat traders","Traditional banks exclusively"], c: 0 },
+        { q: "Glider's multi-chain support aims to provide:", o: ["Manual bridging steps for users","Effortless navigation across chains with instant exposure","No cross-chain functionality","Only L2 support but no L1"], c: 1 },
+        { q: "Which social channels are linked from glider.fi?", o: ["Twitter, Telegram, Discord, YouTube","Only Instagram","Only LinkedIn","None"], c: 0 },
+        { q: "Glider positions itself between your conviction and:", o: ["The market","Your bank","Your family","Your device driver"], c: 0 }
+      ],
+
+      "Intermediate": [
+        { q: "What does Glider claim about 'predictive capabilities'?", o: ["They help anticipate market moves to adjust allocations","They guarantee profits","They replace all user decisions","They only send emails"], c: 0 },
+        { q: "Which phrase best captures Glider's rebalancing frequency options?", o: ["Static daily only","Intervals from minutes to daily","Only per-block","Only weekly/monthly"], c: 1 },
+        { q: "How does Glider describe its execution quality?", o: ["Secure the best execution through deep, expanding liquidity","Poor execution but low fees","Executes only at end of month","No execution provided"], c: 0 },
+        { q: "What is the benefit of 'instant exposure' on Glider?", o: ["Users can quickly shift allocations across chains","It freezes assets","It requires manual approval every time","It prevents trading"], c: 0 },
+        { q: "Which of these is a reason the site gives for using automation?", o: ["To ensure portfolios deliver as intended every time","To increase manual errors","To slow down trading","To disable rebalancing"], c: 0 },
+        { q: "Glider’s description suggests it is a layer between:", o: ["Your conviction and the market","Your bank and your employer","Your device and the OS","Your email and your contacts"], c: 0 },
+        { q: "Which legal pages are available from the footer on glider.fi?", o: ["Privacy Policy and Terms of Service","No legal pages","Only a contact form","Only a cookie banner"], c: 0 },
+        { q: "Which element indicates Glider targets pro and retail users with automation?", o: ["Real-time signals, deep liquidity and dynamic allocation","Only high-fee institutional services","Only fiat savings accounts","Only swap fees"], c: 0 },
+        { q: "Glider’s blog is linked for:", o: ["Articles and deeper product updates","Private investor memos only","No content at all","Only job postings"], c: 0 },
+        { q: "Which of the following Glider promises is accurate per homepage text?", o: ["Design and manage automated portfolios without compromise","Guarantee 100% returns","Provide banking licenses","Offer fiat debit cards only"], c: 0 }
+      ],
+
+      "Advanced": [
+        { q: "Glider says assets remain yours through what infrastructure?", o: ["Non-custodial infrastructure with session keys and smart wallets","Custodial accounts held by Glider","Third-party bank custody","Off-chain cold storage owned by Glider"], c: 0 },
+        { q: "Which capability helps Glider 'react' to market changes?", o: ["Use of real-time market signals for dynamic yield and allocation","Manual weekly adjustments","Static portfolio templates only","Only user-triggered actions"], c: 0 },
+        { q: "What does 'deep, continuously expanding liquidity' imply for users?", o: ["Better execution and access to larger fills","Slower trades","Higher slippage","No market access"], c: 0 },
+        { q: "Glider’s multi-chain navigation promises:", o: ["Effortless cross-chain exposure","Manual bridging to be done by user each time","Only single chain support","Limited to testnets"], c: 0 },
+        { q: "Which design goal is emphasized together on the homepage?", o: ["Control, clarity and speed","Only low-cost","Only heavy custody","Only manual processes"], c: 0 },
+        { q: "What is the user outcome Glider advertises for automation?", o: ["Your investment portfolio delivers exactly as you intend","Loss of control for users","Forced long-term lockups","Only index tracking"], c: 0 },
+        { q: "Which of these is NOT a feature claimed by Glider on the homepage?", o: ["Non-custodial smart wallets","Predictive market anticipation visuals","Automatic bank transfers","Dynamic asset allocation"], c: 2 },
+        { q: "Which audience benefit does Glider highlight?", o: ["Reclaiming your time through automation","Forcing manual rebalances","Only for large institutions","No support for retail"], c: 0 },
+        { q: "Which phrase indicates Glider handles complexity across platforms?", o: ["A seamless layer between your conviction and the market","A complicated bridge to many wallets","An aggregator of emails","A manual paperwork assistant"], c: 0 },
+        { q: "Glider’s 'Get started' CTA most likely leads to:", o: ["Onboarding to create and automate a portfolio","A PDF download only","A hidden beta not accessible","A static illustration"], c: 0 }
+      ],
+
+      "Expert": [
+        { q: "Which of the following best describes Glider's core proposition?", o: ["Automated, non-custodial portfolio management with multi-chain execution","Custodial lending with fiat rails","NFT minting platform","On-chain identity provider only"], c: 0 },
+        { q: "Why are session keys important for a product like Glider?", o: ["They enable better UX while keeping assets non-custodial","They store user passwords permanently","They replace wallets with custodial accounts","They are used only for marketing"], c: 0 },
+        { q: "How would 'dynamic asset allocation' help a user?", o: ["Shift exposures automatically based on signals to capture yield or reduce risk","Lock assets into a single token","Disable trading entirely","Only rebalance monthly manually"], c: 0 },
+        { q: "Which advantage does 'instant exposure' across chains provide?", o: ["Reduce latency to gain exposure without lengthy bridging","Increase manual bridging steps","Force token conversions to fiat","Remove smart contract interactions"], c: 0 },
+        { q: "Which of these components would most likely be part of Glider's stack given the homepage claims?", o: ["Smart wallets, session keys, cross-chain routing and real-time signal systems","Only a static website","A central bank partnership only","A desktop-only app"], c: 0 },
+        { q: "How does Glider position execution and predictive features relative to volatility?", o: ["Use real-time signals and liquidity to react to market conditions","Ignore market volatility","Only allow manual reactions","Require hourly manual overrides"], c: 0 },
+        { q: "Which statement is consistent with Glider's 'non-custodial' claim?", o: ["Users retain custody; Glider orchestrates on-chain actions without holding keys","Glider takes custody of funds during automation","Funds are moved to a third-party bank","Keys are uploaded to Glider servers permanently"], c: 0 },
+        { q: "What is the likely role of Glider's blog and FAQ links?", o: ["Provide product docs, updates and help materials","Only investor pitch decks","Restricted internal info","No help resources"], c: 0 },
+        { q: "If Glider promises 'deep liquidity' and 'best execution', what would that mean in practice?", o: ["Lower slippage and better fills for rebalances","Guaranteed price improvements always","Free trades with no counterparty","No market access"], c: 0 },
+        { q: "From the homepage, which outcome does Glider aim to deliver?", o: ["Control + clarity + speed so portfolios behave as intended","Guaranteed profits for all users","Custody services as primary focus","Manual-only portfolio management"], c: 0 }
+      ]
+    };
+
+    // App state
+    let currentLevel = "Beginner";
+    let questions = [];
+    let qidx = 0;
+    let correctCount = 0;
+
+    // DOM refs
+    const levelsEl = document.getElementById('levels');
+    const startBtn = document.getElementById('startBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const endBtn = document.getElementById('endBtn');
+    const playAgainBtn = document.getElementById('playAgain');
+
+    // level selection
+    levelsEl.addEventListener('click', (e)=>{
+      const btn = e.target.closest('.level-btn');
+      if(!btn) return;
+      document.querySelectorAll('.level-btn').forEach(b=>b.classList.remove('sel'));
+      btn.classList.add('sel');
+      currentLevel = btn.dataset.level;
+      startBtn.textContent = `Start Quiz (${currentLevel})`;
+    });
+
+    // start
+    startBtn.addEventListener('click', ()=>{
+      document.getElementById('start').classList.remove('active');
+      document.getElementById('loading').classList.add('active');
       setTimeout(()=>{
-        document.getElementById('loading-screen').classList.remove('active');
-        document.getElementById('quiz-screen').classList.add('active');
-        document.getElementById('tot').textContent = quizData.length;
-        loadQ();
-      }, 800);
+        document.getElementById('loading').classList.remove('active');
+        document.getElementById('quiz').classList.add('active');
+        startLevel(currentLevel);
+      }, 400);
+    });
+
+    function startLevel(level){
+      questions = QUIZ[level].slice();
+      qidx = 0; correctCount = 0;
+      document.getElementById('tot').textContent = questions.length;
+      loadQuestion();
     }
 
-    function loadQ(){
-      if(idx >= quizData.length) return showResult();
-      const q = quizData[idx];
-      document.getElementById('cur').textContent = idx + 1;
+    function loadQuestion(){
+      if(qidx >= questions.length) return showResults();
+      const q = questions[qidx];
+      document.getElementById('cur').textContent = qidx+1;
       document.getElementById('qtext').textContent = q.q;
-      const box = document.getElementById('optbox');
-      box.innerHTML = '';
-      q.o.forEach((opt,i)=>{
-        const div = document.createElement('div');
-        div.className = 'option';
-        div.textContent = opt;
-        div.onclick = ()=> selectOpt(i);
-        box.appendChild(div);
+      const opts = document.getElementById('opts');
+      opts.innerHTML = '';
+      q.o.forEach((optText, i)=>{
+        const d = document.createElement('div');
+        d.className = 'option';
+        d.textContent = optText;
+        d.dataset.idx = i;
+        d.addEventListener('click', ()=> chooseOption(i, d));
+        opts.appendChild(d);
       });
-      document.getElementById('fill').style.width = (idx/quizData.length*100)+'%';
-      document.getElementById('nextBtn').disabled = true;
-      const fb = document.getElementById('fb');
-      fb.style.display='none';
-      fb.textContent='';
-      fb.className='feedback';
+      const pct = Math.round((qidx)/questions.length*100);
+      document.getElementById('fill').style.width = pct + '%';
+      nextBtn.disabled = true;
     }
 
-    function selectOpt(i){
-      const q = quizData[idx];
-      const opts = document.querySelectorAll('.option');
-      opts.forEach((el,j)=>{
-        el.style.pointerEvents='none';
-        if(j===q.c) el.classList.add('correct');
-        else if(j===i && i!==q.c) el.classList.add('incorrect');
+    function chooseOption(i, el){
+      const q = questions[qidx];
+      // prevent multiple clicks
+      const first = document.querySelectorAll('.option')[0];
+      if(first && first.style.pointerEvents === 'none') return;
+      document.querySelectorAll('.option').forEach((n,j)=>{
+        n.style.pointerEvents = 'none';
+        if(j === q.c) n.classList.add('correct');
+        else if(j === i && i !== q.c) n.classList.add('incorrect');
       });
-      if(i===q.c){
+      if(i === q.c){
         correctCount++;
-        confetti({
-          particleCount:100,
-          spread:70,
-          origin:{ y:0.6 },
-          colors:[ getComputedStyle(document.documentElement).getPropertyValue('--accent1').trim(), getComputedStyle(document.documentElement).getPropertyValue('--accent2').trim(), "#ffffff" ]
-        });
+        if(window.confetti) confetti({ particleCount: 80, spread: 60, origin: { y: 0.6 }, colors:[getComputedStyle(document.documentElement).getPropertyValue('--accent-cyan').trim(), getComputedStyle(document.documentElement).getPropertyValue('--accent-mint').trim(), "#ffffff"] });
       }
-      document.getElementById('nextBtn').disabled=false;
+      nextBtn.disabled = false;
     }
 
-    function nextQ(){
-      idx++;
-      loadQ();
+    nextBtn.addEventListener('click', ()=>{
+      qidx++;
+      loadQuestion();
+    });
+
+    endBtn.addEventListener('click', ()=> showResults());
+
+    function showResults(){
+      document.getElementById('quiz').classList.remove('active');
+      document.getElementById('results').classList.add('active');
+      const total = questions.length || 10;
+      const wrong = total - correctCount;
+      const pct = total ? Math.round((correctCount/total)*100) : 0;
+      document.getElementById('finalPct').textContent = pct + '%';
+      document.getElementById('finalCorrect').textContent = correctCount;
+      document.getElementById('finalWrong').textContent = wrong;
+      document.getElementById('finalTot').textContent = total;
+      document.getElementById('finalMsg').textContent =
+        pct>=80 ? '🏆 Excellent — you know Glider well!' :
+        pct>=60 ? '👏 Good job — nice understanding!' :
+        pct>=40 ? '👍 Keep learning — you are getting there!' :
+        '💪 Keep practising — read glider.fi and try again!';
+      renderChart(correctCount, wrong);
     }
 
-    function showResult(){
-      document.getElementById('quiz-screen').classList.remove('active');
-      document.getElementById('result-screen').classList.add('active');
-      const pct = Math.round(correctCount/quizData.length*100);
-      document.getElementById('scorePct').textContent = pct + '%';
-      document.getElementById('corr').textContent = correctCount;
-      document.getElementById('wrng').textContent = quizData.length - correctCount;
-      document.getElementById('msg').textContent =
-        pct>=80 ? '🏆 Excellent! You’re a Glider Pro!' :
-        pct>=60 ? '👏 Great job! You know your stuff!' :
-        pct>=40 ? '👍 Nice try! Keep improving!' :
-        '💪 Keep practising — you’ll get better!';
-      renderResultChart(correctCount, quizData.length-correctCount);
-    }
-
-    function renderResultChart(corr, wrong){
+    // Chart
+    let chartInst = null;
+    function renderChart(corr, wrong){
       const ctx = document.getElementById('resultChart').getContext('2d');
-      new Chart(ctx, {
+      if(chartInst) chartInst.destroy();
+      chartInst = new Chart(ctx, {
         type:'doughnut',
         data:{
           labels:['Correct','Wrong'],
           datasets:[{
-            data:[corr,wrong],
+            data:[corr, wrong],
             backgroundColor:['#51cf66','#f03e3e'],
-            hoverOffset:10
+            hoverOffset:8
           }]
         },
         options:{
-          cutout:'65%',
-          plugins:{
-            legend:{ position:'bottom', labels:{ color: getComputedStyle(document.documentElement).getPropertyValue('--text-light').trim() } },
-            tooltip:{ callbacks:{ label:(ctx)=> ctx.label + ': ' + ctx.parsed } }
-          }
+          cutout:'72%',
+          plugins:{ legend:{ position:'bottom', labels:{ color: getComputedStyle(document.documentElement).getPropertyValue('--text-light').trim() } } }
         }
       });
     }
 
-    function restartQuiz(){
-      idx=0; correctCount=0;
-      document.getElementById('result-screen').classList.remove('active');
-      document.getElementById('start-screen').classList.add('active');
-    }
-  </script>
+    playAgainBtn.addEventListener('click', ()=>{
+      document.getElementById('results').classList.remove('active');
+      document.getElementById('start').classList.add('active');
+      startBtn.textContent = `Start Quiz (${currentLevel})`;
+    });
 
+    // expose for debugging
+    window._QUIZ = QUIZ;
+  </script>
 </body>
 </html>
