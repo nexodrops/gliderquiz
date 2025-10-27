@@ -45,11 +45,12 @@
       padding:12px 18px;
       background:linear-gradient(90deg,var(--accent-cyan),var(--accent-mint));
     }
-    .brand { display:flex; gap:08px; align-items:center; cursor:pointer; }
-    .brand img { height:40px; width:auto; display:block; }
-    .title { line-height:1; user-select:none; }
-    .title h1{ font-size:1.05rem; margin:0; color:#012; font-weight:700; }
-    .title p{ margin:0; color:#012; font-size:0.78rem; font-weight:600; opacity:0.95; }
+    .brand { display:flex; gap:12px; align-items:center; cursor:pointer; user-select:none; }
+    .brand img { height:44px; width:auto; display:block; }
+    .title { line-height:1; }
+    /* increased brand title size as requested */
+    .title h1{ font-size:1.25rem; margin:0; color:#012; font-weight:800; letter-spacing:0.2px; }
+    .title p{ margin:0; color:#012; font-size:0.82rem; font-weight:600; opacity:0.95; }
 
     .toplink a{
       display:inline-block;
@@ -92,9 +93,14 @@
       will-change: transform;
     }
     .btn.small{ padding:8px 12px; font-size:0.95rem }
-    .btn.ghost{ background:transparent;border:1px solid rgba(255,255,255,0.04); color:var(--text-light); }
+    .btn.ghost{ background:transparent;border:1px solid rgba(255,255,255,0.08); color:var(--text-light); }
+    /* subtle variant for highlighted action (slightly larger shadow) */
+    .btn.primary-highlight{
+      box-shadow:0 8px 24px rgba(34,211,238,0.12), 0 4px 12px rgba(74,222,128,0.06);
+      transform:translateY(-1px);
+    }
 
-    .btn:active { transform: scale(0.94); opacity:0.98; }
+    .btn:active { transform: scale(0.96); opacity:0.98; }
 
     .loader{ display:flex; justify-content:center; align-items:center; height:120px; }
     .loader span{ width:12px;height:12px;border-radius:50%;display:inline-block;margin:0 6px;background:var(--accent-cyan); animation:bounce .6s infinite alternate;}
@@ -141,7 +147,8 @@
     .footer{ padding:12px 18px; text-align:center; color:var(--text-muted); background:var(--card-bg) }
 
     @media(max-width:680px){
-      .brand img{height:32px}
+      .brand img{height:36px}
+      .title h1{ font-size:1.05rem; } /* slightly reduce on small screens */
       .header h1{ font-size:1.5rem }
       .btn{ padding:10px 20px }
       .agg-table th, .agg-table td{ font-size:0.92rem }
@@ -155,20 +162,21 @@
 <body>
   <div class="container">
     <div class="topbar">
-      <!-- make brand clickable to act as home button -->
-      <div class="brand" id="brandBtn" title="Go to Home (Start)">
+      <div class="brand" id="brandBtn" title="Go to Home">
         <img src="glider_logo.png" alt="Glider logo" />
         <div class="title">
-          <h1 id="topTitle">Glider IQ Challenge</h1>
-          <p id="topSubtitle">50 questions — 5 levels (Beginner → Expert)</p>
+          <!-- made larger above -->
+          <h1 id="brandTitle">Glider IQ Challenge</h1>
+          <p id="brandSubtitle">5 levels — 50 questions</p>
         </div>
       </div>
       <div class="toplink"><a href="https://glider.fi/?invite=f33c4abc" target="_blank" rel="noopener">Open Glider</a></div>
     </div>
 
     <div class="header">
-      <h1 id="mainHeader">Glider IQ Challenge</h1>
-      <p id="mainSub">Test your product & integration understanding — finish all 5 levels to unlock the final summary.</p>
+      <!-- headerTitle is dynamic, but header description must remain constant on every page -->
+      <h1 id="headerTitle">Glider IQ Challenge</h1>
+      <p id="headerDesc">Test your knowledge on Glider — portfolio automation, beta points & multi-chain rebalancing</p>
     </div>
 
     <!-- START -->
@@ -226,6 +234,7 @@
         <p style="color:var(--text-muted)">Correct: <span id="finalCorrect">0</span> | Wrong: <span id="finalWrong">0</span> | Total: <span id="finalTot">10</span></p>
 
         <div style="text-align:center;margin-top:12px">
+          <!-- we'll toggle these classes dynamically so on results: Choose another level = highlighted, Play Again = ghost -->
           <button id="playAgain" class="btn">Play Again (this level)</button>
           <button id="goHome" class="btn ghost small" style="margin-left:8px">Choose another level (next)</button>
         </div>
@@ -364,11 +373,12 @@
     const playAgainBtn = document.getElementById('playAgain');
     const goHomeBtn = document.getElementById('goHome');
 
-    // header/top refs
-    const topTitle = document.getElementById('topTitle');
-    const topSubtitle = document.getElementById('topSubtitle');
-    const mainHeader = document.getElementById('mainHeader');
-    const mainSub = document.getElementById('mainSub');
+    // brand/header refs
+    const brandBtn = document.getElementById('brandBtn');
+    const brandTitle = document.getElementById('brandTitle');
+    const brandSubtitle = document.getElementById('brandSubtitle');
+    const headerTitle = document.getElementById('headerTitle');
+    const headerDesc = document.getElementById('headerDesc');
 
     // aggregate refs
     const aggSection = document.getElementById('aggregate');
@@ -379,30 +389,48 @@
     const resetAllBtn = document.getElementById('resetAll');
     const chooseLevelAfter = document.getElementById('chooseLevelAfter');
 
-    // BRAND (home) click - go to start
-    document.getElementById('brandBtn').addEventListener('click', ()=> {
-      // go to start page
-      showSection('start');
-      // reset level selection visual to Beginner (but do not clear progress)
-      currentLevel = "Beginner";
-      document.querySelectorAll('.level-btn').forEach(b=> b.classList.toggle('sel', b.dataset.level === currentLevel));
-      startBtn.textContent = `Start Quiz (${currentLevel})`;
-      updateHeaderForSection('start');
-    });
+    // Ensure header description never changes (keep constant)
+    headerDesc.textContent = 'Test your knowledge on Glider — portfolio automation, beta points & multi-chain rebalancing';
+
+    // Helper: update brand/header texts based on current visible section & currentLevel
+    function updateBrandText(activeSectionId){
+      // If on start or aggregate, show main brand text
+      if(activeSectionId === 'start' || activeSectionId === 'aggregate'){
+        brandTitle.textContent = 'Glider IQ Challenge';
+        headerTitle.textContent = (activeSectionId === 'aggregate') ? 'Final Summary' : 'Glider IQ Challenge';
+        brandSubtitle.textContent = '5 levels — 50 questions';
+      } else {
+        // on quiz, results, loading, show current level as brand and header
+        brandTitle.textContent = currentLevel;
+        headerTitle.textContent = currentLevel + (activeSectionId === 'results' ? ' Results' : ' Level');
+        brandSubtitle.textContent = 'Level: ' + currentLevel;
+      }
+      // headerDesc intentionally unchanged across pages
+    }
 
     // level selection
-    levelsEl.addEventListener('click', (e)=> {
+    levelsEl.addEventListener('click', (e)=>{
       const btn = e.target.closest('.level-btn');
       if(!btn) return;
       document.querySelectorAll('.level-btn').forEach(b=>b.classList.remove('sel'));
       btn.classList.add('sel');
       currentLevel = btn.dataset.level;
       startBtn.textContent = `Start Quiz (${currentLevel})`;
-      updateHeaderForSection('start'); // keep header synced while on start
+      // Update brand text proactively so user sees the chosen level in topbar before starting
+      updateBrandText('start');
+    });
+
+    // Make brand clickable — goes to Start/Home
+    brandBtn.addEventListener('click', () => {
+      // go to start page
+      showSection('start');
+      // keep selected level shown (no forced reset) but ensure UI shows appropriate selection
+      document.querySelectorAll('.level-btn').forEach(b=> b.classList.toggle('sel', b.dataset.level === currentLevel));
+      startBtn.textContent = `Start Quiz (${currentLevel})`;
     });
 
     // start
-    startBtn.addEventListener('click', ()=> {
+    startBtn.addEventListener('click', ()=>{
       showSection('loading');
       setTimeout(()=>{
         showSection('quiz');
@@ -418,7 +446,8 @@
       qidx = 0; correctCount = 0;
       document.getElementById('tot').textContent = questions.length;
       currentLevel = level;
-      updateHeaderForSection('quiz'); // update header to show current level
+      // ensure topbar/header reflect the started level
+      updateBrandText('quiz');
       loadQuestion();
     }
 
@@ -493,6 +522,8 @@
       document.getElementById('finalCorrect').textContent = correctCount;
       document.getElementById('finalWrong').textContent = wrong;
       document.getElementById('finalTot').textContent = total;
+
+      // Keep the exact messages you liked for results
       document.getElementById('finalMsg').textContent =
         pct>=80 ? '🏆 Excellent — you know this level well!' :
         pct>=60 ? '👏 Good job — solid understanding!' :
@@ -501,17 +532,21 @@
 
       renderChart(correctCount, wrong);
 
+      // adjust buttons style for results: Choose another = highlighted, Play Again = ghost
+      playAgainBtn.className = 'btn ghost';
+      goHomeBtn.className = 'btn primary-highlight';
+
       // If all levels attempted, show aggregate summary instead of only per-level
       const allAttempted = LEVELS.every(l => levelResults[l] !== null);
 
       if(allAttempted){
         // show per-level results briefly then switch to aggregate — smoother UX:
         showSection('results');
-        updateHeaderForSection('results');
+        updateBrandText('results');
         setTimeout(()=> showAggregateSummary(), 700);
       } else {
         showSection('results');
-        updateHeaderForSection('results');
+        updateBrandText('results');
       }
     }
 
@@ -522,12 +557,17 @@
       if(nextIdx < LEVELS.length){
         const next = LEVELS[nextIdx];
         // start next level immediately
+        // reset button styles back to default for quiz flow
+        playAgainBtn.className = 'btn';
+        goHomeBtn.className = 'btn ghost small';
         showSection('quiz');
         startLevel(next);
       } else {
         // if there is no next level, go back to start
+        // restore default button styles
+        playAgainBtn.className = 'btn';
+        goHomeBtn.className = 'btn ghost small';
         showSection('start');
-        updateHeaderForSection('start');
       }
     }
 
@@ -575,28 +615,41 @@
       }
       aggMessage.textContent = msg;
 
+      // restore default button styles for aggregate/start flow
+      playAgainBtn.className = 'btn';
+      goHomeBtn.className = 'btn ghost small';
+
       // show aggregate section
       showSection('aggregate');
-      updateHeaderForSection('aggregate');
+      updateBrandText('aggregate');
     }
 
     // Reset all progress
     resetAllBtn.addEventListener('click', ()=>{
       for(const k of LEVELS) levelResults[k] = null;
+      // restore default buttons
+      playAgainBtn.className = 'btn';
+      goHomeBtn.className = 'btn ghost small';
       // go home
       showSection('start');
-      updateHeaderForSection('start');
+      updateBrandText('start');
     });
 
     chooseLevelAfter.addEventListener('click', ()=>{
+      // restore defaults
+      playAgainBtn.className = 'btn';
+      goHomeBtn.className = 'btn ghost small';
       showSection('start');
-      updateHeaderForSection('start');
+      updateBrandText('start');
     });
 
     // play again for same level (replay)
     playAgainBtn.addEventListener('click', ()=>{
-      showSection('quiz');
+      // when user chooses to replay from results, keep playAgain as ghost and goHome as primary until they move
       startLevel(currentLevel);
+      // reset button styles for quiz flow
+      playAgainBtn.className = 'btn';
+      goHomeBtn.className = 'btn ghost small';
     });
 
     // Chart
@@ -626,41 +679,13 @@
       document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
       const el = document.getElementById(id);
       if(el) el.classList.add('active');
-    }
-
-    // Update header/topbar titles depending on section
-    function updateHeaderForSection(sectionId){
-      if(sectionId === 'start'){
-        topTitle.textContent = 'Glider IQ Challenge';
-        topSubtitle.textContent = '50 questions — 5 levels (Beginner → Expert)';
-        mainHeader.textContent = 'Glider IQ Challenge';
-        mainSub.textContent = 'Test your product & integration understanding — finish all 5 levels to unlock the final summary.';
-      } else if(sectionId === 'quiz'){
-        topTitle.textContent = currentLevel + ' — Glider';
-        topSubtitle.textContent = 'Level in progress';
-        mainHeader.textContent = currentLevel + ' Level';
-        mainSub.textContent = `Answer 10 questions for the ${currentLevel} level.`;
-      } else if(sectionId === 'results'){
-        topTitle.textContent = currentLevel + ' Results';
-        topSubtitle.textContent = 'Per-level summary';
-        mainHeader.textContent = `${currentLevel} Results`;
-        mainSub.textContent = `Your performance for the ${currentLevel} level.`;
-      } else if(sectionId === 'aggregate'){
-        topTitle.textContent = 'Final Summary';
-        topSubtitle.textContent = 'All levels completed';
-        mainHeader.textContent = 'Final Summary — All Levels';
-        mainSub.textContent = 'Combined performance across all five levels.';
-      } else {
-        // fallback
-        topTitle.textContent = 'Glider IQ Challenge';
-        topSubtitle.textContent = '50 questions — 5 levels (Beginner → Expert)';
-        mainHeader.textContent = 'Glider IQ Challenge';
-        mainSub.textContent = 'Test your product & integration understanding — finish all 5 levels to unlock the final summary.';
-      }
+      // update brand/header text based on which section is active
+      updateBrandText(id);
+      // headerDesc intentionally NOT changed anywhere
     }
 
     // ensure header updates on initial load
-    updateHeaderForSection('start');
+    updateBrandText('start');
 
     // expose for debugging
     window._QUIZ = QUIZ;
