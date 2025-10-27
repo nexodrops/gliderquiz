@@ -45,10 +45,11 @@
       padding:12px 18px;
       background:linear-gradient(90deg,var(--accent-cyan),var(--accent-mint));
     }
-    .brand { display:flex; gap:08px; align-items:center; }
+    .brand { display:flex; gap:08px; align-items:center; cursor:pointer; }
     .brand img { height:40px; width:auto; display:block; }
-    .title h1{ font-size:1.25rem; margin:0; color:#012; font-weight:700; }
-    .title p{ margin:0; color:#012; font-size:0.85rem; font-weight:600; opacity:0.95; }
+    .title { line-height:1; user-select:none; }
+    .title h1{ font-size:1.05rem; margin:0; color:#012; font-weight:700; }
+    .title p{ margin:0; color:#012; font-size:0.78rem; font-weight:600; opacity:0.95; }
 
     .toplink a{
       display:inline-block;
@@ -154,22 +155,23 @@
 <body>
   <div class="container">
     <div class="topbar">
-      <div class="brand">
+      <!-- make brand clickable to act as home button -->
+      <div class="brand" id="brandBtn" title="Go to Home (Start)">
         <img src="glider_logo.png" alt="Glider logo" />
         <div class="title">
-          <h1>Glider IQ Challenge</h1>
-          <p>50 questions — 5 levels (Beginner → Expert)</p>
+          <h1 id="topTitle">Glider IQ Challenge</h1>
+          <p id="topSubtitle">50 questions — 5 levels (Beginner → Expert)</p>
         </div>
       </div>
       <div class="toplink"><a href="https://glider.fi/?invite=f33c4abc" target="_blank" rel="noopener">Open Glider</a></div>
     </div>
 
     <div class="header">
-      <h1>Glider IQ Challenge</h1>
-      <p>Test your product & integration understanding — finish all 5 levels to unlock the final summary.</p>
+      <h1 id="mainHeader">Glider IQ Challenge</h1>
+      <p id="mainSub">Test your product & integration understanding — finish all 5 levels to unlock the final summary.</p>
     </div>
 
-    <!-- START (TIP LINE REMOVED AS REQUESTED) -->
+    <!-- START -->
     <div id="start" class="section active">
       <div class="intro">
         <h2>Choose a level</h2>
@@ -230,7 +232,7 @@
       </div>
     </div>
 
-    <!-- AGGREGATE FINAL (shows only after all 5 levels attempted) -->
+    <!-- AGGREGATE FINAL -->
     <div id="aggregate" class="section">
       <div class="aggregate">
         <h2 style="margin:0 0 8px 0">Final Summary — All Levels Completed</h2>
@@ -362,6 +364,12 @@
     const playAgainBtn = document.getElementById('playAgain');
     const goHomeBtn = document.getElementById('goHome');
 
+    // header/top refs
+    const topTitle = document.getElementById('topTitle');
+    const topSubtitle = document.getElementById('topSubtitle');
+    const mainHeader = document.getElementById('mainHeader');
+    const mainSub = document.getElementById('mainSub');
+
     // aggregate refs
     const aggSection = document.getElementById('aggregate');
     const aggBody = document.getElementById('aggBody');
@@ -371,18 +379,30 @@
     const resetAllBtn = document.getElementById('resetAll');
     const chooseLevelAfter = document.getElementById('chooseLevelAfter');
 
+    // BRAND (home) click - go to start
+    document.getElementById('brandBtn').addEventListener('click', ()=> {
+      // go to start page
+      showSection('start');
+      // reset level selection visual to Beginner (but do not clear progress)
+      currentLevel = "Beginner";
+      document.querySelectorAll('.level-btn').forEach(b=> b.classList.toggle('sel', b.dataset.level === currentLevel));
+      startBtn.textContent = `Start Quiz (${currentLevel})`;
+      updateHeaderForSection('start');
+    });
+
     // level selection
-    levelsEl.addEventListener('click', (e)=>{
+    levelsEl.addEventListener('click', (e)=> {
       const btn = e.target.closest('.level-btn');
       if(!btn) return;
       document.querySelectorAll('.level-btn').forEach(b=>b.classList.remove('sel'));
       btn.classList.add('sel');
       currentLevel = btn.dataset.level;
       startBtn.textContent = `Start Quiz (${currentLevel})`;
+      updateHeaderForSection('start'); // keep header synced while on start
     });
 
     // start
-    startBtn.addEventListener('click', ()=>{
+    startBtn.addEventListener('click', ()=> {
       showSection('loading');
       setTimeout(()=>{
         showSection('quiz');
@@ -398,6 +418,7 @@
       qidx = 0; correctCount = 0;
       document.getElementById('tot').textContent = questions.length;
       currentLevel = level;
+      updateHeaderForSection('quiz'); // update header to show current level
       loadQuestion();
     }
 
@@ -486,9 +507,11 @@
       if(allAttempted){
         // show per-level results briefly then switch to aggregate — smoother UX:
         showSection('results');
+        updateHeaderForSection('results');
         setTimeout(()=> showAggregateSummary(), 700);
       } else {
         showSection('results');
+        updateHeaderForSection('results');
       }
     }
 
@@ -504,6 +527,7 @@
       } else {
         // if there is no next level, go back to start
         showSection('start');
+        updateHeaderForSection('start');
       }
     }
 
@@ -553,6 +577,7 @@
 
       // show aggregate section
       showSection('aggregate');
+      updateHeaderForSection('aggregate');
     }
 
     // Reset all progress
@@ -560,10 +585,12 @@
       for(const k of LEVELS) levelResults[k] = null;
       // go home
       showSection('start');
+      updateHeaderForSection('start');
     });
 
     chooseLevelAfter.addEventListener('click', ()=>{
       showSection('start');
+      updateHeaderForSection('start');
     });
 
     // play again for same level (replay)
@@ -600,6 +627,40 @@
       const el = document.getElementById(id);
       if(el) el.classList.add('active');
     }
+
+    // Update header/topbar titles depending on section
+    function updateHeaderForSection(sectionId){
+      if(sectionId === 'start'){
+        topTitle.textContent = 'Glider IQ Challenge';
+        topSubtitle.textContent = '50 questions — 5 levels (Beginner → Expert)';
+        mainHeader.textContent = 'Glider IQ Challenge';
+        mainSub.textContent = 'Test your product & integration understanding — finish all 5 levels to unlock the final summary.';
+      } else if(sectionId === 'quiz'){
+        topTitle.textContent = currentLevel + ' — Glider';
+        topSubtitle.textContent = 'Level in progress';
+        mainHeader.textContent = currentLevel + ' Level';
+        mainSub.textContent = `Answer 10 questions for the ${currentLevel} level.`;
+      } else if(sectionId === 'results'){
+        topTitle.textContent = currentLevel + ' Results';
+        topSubtitle.textContent = 'Per-level summary';
+        mainHeader.textContent = `${currentLevel} Results`;
+        mainSub.textContent = `Your performance for the ${currentLevel} level.`;
+      } else if(sectionId === 'aggregate'){
+        topTitle.textContent = 'Final Summary';
+        topSubtitle.textContent = 'All levels completed';
+        mainHeader.textContent = 'Final Summary — All Levels';
+        mainSub.textContent = 'Combined performance across all five levels.';
+      } else {
+        // fallback
+        topTitle.textContent = 'Glider IQ Challenge';
+        topSubtitle.textContent = '50 questions — 5 levels (Beginner → Expert)';
+        mainHeader.textContent = 'Glider IQ Challenge';
+        mainSub.textContent = 'Test your product & integration understanding — finish all 5 levels to unlock the final summary.';
+      }
+    }
+
+    // ensure header updates on initial load
+    updateHeaderForSection('start');
 
     // expose for debugging
     window._QUIZ = QUIZ;
