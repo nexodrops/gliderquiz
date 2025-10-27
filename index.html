@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -46,10 +46,8 @@
       background:linear-gradient(90deg,var(--accent-cyan),var(--accent-mint));
     }
     .brand { display:flex; gap:12px; align-items:center; cursor:pointer; user-select:none; }
-    /* increased logo size as requested */
     .brand img { height:64px; width:auto; display:block; }
     .title { line-height:1; }
-    /* make the brand title larger and bolder */
     .title h1{ font-size:1.45rem; margin:0; color:#012; font-weight:800; letter-spacing:0.2px; }
     .title p{ margin:0; color:#012; font-size:0.88rem; font-weight:600; opacity:0.95; }
 
@@ -162,7 +160,6 @@
 <body>
   <div class="container">
     <div class="topbar">
-      <!-- brand is always static text "Glider IQ Challenge" and does NOT change on quiz/results -->
       <div class="brand" id="brandBtn" title="Go to Home">
         <img src="glider_logo.png" alt="Glider logo" />
         <div class="title">
@@ -174,9 +171,7 @@
     </div>
 
     <div class="header">
-      <!-- headerTitle will reflect current screen (Level / Results / Final Summary) -->
       <h1 id="headerTitle">Glider IQ Challenge</h1>
-      <!-- header description remains constant across all pages -->
       <p id="headerDesc">Test your knowledge on Glider — portfolio automation, beta points & multi-chain rebalancing</p>
     </div>
 
@@ -226,9 +221,7 @@
     <div id="results" class="section">
       <div class="results">
         <div class="score" id="finalPct">0%</div>
-        <!-- motivational message (kept as before) -->
         <div class="message" id="finalMsg">Message</div>
-        <!-- user requested detail line, updated per-level: "Your performance for the Beginner level." -->
         <p class="detail" id="resultDetail">Your performance for the Beginner level.</p>
 
         <div style="max-width:420px;margin:10px auto">
@@ -238,7 +231,6 @@
         <p style="color:var(--text-muted)">Correct: <span id="finalCorrect">0</span> | Wrong: <span id="finalWrong">0</span> | Total: <span id="finalTot">10</span></p>
 
         <div style="text-align:center;margin-top:12px">
-          <!-- Play Again = ghost, Choose another level = highlighted (styles toggled in JS on showing results) -->
           <button id="playAgain" class="btn ghost">Play Again (this level)</button>
           <button id="goHome" class="btn primary-highlight small" style="margin-left:8px">Choose another level (next)</button>
         </div>
@@ -267,7 +259,6 @@
             <tr><th>Level</th><th>Correct</th><th>Wrong</th></tr>
           </thead>
           <tbody id="aggBody">
-            <!-- populated dynamically -->
           </tbody>
         </table>
 
@@ -284,77 +275,75 @@
   </div>
 
   <script>
-    // 5 levels × 10 questions = 50 total.
-    // Questions are practical / concept-focused; options randomized each load while preserving correct mapping.
-
+    // QUIZ with intentionally varied 'c' values (correct option index) across questions
     const QUIZ = {
       "Beginner": [
         { q: "What is the main purpose of Glider for a crypto user?", o: ["Automate portfolio rebalances without giving up custody","Provide fiat loans to users","Host NFT marketplaces","Run a centralized exchange"], c: 0 },
-        { q: "Which user control model does Glider use?", o: ["Non-custodial control via smart wallet/session keys","Complete custody by Glider","Bank custody","Email-based custody"], c: 0 },
-        { q: "If you want quick exposure across chains, Glider aims to provide:", o: ["Instant exposure without lengthy manual bridging","Only single-chain exposure","Manual cross-chain steps for all assets","Custodial bridging"], c: 0 },
-        { q: "What does 'automation' typically let you do on Glider?", o: ["Set rules that rebalance assets automatically","Only view static portfolio snapshots","Only receive email alerts","Manually execute trades only"], c: 0 },
-        { q: "Which frequency range is realistic for Glider's rebalancing options?", o: ["Minutes to daily intervals","Once per year only","Only hourly fixed schedules","Only continuous per-block rebalances"], c: 0 },
-        { q: "Why would a user prefer non-custodial automation?", o: ["They keep private keys while automating actions","They avoid using smart contracts","They lose control but gain convenience","They must use bank accounts"], c: 0 },
-        { q: "Which capability helps improve execution quality for rebalances?", o: ["Access to deep liquidity and routing","Manual peer-to-peer negotiation","Only limit orders on one DEX","Fixed fiat rails"], c: 0 },
-        { q: "Glider’s onboarding typically starts with:", o: ["Creating a portfolio and connecting a supported wallet","Filling a paper form","Opening a bank account","Posting a social media thread"], c: 0 },
-        { q: "If you need deeper technical details for integration, you should consult:", o: ["API reference and integration guides","Only the homepage hero","Third-party blogs exclusively","Investor slides"], c: 0 },
+        { q: "Which user control model does Glider use?", o: ["Complete custody by Glider","Non-custodial control via smart wallet/session keys","Bank custody","Email-based custody"], c: 1 },
+        { q: "If you want quick exposure across chains, Glider aims to provide:", o: ["Custodial bridging","Manual cross-chain steps for all assets","Instant exposure without lengthy manual bridging","Only single-chain exposure"], c: 2 },
+        { q: "What does 'automation' typically let you do on Glider?", o: ["Only view static portfolio snapshots","Set rules that rebalance assets automatically","Only receive email alerts","Manually execute trades only"], c: 1 },
+        { q: "Which frequency range is realistic for Glider's rebalancing options?", o: ["Once per year only","Only continuous per-block rebalances","Only hourly fixed schedules","Minutes to daily intervals"], c: 3 },
+        { q: "Why would a user prefer non-custodial automation?", o: ["They lose control but gain convenience","They keep private keys while automating actions","They avoid using smart contracts","They must use bank accounts"], c: 1 },
+        { q: "Which capability helps improve execution quality for rebalances?", o: ["Fixed fiat rails","Only limit orders on one DEX","Access to deep liquidity and routing","Manual peer-to-peer negotiation"], c: 2 },
+        { q: "Glider’s onboarding typically starts with:", o: ["Posting a social media thread","Opening a bank account","Creating a portfolio and connecting a supported wallet","Filling a paper form"], c: 2 },
+        { q: "If you need deeper technical details for integration, you should consult:", o: ["Investor slides","API reference and integration guides","Only the homepage hero","Third-party blogs exclusively"], c: 1 },
         { q: "What does 'instant exposure' usually avoid for the user?", o: ["Lengthy manual bridging operations","Any on-chain interactions","Using wallets","Price updates"], c: 0 }
       ],
       "Novice": [
-        { q: "Which mechanism lets Glider perform actions on behalf of a user without long-term key exposure?", o: ["Delegated session keys","Storing passwords","Email approvals","Manual signatures each time"], c: 0 },
-        { q: "What practical benefit does portfolio automation deliver?", o: ["Make portfolios follow predefined allocation rules reliably","Guarantee market gains","Prevent trading during volatility","Disable withdrawals"], c: 0 },
-        { q: "When integrating a wallet provider for UX, you typically need to:", o: ["Implement the provider's session flow and handle callbacks","Send private keys to the provider","Use only custodial APIs","Avoid any on-chain calls"], c: 0 },
-        { q: "A good integration workflow tests first on:", o: ["Testnet or sandbox environments","Mainnet with production keys","Only in production logs","Public forums"], c: 0 },
-        { q: "Which item should your integration handle to avoid runtime surprises?", o: ["Error codes and retry logic from API responses","Only UI animations","Only marketing copy","Only static assets"], c: 0 },
-        { q: "Which is a common trigger for an automated rebalance?", o: ["A configured rule or market signal threshold","Manual email to support","A monthly calendar only","A social media mention"], c: 0 },
-        { q: "If a portfolio needs funds, which flow is used programmatically?", o: ["Deposit endpoint with required parameters","Manual bank transfer only","Email the owner","Mint a new token"], c: 0 },
-        { q: "Which documentation area lists expected request/response shapes?", o: ["API Reference","Blog headlines","Homepage banners","Careers post"], c: 0 },
-        { q: "Which wallet examples are commonly provided to implement session-based UX?", o: ["Privy, Para, Turnkey style integrations","Only hardware wallets","Only browser extensions","No examples"], c: 0 },
-        { q: "When updating allocations programmatically you typically call:", o: ["Portfolio update endpoints with new allocation payloads","A UI-only action","A bank API","A blockchain explorer"], c: 0 }
+        { q: "Which mechanism lets Glider perform actions on behalf of a user without long-term key exposure?", o: ["Email approvals","Delegated session keys","Storing passwords","Manual signatures each time"], c: 1 },
+        { q: "What practical benefit does portfolio automation deliver?", o: ["Prevent trading during volatility","Make portfolios follow predefined allocation rules reliably","Guarantee market gains","Disable withdrawals"], c: 1 },
+        { q: "When integrating a wallet provider for UX, you typically need to:", o: ["Send private keys to the provider","Implement the provider's session flow and handle callbacks","Use only custodial APIs","Avoid any on-chain calls"], c: 1 },
+        { q: "A good integration workflow tests first on:", o: ["Public forums","Mainnet with production keys","Testnet or sandbox environments","Only in production logs"], c: 2 },
+        { q: "Which item should your integration handle to avoid runtime surprises?", o: ["Only marketing copy","Only UI animations","Error codes and retry logic from API responses","Only static assets"], c: 2 },
+        { q: "Which is a common trigger for an automated rebalance?", o: ["A social media mention","Manual email to support","A configured rule or market signal threshold","A monthly calendar only"], c: 2 },
+        { q: "If a portfolio needs funds, which flow is used programmatically?", o: ["Mint a new token","Deposit endpoint with required parameters","Manual bank transfer only","Email the owner"], c: 1 },
+        { q: "Which documentation area lists expected request/response shapes?", o: ["Homepage banners","API Reference","Blog headlines","Careers post"], c: 1 },
+        { q: "Which wallet examples are commonly provided to implement session-based UX?", o: ["Only hardware wallets","Privy, Para, Turnkey style integrations","No examples","Only browser extensions"], c: 1 },
+        { q: "When updating allocations programmatically you typically call:", o: ["A UI-only action","Portfolio update endpoints with new allocation payloads","A bank API","A blockchain explorer"], c: 1 }
       ],
       "Intermediate": [
-        { q: "What should you validate before moving an integration to production?", o: ["End-to-end flows, error handling and testnet verification","Only the UI styling","Only desktop compatibility","Only marketing assets"], c: 0 },
+        { q: "What should you validate before moving an integration to production?", o: ["Only the UI styling","End-to-end flows, error handling and testnet verification","Only desktop compatibility","Only marketing assets"], c: 1 },
         { q: "Why is paging and rate-limit awareness important when calling API list endpoints?", o: ["To avoid missing records and to respect quotas","To improve color contrast","To speed up CSS rendering","To reduce font size"], c: 0 },
-        { q: "Which approach reduces the risk of exposing long-term secrets in a client app?", o: ["Use delegated short-lived session keys","Embed permanent API keys in the client","Email API keys to users","Publish keys in the repo"], c: 0 },
-        { q: "What is a recommended way to react to frequent small market moves in automation?", o: ["Define sensible thresholds and cooldowns in rules","Trigger at every minor price tick","Use unbounded continuous rebalances","Ignore market conditions"], c: 0 },
-        { q: "Which is a practical reason to include retries in API clients?", o: ["Transient network errors and rate-limit backoffs","To bypass authentication","To skip validation","To always succeed without checks"], c: 0 },
-        { q: "When a deposit call returns an error code, integrators should:", o: ["Map the code to a handling strategy from error docs","Immediately retry unlimited times","Log nothing","Alert support only"], c: 0 },
-        { q: "What does multi-chain support mean for portfolio automation?", o: ["Ability to shift exposures across different chains while coordinating execution","Only supporting tokens on one chain","Only cross-chain marketing","No on-chain settlement"], c: 0 },
+        { q: "Which approach reduces the risk of exposing long-term secrets in a client app?", o: ["Publish keys in the repo","Use delegated short-lived session keys","Embed permanent API keys in the client","Email API keys to users"], c: 1 },
+        { q: "What is a recommended way to react to frequent small market moves in automation?", o: ["Trigger at every minor price tick","Ignore market conditions","Define sensible thresholds and cooldowns in rules","Use unbounded continuous rebalances"], c: 2 },
+        { q: "Which is a practical reason to include retries in API clients?", o: ["To bypass authentication","To always succeed without checks","Transient network errors and rate-limit backoffs","To skip validation"], c: 2 },
+        { q: "When a deposit call returns an error code, integrators should:", o: ["Alert support only","Map the code to a handling strategy from error docs","Immediately retry unlimited times","Log nothing"], c: 1 },
+        { q: "What does multi-chain support mean for portfolio automation?", o: ["Only cross-chain marketing","Ability to shift exposures across different chains while coordinating execution","Only supporting tokens on one chain","No on-chain settlement"], c: 1 },
         { q: "Why include monitoring after launch for automation workflows?", o: ["To detect failed rebalances, errors and unexpected costs","To collect marketing emails","To disable users","To slow operations"], c: 0 },
-        { q: "Which sample payload is most useful for implementers?", o: ["An example create-portfolio request with allocation details","A marketing image","A static download link","A PDF brochure"], c: 0 },
-        { q: "How does using deep liquidity help rebalances?", o: ["Lower slippage and better fill quality","Guarantee profits","Remove need for monitoring","Increase manual work"], c: 0 }
+        { q: "Which sample payload is most useful for implementers?", o: ["A marketing image","An example create-portfolio request with allocation details","A static download link","A PDF brochure"], c: 1 },
+        { q: "How does using deep liquidity help rebalances?", o: ["Increase manual work","Lower slippage and better fill quality","Guarantee profits","Remove need for monitoring"], c: 1 }
       ],
       "Advanced": [
-        { q: "Which security practice reduces long-term key exposure in integrations?", o: ["Issue time-limited delegated sessions and rotate them","Store keys in plain text","Embed secrets in mobile apps","Email keys to staff"], c: 0 },
-        { q: "What is an expected responsibility of the integrator vs. the platform?", o: ["Integrators manage UX and session handling; platform provides APIs and execution","Platform handles client-side UI","Integrator hosts platform backend","Platform stores user private keys"], c: 0 },
+        { q: "Which security practice reduces long-term key exposure in integrations?", o: ["Email keys to staff","Issue time-limited delegated sessions and rotate them","Embed secrets in mobile apps","Store keys in plain text"], c: 1 },
+        { q: "What is an expected responsibility of the integrator vs. the platform?", o: ["Platform stores user private keys","Integrators manage UX and session handling; platform provides APIs and execution","Platform handles client-side UI","Integrator hosts platform backend"], c: 1 },
         { q: "If automation consumes external market signals, good design requires:", o: ["Signal quality checks, throttling and fallback behavior","Trusting one noisy source always","No validation","Only UI alerts"], c: 0 },
-        { q: "Why is it valuable to provide both SDK examples and raw API references?", o: ["SDKs speed integration while API references give exact shapes and options","Only to increase doc length","To confuse integrators","To hide endpoints"], c: 0 },
-        { q: "Which is a robust approach for handling large portfolio updates?", o: ["Batching updates with idempotency and careful validation","Sending many concurrent conflicting requests","Manual edits only","Using only UI copy-paste"], c: 0 },
-        { q: "What role do error codes play in resilient systems?", o: ["Enable programmatic decisions (retry, backoff, user message)","Only for logging","Only for humans to read","Ignore them"], c: 0 },
-        { q: "Which testing helps ensure rebalances act correctly under load?", o: ["Load testing with representative traffic and edge-cases","Only unit tests","Only visual QA","Only manual testing"], c: 0 },
-        { q: "For cross-chain execution, what must be coordinated?", o: ["Routing, liquidity and timing to avoid broken exposures","Only marketing material","Only single-chain state","Only email notifications"], c: 0 },
-        { q: "Which practice lowers integration risk when upgrading versions?", o: ["Versioned APIs, deprecation notices and migration guides","No versioning","Force immediate breaks","Hide changes"], c: 0 },
-        { q: "How should sensitive telemetry (errors, failed rebalances) be handled?", o: ["Secure storage, alerts and privacy-aware logs","Public dashboards with raw PII","No logs at all","Only email dumps"], c: 0 }
+        { q: "Why is it valuable to provide both SDK examples and raw API references?", o: ["To confuse integrators","SDKs speed integration while API references give exact shapes and options","Only to increase doc length","To hide endpoints"], c: 1 },
+        { q: "Which is a robust approach for handling large portfolio updates?", o: ["Batching updates with idempotency and careful validation","Manual edits only","Sending many concurrent conflicting requests","Using only UI copy-paste"], c: 0 },
+        { q: "What role do error codes play in resilient systems?", o: ["Only for logging","Enable programmatic decisions (retry, backoff, user message)","Only for humans to read","Ignore them"], c: 1 },
+        { q: "Which testing helps ensure rebalances act correctly under load?", o: ["Only unit tests","Only manual testing","Load testing with representative traffic and edge-cases","Only visual QA"], c: 2 },
+        { q: "For cross-chain execution, what must be coordinated?", o: ["Only marketing material","Routing, liquidity and timing to avoid broken exposures","Only single-chain state","Only email notifications"], c: 1 },
+        { q: "Which practice lowers integration risk when upgrading versions?", o: ["No versioning","Versioned APIs, deprecation notices and migration guides","Force immediate breaks","Hide changes"], c: 1 },
+        { q: "How should sensitive telemetry (errors, failed rebalances) be handled?", o: ["Public dashboards with raw PII","Secure storage, alerts and privacy-aware logs","No logs at all","Only email dumps"], c: 1 }
       ],
       "Expert": [
-        { q: "At scale, why use batch operations for proofs/execution (platform-side)?", o: ["Reduce on-chain gas per operation and compress attestations","To increase per-trade gas linearly","To force manual settlement","To avoid proofs entirely"], c: 0 },
-        { q: "Which architectural pattern helps keep user funds non-custodial while enabling automation?", o: ["Smart wallets + delegated sessions orchestrating on-chain calls","Centralized custodial vaults","Bank custody integration only","Storing private keys centrally"], c: 0 },
-        { q: "What is an ideal production rollout plan for automation features?", o: ["Canary releases, progressive ramp, monitoring and rollback plans","Launch all users at once without monitoring","Only announce in blog","No rollback strategy"], c: 0 },
-        { q: "How do you measure execution quality for automated rebalances?", o: ["Slippage, fill rates and time-to-fill vs benchmark","Only number of API calls","Only uptime","Only front-end load times"], c: 0 },
-        { q: "Which defense reduces attack surface for session-based flows?", o: ["Limit session scopes, expiry and require proof-of-possession","Never expire sessions","Embed unlimited scopes","Ignore session scope"], c: 0 },
-        { q: "Why is idempotency important in portfolio update endpoints?", o: ["Avoid duplicated effects when retries occur","Increase complexity","Always allow duplicates","Ignore retries"], c: 0 },
-        { q: "When integrating cross-chain routing, what should you expose to users?", o: ["Estimated costs, expected slippage and fallback paths","No information at all","Only marketing copy","Hide routing entirely"], c: 0 },
-        { q: "Which monitoring metric is essential for automated finance flows?", o: ["Failure-rate of rebalances and error-code distribution","Only page views","Only social mentions","Only signup counts"], c: 0 },
-        { q: "What does robust error handling enable in automation systems?", o: ["Graceful retries, user-visible messages and safe rollbacks","Silent failures","Automatic fund loss","Unlimited retries"], c: 0 },
-        { q: "For long-running automation, which governance is helpful?", o: ["Clear owner roles, audit trails and emergency stop mechanisms","No governance","Only community polls","Only marketing approvals"], c: 0 }
+        { q: "At scale, why use batch operations for proofs/execution (platform-side)?", o: ["To increase per-trade gas linearly","Reduce on-chain gas per operation and compress attestations","To force manual settlement","To avoid proofs entirely"], c: 1 },
+        { q: "Which architectural pattern helps keep user funds non-custodial while enabling automation?", o: ["Centralized custodial vaults","Smart wallets + delegated sessions orchestrating on-chain calls","Bank custody integration only","Storing private keys centrally"], c: 1 },
+        { q: "What is an ideal production rollout plan for automation features?", o: ["No rollback strategy","Canary releases, progressive ramp, monitoring and rollback plans","Only announce in blog","Launch all users at once without monitoring"], c: 1 },
+        { q: "How do you measure execution quality for automated rebalances?", o: ["Only front-end load times","Only number of API calls","Slippage, fill rates and time-to-fill vs benchmark","Only uptime"], c: 2 },
+        { q: "Which defense reduces attack surface for session-based flows?", o: ["Never expire sessions","Limit session scopes, expiry and require proof-of-possession","Ignore session scope","Embed unlimited scopes"], c: 1 },
+        { q: "Why is idempotency important in portfolio update endpoints?", o: ["Avoid duplicated effects when retries occur","Always allow duplicates","Increase complexity","Ignore retries"], c: 0 },
+        { q: "When integrating cross-chain routing, what should you expose to users?", o: ["Only marketing copy","Estimated costs, expected slippage and fallback paths","No information at all","Hide routing entirely"], c: 1 },
+        { q: "Which monitoring metric is essential for automated finance flows?", o: ["Only page views","Only signup counts","Failure-rate of rebalances and error-code distribution","Only social mentions"], c: 2 },
+        { q: "What does robust error handling enable in automation systems?", o: ["Silent failures","Graceful retries, user-visible messages and safe rollbacks","Automatic fund loss","Unlimited retries"], c: 1 },
+        { q: "For long-running automation, which governance is helpful?", o: ["Only marketing approvals","Clear owner roles, audit trails and emergency stop mechanisms","No governance","Only community polls"], c: 1 }
       ]
     };
 
-    // Utility: Fisher–Yates shuffle (in-place)
+    // Fisher–Yates shuffle
     function shuffleArray(arr){
       for(let i = arr.length - 1; i > 0; i--){
         const j = Math.floor(Math.random() * (i + 1));
-        [arr[i], arr[j]] = [arr[i], arr[j]];
+        [arr[i], arr[j]] = [arr[j], arr[i]];
       }
       return arr;
     }
@@ -366,7 +355,6 @@
     let qidx = 0;
     let correctCount = 0;
 
-    // levelResults stores per-level correct counts (null = not attempted yet)
     const levelResults = { "Beginner": null, "Novice": null, "Intermediate": null, "Advanced": null, "Expert": null };
 
     // DOM refs
@@ -379,16 +367,10 @@
 
     // brand/header refs
     const brandBtn = document.getElementById('brandBtn');
-    const brandTitle = document.getElementById('brandTitle'); // stays constant
-    const brandSubtitle = document.getElementById('brandSubtitle'); // stays constant
     const headerTitle = document.getElementById('headerTitle');
     const headerDesc = document.getElementById('headerDesc');
-
-    // result detail line
     const resultDetail = document.getElementById('resultDetail');
 
-    // aggregate refs
-    const aggSection = document.getElementById('aggregate');
     const aggBody = document.getElementById('aggBody');
     const aggPercent = document.getElementById('aggPercent');
     const aggCorrect = document.getElementById('aggCorrect');
@@ -396,10 +378,9 @@
     const resetAllBtn = document.getElementById('resetAll');
     const chooseLevelAfter = document.getElementById('chooseLevelAfter');
 
-    // Ensure header description never changes (keep constant)
+    // keep header description constant
     headerDesc.textContent = 'Test your knowledge on Glider — portfolio automation, beta points & multi-chain rebalancing';
 
-    // Helper: update header title based on active section & currentLevel
     function updateHeaderTitle(activeSectionId){
       if(activeSectionId === 'start'){
         headerTitle.textContent = 'Glider IQ Challenge';
@@ -412,7 +393,6 @@
       } else {
         headerTitle.textContent = 'Glider IQ Challenge';
       }
-      // brandTitle and brandSubtitle intentionally NOT changed anywhere — they remain constant
     }
 
     // level selection
@@ -423,19 +403,17 @@
       btn.classList.add('sel');
       currentLevel = btn.dataset.level;
       startBtn.textContent = `Start Quiz (${currentLevel})`;
-      // update header preview on start screen
       updateHeaderTitle('start');
     });
 
-    // Make brand clickable — goes to Start/Home
+    // brand click => home
     brandBtn.addEventListener('click', () => {
       showSection('start');
-      // keep selected level shown (no forced reset)
       document.querySelectorAll('.level-btn').forEach(b=> b.classList.toggle('sel', b.dataset.level === currentLevel));
       startBtn.textContent = `Start Quiz (${currentLevel})`;
     });
 
-    // start
+    // start quiz
     startBtn.addEventListener('click', ()=>{
       showSection('loading');
       setTimeout(()=>{
@@ -445,9 +423,8 @@
     });
 
     function startLevel(level){
-      // update selected button visually
       document.querySelectorAll('.level-btn').forEach(b=> b.classList.toggle('sel', b.dataset.level === level));
-      // deep copy so we can shuffle options per-load safely
+      // deep copy so we can shuffle options per-load safely; preserve original indices in 'o' array order
       questions = QUIZ[level].map(q => ({ q: q.q, o: q.o.slice(), c: q.c }));
       qidx = 0; correctCount = 0;
       document.getElementById('tot').textContent = questions.length;
@@ -462,7 +439,7 @@
       document.getElementById('cur').textContent = qidx+1;
       document.getElementById('qtext').textContent = q.q;
 
-      // prepare options with original indices, then shuffle
+      // prepare option objects with original index preserved, then shuffle for display
       const optObjs = q.o.map((txt, idx) => ({ txt, orig: idx }));
       shuffleArray(optObjs);
 
@@ -473,7 +450,7 @@
         const d = document.createElement('div');
         d.className = 'option';
         d.textContent = optObj.txt;
-        d.dataset.orig = optObj.orig; // store original index to validate
+        d.dataset.orig = optObj.orig; // store original index to validate against q.c
         d.addEventListener('click', ()=> chooseOption(d));
         opts.appendChild(d);
       });
@@ -483,13 +460,14 @@
       nextBtn.disabled = true;
     }
 
+    // ORIG-based validation (robust with shuffle)
     function chooseOption(el){
       const q = questions[qidx];
+      const chosenOrig = Number(el.dataset.orig);
+
       // prevent double clicks
       const first = document.querySelectorAll('.option')[0];
       if(first && first.style.pointerEvents === 'none') return;
-
-      const chosenOrig = Number(el.dataset.orig);
 
       document.querySelectorAll('.option').forEach(n=>{
         n.style.pointerEvents = 'none';
@@ -513,12 +491,9 @@
 
     endBtn.addEventListener('click', ()=> showResultsForCurrentLevel());
 
-    // Show per-level results and store to levelResults
     function showResultsForCurrentLevel(){
-      // store this level's result (overwrite if previously done)
       levelResults[currentLevel] = correctCount;
 
-      // Prepare per-level result UI
       const total = questions.length || 10;
       const wrong = total - correctCount;
       const pct = total ? Math.round((correctCount/total)*100) : 0;
@@ -527,27 +502,23 @@
       document.getElementById('finalCorrect').textContent = correctCount;
       document.getElementById('finalWrong').textContent = wrong;
 
-      // The motivational message remains
       document.getElementById('finalMsg').textContent =
         pct>=80 ? '🏆 Excellent — you know this level well!' :
         pct>=60 ? '👏 Good job — solid understanding!' :
         pct>=40 ? '👍 Keep learning — you are getting there!' :
         '💪 Keep practising — read the docs and try again!';
 
-      // Update the detail line exactly as requested:
+      // show per-level detail line exactly
       resultDetail.textContent = `Your performance for the ${currentLevel} level.`;
 
       renderChart(correctCount, wrong);
 
-      // adjust buttons style for results: Choose another = highlighted, Play Again = ghost
+      // style buttons for results
       playAgainBtn.className = 'btn ghost';
       goHomeBtn.className = 'btn primary-highlight small';
 
-      // If all levels attempted, show aggregate summary instead of only per-level
       const allAttempted = LEVELS.every(l => levelResults[l] !== null);
-
       if(allAttempted){
-        // show per-level results briefly then switch to aggregate — smoother UX:
         showSection('results');
         updateHeaderTitle('results');
         setTimeout(()=> showAggregateSummary(), 700);
@@ -557,21 +528,17 @@
       }
     }
 
-    // START NEXT LEVEL helper (used by "Choose another level (next)" button)
+    // start next level helper
     function startNextLevelFrom(current){
       const idx = LEVELS.indexOf(current);
       const nextIdx = idx + 1;
       if(nextIdx < LEVELS.length){
         const next = LEVELS[nextIdx];
-        // start next level immediately
-        // reset button styles back to default for quiz flow
         playAgainBtn.className = 'btn';
         goHomeBtn.className = 'btn ghost small';
         showSection('quiz');
         startLevel(next);
       } else {
-        // if there is no next level, go back to start
-        // restore default button styles
         playAgainBtn.className = 'btn';
         goHomeBtn.className = 'btn ghost small';
         showSection('start');
@@ -579,14 +546,12 @@
       }
     }
 
-    // handle "Choose another level (next)" — start next level directly
     goHomeBtn.addEventListener('click', ()=>{
       startNextLevelFrom(currentLevel);
     });
 
-    // AGGREGATE summary — called when all levels attempted
+    // aggregate summary
     function showAggregateSummary(){
-      // compute totals
       let totalCorrect = 0;
       const rows = [];
       LEVELS.forEach(l => {
@@ -597,7 +562,6 @@
 
       const pct = Math.round((totalCorrect / (LEVELS.length * 10)) * 100);
 
-      // build table body
       aggBody.innerHTML = '';
       rows.forEach(r => {
         const tr = document.createElement('tr');
@@ -608,7 +572,6 @@
       aggPercent.textContent = pct + '%';
       aggCorrect.textContent = `${totalCorrect} / ${LEVELS.length * 10}`;
 
-      // motivational message
       let msg = '';
       if(pct === 100){
         msg = '🏆 Perfect — you aced every question. Incredible work!';
@@ -623,44 +586,37 @@
       }
       aggMessage.textContent = msg;
 
-      // restore default button styles for aggregate/start flow
       playAgainBtn.className = 'btn';
       goHomeBtn.className = 'btn ghost small';
 
-      // show aggregate section
       showSection('aggregate');
       updateHeaderTitle('aggregate');
     }
 
-    // Reset all progress
+    // reset
     resetAllBtn.addEventListener('click', ()=>{
       for(const k of LEVELS) levelResults[k] = null;
-      // restore default buttons
       playAgainBtn.className = 'btn';
       goHomeBtn.className = 'btn ghost small';
-      // go home
       showSection('start');
       updateHeaderTitle('start');
     });
 
     chooseLevelAfter.addEventListener('click', ()=>{
-      // restore defaults
       playAgainBtn.className = 'btn';
       goHomeBtn.className = 'btn ghost small';
       showSection('start');
       updateHeaderTitle('start');
     });
 
-    // play again for same level (replay)
+    // play again
     playAgainBtn.addEventListener('click', ()=>{
-      // when user chooses to replay from results, start same level
       startLevel(currentLevel);
-      // reset button styles for quiz flow
       playAgainBtn.className = 'btn';
       goHomeBtn.className = 'btn ghost small';
     });
 
-    // Chart
+    // chart
     let chartInst = null;
     function renderChart(corr, wrong){
       const ctx = document.getElementById('resultChart').getContext('2d');
@@ -682,19 +638,17 @@
       });
     }
 
-    // small helper to show a section and hide others
     function showSection(id){
       document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
       const el = document.getElementById(id);
       if(el) el.classList.add('active');
-      // update header title based on which section is active
       updateHeaderTitle(id);
     }
 
-    // ensure header updates on initial load
+    // init
     updateHeaderTitle('start');
 
-    // expose for debugging
+    // expose for quick debugging
     window._QUIZ = QUIZ;
     window._levelResults = levelResults;
   </script>
