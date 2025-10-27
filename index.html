@@ -145,7 +145,7 @@
 
     <div class="header">
       <h1>Glider IQ Challenge</h1>
-      <p>Test your product & integration understanding — balanced, practical questions based on Glider's product and docs concepts.</p>
+      <p>Test your product & integration understanding — balanced, practical questions inspired by Glider's product and docs concepts.</p>
     </div>
 
     <!-- START -->
@@ -208,11 +208,15 @@
       </div>
     </div>
 
-    <!-- FOOTER: (removed the Created by / Source line as requested) -->
+    <div class="footer">
+      Created by <a href="https://x.com/nexodrops" target="_blank" rel="noopener" style="color:var(--accent-mint);text-decoration:none;margin-left:6px;">@nexodrops</a>
+    </div>
   </div>
 
   <script>
     // 5 levels × 10 questions = 50 total.
+    // Questions are practical / concept-focused; options randomized each load while preserving correct mapping.
+
     const QUIZ = {
       "Beginner": [
         { q: "What is the main purpose of Glider for a crypto user?", o: ["Automate portfolio rebalances without giving up custody","Provide fiat loans to users","Host NFT marketplaces","Run a centralized exchange"], c: 0 },
