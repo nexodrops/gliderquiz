@@ -133,6 +133,7 @@
   <div class="container">
     <div class="topbar">
       <div class="brand">
+        <!-- put your glider logo file next to this HTML, e.g. glider_logo.png -->
         <img src="glider_logo.png" alt="Glider logo" />
         <div class="title">
           <h1>Glider IQ Challenge</h1>
@@ -207,16 +208,11 @@
       </div>
     </div>
 
-    <div class="footer">
-      Created by <a href="https://x.com/nexodrops" target="_blank" rel="noopener" style="color:var(--accent-mint);text-decoration:none;margin-left:6px;">@nexodrops</a> • Source: glider.fi & docs.glider.fi
-    </div>
+    <!-- FOOTER: (removed the Created by / Source line as requested) -->
   </div>
 
   <script>
     // 5 levels × 10 questions = 50 total.
-    // Questions are practical and concept-focused (not meta-phrased).
-    // Correct indices are distributed among 0..3 to avoid predictable bias.
-
     const QUIZ = {
       "Beginner": [
         { q: "What is the main purpose of Glider for a crypto user?", o: ["Automate portfolio rebalances without giving up custody","Provide fiat loans to users","Host NFT marketplaces","Run a centralized exchange"], c: 0 },
@@ -230,7 +226,6 @@
         { q: "If you need deeper technical details for integration, you should consult:", o: ["API reference and integration guides","Only the homepage hero","Third-party blogs exclusively","Investor slides"], c: 0 },
         { q: "What does 'instant exposure' usually avoid for the user?", o: ["Lengthy manual bridging operations","Any on-chain interactions","Using wallets","Price updates"], c: 0 }
       ],
-
       "Novice": [
         { q: "Which mechanism lets Glider perform actions on behalf of a user without long-term key exposure?", o: ["Delegated session keys","Storing passwords","Email approvals","Manual signatures each time"], c: 0 },
         { q: "What practical benefit does portfolio automation deliver?", o: ["Make portfolios follow predefined allocation rules reliably","Guarantee market gains","Prevent trading during volatility","Disable withdrawals"], c: 0 },
@@ -243,7 +238,6 @@
         { q: "Which wallet examples are commonly provided to implement session-based UX?", o: ["Privy, Para, Turnkey style integrations","Only hardware wallets","Only browser extensions","No examples"], c: 0 },
         { q: "When updating allocations programmatically you typically call:", o: ["Portfolio update endpoints with new allocation payloads","A UI-only action","A bank API","A blockchain explorer"], c: 0 }
       ],
-
       "Intermediate": [
         { q: "What should you validate before moving an integration to production?", o: ["End-to-end flows, error handling and testnet verification","Only the UI styling","Only desktop compatibility","Only marketing assets"], c: 0 },
         { q: "Why is paging and rate-limit awareness important when calling API list endpoints?", o: ["To avoid missing records and to respect quotas","To improve color contrast","To speed up CSS rendering","To reduce font size"], c: 0 },
@@ -256,7 +250,6 @@
         { q: "Which sample payload is most useful for implementers?", o: ["An example create-portfolio request with allocation details","A marketing image","A static download link","A PDF brochure"], c: 0 },
         { q: "How does using deep liquidity help rebalances?", o: ["Lower slippage and better fill quality","Guarantee profits","Remove need for monitoring","Increase manual work"], c: 0 }
       ],
-
       "Advanced": [
         { q: "Which security practice reduces long-term key exposure in integrations?", o: ["Issue time-limited delegated sessions and rotate them","Store keys in plain text","Embed secrets in mobile apps","Email keys to staff"], c: 0 },
         { q: "What is an expected responsibility of the integrator vs. the platform?", o: ["Integrators manage UX and session handling; platform provides APIs and execution","Platform handles client-side UI","Integrator hosts platform backend","Platform stores user private keys"], c: 0 },
@@ -269,7 +262,6 @@
         { q: "Which practice lowers integration risk when upgrading versions?", o: ["Versioned APIs, deprecation notices and migration guides","No versioning","Force immediate breaks","Hide changes"], c: 0 },
         { q: "How should sensitive telemetry (errors, failed rebalances) be handled?", o: ["Secure storage, alerts and privacy-aware logs","Public dashboards with raw PII","No logs at all","Only email dumps"], c: 0 }
       ],
-
       "Expert": [
         { q: "At scale, why use batch operations for proofs/execution (platform-side)?", o: ["Reduce on-chain gas per operation and compress attestations","To increase per-trade gas linearly","To force manual settlement","To avoid proofs entirely"], c: 0 },
         { q: "Which architectural pattern helps keep user funds non-custodial while enabling automation?", o: ["Smart wallets + delegated sessions orchestrating on-chain calls","Centralized custodial vaults","Bank custody integration only","Storing private keys centrally"], c: 0 },
