@@ -169,7 +169,7 @@
       <p>Test your product & integration understanding — finish all 5 levels to unlock the final summary.</p>
     </div>
 
-    <!-- START -->
+    <!-- START (TIP LINE REMOVED AS REQUESTED) -->
     <div id="start" class="section active">
       <div class="intro">
         <h2>Choose a level</h2>
@@ -187,7 +187,6 @@
       <div style="text-align:center;margin-bottom:8px">
         <button id="startBtn" class="btn">Start Quiz (Beginner)</button>
       </div>
-      <p style="text-align:center;color:var(--text-muted);font-size:0.94rem">Tip: finish all levels to get a combined final report.</p>
     </div>
 
     <!-- LOADING -->
@@ -226,7 +225,7 @@
 
         <div style="text-align:center;margin-top:12px">
           <button id="playAgain" class="btn">Play Again (this level)</button>
-          <button id="goHome" class="btn ghost small" style="margin-left:8px">Choose another level</button>
+          <button id="goHome" class="btn ghost small" style="margin-left:8px">Choose another level (next)</button>
         </div>
       </div>
     </div>
@@ -392,10 +391,13 @@
     });
 
     function startLevel(level){
+      // update selected button visually
+      document.querySelectorAll('.level-btn').forEach(b=> b.classList.toggle('sel', b.dataset.level === level));
       // deep copy so we can shuffle options per-load safely
       questions = QUIZ[level].map(q => ({ q: q.q, o: q.o.slice(), c: q.c }));
       qidx = 0; correctCount = 0;
       document.getElementById('tot').textContent = questions.length;
+      currentLevel = level;
       loadQuestion();
     }
 
@@ -482,13 +484,33 @@
       const allAttempted = LEVELS.every(l => levelResults[l] !== null);
 
       if(allAttempted){
-        // show per-level results briefly then switch to aggregate — better UX:
+        // show per-level results briefly then switch to aggregate — smoother UX:
         showSection('results');
         setTimeout(()=> showAggregateSummary(), 700);
       } else {
         showSection('results');
       }
     }
+
+    // START NEXT LEVEL helper (used by "Choose another level (next)" button)
+    function startNextLevelFrom(current){
+      const idx = LEVELS.indexOf(current);
+      const nextIdx = idx + 1;
+      if(nextIdx < LEVELS.length){
+        const next = LEVELS[nextIdx];
+        // start next level immediately
+        showSection('quiz');
+        startLevel(next);
+      } else {
+        // if there is no next level, go back to start
+        showSection('start');
+      }
+    }
+
+    // handle "Choose another level (next)" — start next level directly
+    goHomeBtn.addEventListener('click', ()=>{
+      startNextLevelFrom(currentLevel);
+    });
 
     // AGGREGATE summary — called when all levels attempted
     function showAggregateSummary(){
@@ -548,10 +570,6 @@
     playAgainBtn.addEventListener('click', ()=>{
       showSection('quiz');
       startLevel(currentLevel);
-    });
-
-    goHomeBtn.addEventListener('click', ()=>{
-      showSection('start');
     });
 
     // Chart
