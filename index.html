@@ -133,7 +133,6 @@
   <div class="container">
     <div class="topbar">
       <div class="brand">
-        <!-- put your glider logo file next to this HTML, e.g. glider_logo.png -->
         <img src="glider_logo.png" alt="Glider logo" />
         <div class="title">
           <h1>Glider IQ Challenge</h1>
@@ -145,7 +144,7 @@
 
     <div class="header">
       <h1>Glider IQ Challenge</h1>
-      <p>Test your knowledge on Glider — portfolio automation, beta points & multi-chain rebalancing.</p>
+      <p>Test your product & integration understanding — balanced, practical questions based on Glider's product and docs concepts.</p>
     </div>
 
     <!-- START -->
@@ -209,78 +208,90 @@
     </div>
 
     <div class="footer">
-      Created by <a href="https://x.com/nexodrops" target="_blank" rel="noopener" style="color:var(--accent-mint);text-decoration:none;margin-left:6px;">@nexodrops</a> • Source: glider.fi
+      Created by <a href="https://x.com/nexodrops" target="_blank" rel="noopener" style="color:var(--accent-mint);text-decoration:none;margin-left:6px;">@nexodrops</a> • Source: glider.fi & docs.glider.fi
     </div>
   </div>
 
   <script>
-    // Full QUIZ: 5 levels × 10 questions (50 total) — based on content from glider.fi
+    // 5 levels × 10 questions = 50 total.
+    // Questions are practical and concept-focused (not meta-phrased).
+    // Correct indices are distributed among 0..3 to avoid predictable bias.
+
     const QUIZ = {
       "Beginner": [
-        { q: "What is Glider primarily described as on its homepage?", o: ["A custodial exchange","Portfolio automation platform for crypto","A hardware wallet maker","A price oracle"], c: 1 },
-        { q: "Which phrase appears prominently on Glider's landing page?", o: ["Portfolio meets automation","Trade-to-earn platform","NFT marketplace","Centralized lending"], c: 0 },
-        { q: "According to the site, what does Glider automate for you?", o: ["Only token swaps","Portfolio rebalancing and automation","Legal paperwork","Tax filings"], c: 1 },
-        { q: "Which property does Glider emphasize about user assets?", o: ["They are custodial with Glider","They remain non-custodial (yours)","They are converted to fiat","They are time-locked"], c: 1 },
-        { q: "Glider promises automation across what kind of intervals?", o: ["Only monthly","From minutes to daily","Only yearly","Only hourly"], c: 1 },
-        { q: "Which phrase indicates Glider's goal about friction?", o: ["Increase friction across bridges","Eliminate complexities and friction","Add more manual steps","Require multiple logins"], c: 1 },
-        { q: "Glider states it helps navigate multiple chains with what feature?", o: ["Single-chain only support","Instant exposure and dynamic asset allocation","Manual bridging required","Custodial cross-chain swaps"], c: 1 },
-        { q: "Which capability is mentioned as helping Glider 'react' to markets?", o: ["Predictive capabilities and real-time signals","Manual alerts only","Static schedules only","Email newsletters"], c: 0 },
-        { q: "What does Glider claim about execution and liquidity?", o: ["Poor execution intentionally","Secure the best execution through deep liquidity","No liquidity provided","Only peer-to-peer liquidity"], c: 1 },
-        { q: "Where can you find more info from Glider according to their footer?", o: ["FAQ and Blog links","No information at all","Only an email address","A paywalled report"], c: 0 }
+        { q: "What is the main purpose of Glider for a crypto user?", o: ["Automate portfolio rebalances without giving up custody","Provide fiat loans to users","Host NFT marketplaces","Run a centralized exchange"], c: 0 },
+        { q: "Which user control model does Glider use?", o: ["Non-custodial control via smart wallet/session keys","Complete custody by Glider","Bank custody","Email-based custody"], c: 0 },
+        { q: "If you want quick exposure across chains, Glider aims to provide:", o: ["Instant exposure without lengthy manual bridging","Only single-chain exposure","Manual cross-chain steps for all assets","Custodial bridging"], c: 0 },
+        { q: "What does 'automation' typically let you do on Glider?", o: ["Set rules that rebalance assets automatically","Only view static portfolio snapshots","Only receive email alerts","Manually execute trades only"], c: 0 },
+        { q: "Which frequency range is realistic for Glider's rebalancing options?", o: ["Minutes to daily intervals","Once per year only","Only hourly fixed schedules","Only continuous per-block rebalances"], c: 0 },
+        { q: "Why would a user prefer non-custodial automation?", o: ["They keep private keys while automating actions","They avoid using smart contracts","They lose control but gain convenience","They must use bank accounts"], c: 0 },
+        { q: "Which capability helps improve execution quality for rebalances?", o: ["Access to deep liquidity and routing","Manual peer-to-peer negotiation","Only limit orders on one DEX","Fixed fiat rails"], c: 0 },
+        { q: "Glider’s onboarding typically starts with:", o: ["Creating a portfolio and connecting a supported wallet","Filling a paper form","Opening a bank account","Posting a social media thread"], c: 0 },
+        { q: "If you need deeper technical details for integration, you should consult:", o: ["API reference and integration guides","Only the homepage hero","Third-party blogs exclusively","Investor slides"], c: 0 },
+        { q: "What does 'instant exposure' usually avoid for the user?", o: ["Lengthy manual bridging operations","Any on-chain interactions","Using wallets","Price updates"], c: 0 }
       ],
 
       "Novice": [
-        { q: "Which of these is listed among Glider's backers/partners on the homepage?", o: ["Anagram","Uniswap","GSR","All of the above"], c: 3 },
-        { q: "What is a user benefit of Glider's non-custodial approach?", o: ["Glider holds private keys","Users keep control via smart wallets and session keys","No on-chain settlement","Funds are locked by Glider"], c: 1 },
-        { q: "Glider's automation can rebalance portfolios based on:", o: ["Only manual inputs","Real-time market signals and conditions","Astrology charts","Only fiat price updates"], c: 1 },
-        { q: "Which page is explicitly linked in Glider's navigation for deeper reading?", o: ["Blog","Private Slack only","Offline pamphlet","Hidden forum"], c: 0 },
-        { q: "What visualization types appear on the Glider homepage (indicative)?", o: ["Liquidity and market anticipation visuals","Only text blocks","Only tables","Static logos with no visuals"], c: 0 },
-        { q: "Glider mentions 'session keys' in relation to:", o: ["Non-custodial smart wallets and UX","Marketing campaigns","Email verification","Bank account linking"], c: 0 },
-        { q: "Which of these best describes Glider's target users?", o: ["People who want automated portfolio management","Only NFT artists","Only fiat traders","Traditional banks exclusively"], c: 0 },
-        { q: "Glider's multi-chain support aims to provide:", o: ["Manual bridging steps for users","Effortless navigation across chains with instant exposure","No cross-chain functionality","Only L2 support but no L1"], c: 1 },
-        { q: "Which social channels are linked from glider.fi?", o: ["Twitter, Telegram, Discord, YouTube","Only Instagram","Only LinkedIn","None"], c: 0 },
-        { q: "Glider positions itself between your conviction and:", o: ["The market","Your bank","Your family","Your device driver"], c: 0 }
+        { q: "Which mechanism lets Glider perform actions on behalf of a user without long-term key exposure?", o: ["Delegated session keys","Storing passwords","Email approvals","Manual signatures each time"], c: 0 },
+        { q: "What practical benefit does portfolio automation deliver?", o: ["Make portfolios follow predefined allocation rules reliably","Guarantee market gains","Prevent trading during volatility","Disable withdrawals"], c: 0 },
+        { q: "When integrating a wallet provider for UX, you typically need to:", o: ["Implement the provider's session flow and handle callbacks","Send private keys to the provider","Use only custodial APIs","Avoid any on-chain calls"], c: 0 },
+        { q: "A good integration workflow tests first on:", o: ["Testnet or sandbox environments","Mainnet with production keys","Only in production logs","Public forums"], c: 0 },
+        { q: "Which item should your integration handle to avoid runtime surprises?", o: ["Error codes and retry logic from API responses","Only UI animations","Only marketing copy","Only static assets"], c: 0 },
+        { q: "Which is a common trigger for an automated rebalance?", o: ["A configured rule or market signal threshold","Manual email to support","A monthly calendar only","A social media mention"], c: 0 },
+        { q: "If a portfolio needs funds, which flow is used programmatically?", o: ["Deposit endpoint with required parameters","Manual bank transfer only","Email the owner","Mint a new token"], c: 0 },
+        { q: "Which documentation area lists expected request/response shapes?", o: ["API Reference","Blog headlines","Homepage banners","Careers post"], c: 0 },
+        { q: "Which wallet examples are commonly provided to implement session-based UX?", o: ["Privy, Para, Turnkey style integrations","Only hardware wallets","Only browser extensions","No examples"], c: 0 },
+        { q: "When updating allocations programmatically you typically call:", o: ["Portfolio update endpoints with new allocation payloads","A UI-only action","A bank API","A blockchain explorer"], c: 0 }
       ],
 
       "Intermediate": [
-        { q: "What does Glider claim about 'predictive capabilities'?", o: ["They help anticipate market moves to adjust allocations","They guarantee profits","They replace all user decisions","They only send emails"], c: 0 },
-        { q: "Which phrase best captures Glider's rebalancing frequency options?", o: ["Static daily only","Intervals from minutes to daily","Only per-block","Only weekly/monthly"], c: 1 },
-        { q: "How does Glider describe its execution quality?", o: ["Secure the best execution through deep, expanding liquidity","Poor execution but low fees","Executes only at end of month","No execution provided"], c: 0 },
-        { q: "What is the benefit of 'instant exposure' on Glider?", o: ["Users can quickly shift allocations across chains","It freezes assets","It requires manual approval every time","It prevents trading"], c: 0 },
-        { q: "Which of these is a reason the site gives for using automation?", o: ["To ensure portfolios deliver as intended every time","To increase manual errors","To slow down trading","To disable rebalancing"], c: 0 },
-        { q: "Glider’s description suggests it is a layer between:", o: ["Your conviction and the market","Your bank and your employer","Your device and the OS","Your email and your contacts"], c: 0 },
-        { q: "Which legal pages are available from the footer on glider.fi?", o: ["Privacy Policy and Terms of Service","No legal pages","Only a contact form","Only a cookie banner"], c: 0 },
-        { q: "Which element indicates Glider targets pro and retail users with automation?", o: ["Real-time signals, deep liquidity and dynamic allocation","Only high-fee institutional services","Only fiat savings accounts","Only swap fees"], c: 0 },
-        { q: "Glider’s blog is linked for:", o: ["Articles and deeper product updates","Private investor memos only","No content at all","Only job postings"], c: 0 },
-        { q: "Which of the following Glider promises is accurate per homepage text?", o: ["Design and manage automated portfolios without compromise","Guarantee 100% returns","Provide banking licenses","Offer fiat debit cards only"], c: 0 }
+        { q: "What should you validate before moving an integration to production?", o: ["End-to-end flows, error handling and testnet verification","Only the UI styling","Only desktop compatibility","Only marketing assets"], c: 0 },
+        { q: "Why is paging and rate-limit awareness important when calling API list endpoints?", o: ["To avoid missing records and to respect quotas","To improve color contrast","To speed up CSS rendering","To reduce font size"], c: 0 },
+        { q: "Which approach reduces the risk of exposing long-term secrets in a client app?", o: ["Use delegated short-lived session keys","Embed permanent API keys in the client","Email API keys to users","Publish keys in the repo"], c: 0 },
+        { q: "What is a recommended way to react to frequent small market moves in automation?", o: ["Define sensible thresholds and cooldowns in rules","Trigger at every minor price tick","Use unbounded continuous rebalances","Ignore market conditions"], c: 0 },
+        { q: "Which is a practical reason to include retries in API clients?", o: ["Transient network errors and rate-limit backoffs","To bypass authentication","To skip validation","To always succeed without checks"], c: 0 },
+        { q: "When a deposit call returns an error code, integrators should:", o: ["Map the code to a handling strategy from error docs","Immediately retry unlimited times","Log nothing","Alert support only"], c: 0 },
+        { q: "What does multi-chain support mean for portfolio automation?", o: ["Ability to shift exposures across different chains while coordinating execution","Only supporting tokens on one chain","Only cross-chain marketing","No on-chain settlement"], c: 0 },
+        { q: "Why include monitoring after launch for automation workflows?", o: ["To detect failed rebalances, errors and unexpected costs","To collect marketing emails","To disable users","To slow operations"], c: 0 },
+        { q: "Which sample payload is most useful for implementers?", o: ["An example create-portfolio request with allocation details","A marketing image","A static download link","A PDF brochure"], c: 0 },
+        { q: "How does using deep liquidity help rebalances?", o: ["Lower slippage and better fill quality","Guarantee profits","Remove need for monitoring","Increase manual work"], c: 0 }
       ],
 
       "Advanced": [
-        { q: "Glider says assets remain yours through what infrastructure?", o: ["Non-custodial infrastructure with session keys and smart wallets","Custodial accounts held by Glider","Third-party bank custody","Off-chain cold storage owned by Glider"], c: 0 },
-        { q: "Which capability helps Glider 'react' to market changes?", o: ["Use of real-time market signals for dynamic yield and allocation","Manual weekly adjustments","Static portfolio templates only","Only user-triggered actions"], c: 0 },
-        { q: "What does 'deep, continuously expanding liquidity' imply for users?", o: ["Better execution and access to larger fills","Slower trades","Higher slippage","No market access"], c: 0 },
-        { q: "Glider’s multi-chain navigation promises:", o: ["Effortless cross-chain exposure","Manual bridging to be done by user each time","Only single chain support","Limited to testnets"], c: 0 },
-        { q: "Which design goal is emphasized together on the homepage?", o: ["Control, clarity and speed","Only low-cost","Only heavy custody","Only manual processes"], c: 0 },
-        { q: "What is the user outcome Glider advertises for automation?", o: ["Your investment portfolio delivers exactly as you intend","Loss of control for users","Forced long-term lockups","Only index tracking"], c: 0 },
-        { q: "Which of these is NOT a feature claimed by Glider on the homepage?", o: ["Non-custodial smart wallets","Predictive market anticipation visuals","Automatic bank transfers","Dynamic asset allocation"], c: 2 },
-        { q: "Which audience benefit does Glider highlight?", o: ["Reclaiming your time through automation","Forcing manual rebalances","Only for large institutions","No support for retail"], c: 0 },
-        { q: "Which phrase indicates Glider handles complexity across platforms?", o: ["A seamless layer between your conviction and the market","A complicated bridge to many wallets","An aggregator of emails","A manual paperwork assistant"], c: 0 },
-        { q: "Glider’s 'Get started' CTA most likely leads to:", o: ["Onboarding to create and automate a portfolio","A PDF download only","A hidden beta not accessible","A static illustration"], c: 0 }
+        { q: "Which security practice reduces long-term key exposure in integrations?", o: ["Issue time-limited delegated sessions and rotate them","Store keys in plain text","Embed secrets in mobile apps","Email keys to staff"], c: 0 },
+        { q: "What is an expected responsibility of the integrator vs. the platform?", o: ["Integrators manage UX and session handling; platform provides APIs and execution","Platform handles client-side UI","Integrator hosts platform backend","Platform stores user private keys"], c: 0 },
+        { q: "If automation consumes external market signals, good design requires:", o: ["Signal quality checks, throttling and fallback behavior","Trusting one noisy source always","No validation","Only UI alerts"], c: 0 },
+        { q: "Why is it valuable to provide both SDK examples and raw API references?", o: ["SDKs speed integration while API references give exact shapes and options","Only to increase doc length","To confuse integrators","To hide endpoints"], c: 0 },
+        { q: "Which is a robust approach for handling large portfolio updates?", o: ["Batching updates with idempotency and careful validation","Sending many concurrent conflicting requests","Manual edits only","Using only UI copy-paste"], c: 0 },
+        { q: "What role do error codes play in resilient systems?", o: ["Enable programmatic decisions (retry, backoff, user message)","Only for logging","Only for humans to read","Ignore them"], c: 0 },
+        { q: "Which testing helps ensure rebalances act correctly under load?", o: ["Load testing with representative traffic and edge-cases","Only unit tests","Only visual QA","Only manual testing"], c: 0 },
+        { q: "For cross-chain execution, what must be coordinated?", o: ["Routing, liquidity and timing to avoid broken exposures","Only marketing material","Only single-chain state","Only email notifications"], c: 0 },
+        { q: "Which practice lowers integration risk when upgrading versions?", o: ["Versioned APIs, deprecation notices and migration guides","No versioning","Force immediate breaks","Hide changes"], c: 0 },
+        { q: "How should sensitive telemetry (errors, failed rebalances) be handled?", o: ["Secure storage, alerts and privacy-aware logs","Public dashboards with raw PII","No logs at all","Only email dumps"], c: 0 }
       ],
 
       "Expert": [
-        { q: "Which of the following best describes Glider's core proposition?", o: ["Automated, non-custodial portfolio management with multi-chain execution","Custodial lending with fiat rails","NFT minting platform","On-chain identity provider only"], c: 0 },
-        { q: "Why are session keys important for a product like Glider?", o: ["They enable better UX while keeping assets non-custodial","They store user passwords permanently","They replace wallets with custodial accounts","They are used only for marketing"], c: 0 },
-        { q: "How would 'dynamic asset allocation' help a user?", o: ["Shift exposures automatically based on signals to capture yield or reduce risk","Lock assets into a single token","Disable trading entirely","Only rebalance monthly manually"], c: 0 },
-        { q: "Which advantage does 'instant exposure' across chains provide?", o: ["Reduce latency to gain exposure without lengthy bridging","Increase manual bridging steps","Force token conversions to fiat","Remove smart contract interactions"], c: 0 },
-        { q: "Which of these components would most likely be part of Glider's stack given the homepage claims?", o: ["Smart wallets, session keys, cross-chain routing and real-time signal systems","Only a static website","A central bank partnership only","A desktop-only app"], c: 0 },
-        { q: "How does Glider position execution and predictive features relative to volatility?", o: ["Use real-time signals and liquidity to react to market conditions","Ignore market volatility","Only allow manual reactions","Require hourly manual overrides"], c: 0 },
-        { q: "Which statement is consistent with Glider's 'non-custodial' claim?", o: ["Users retain custody; Glider orchestrates on-chain actions without holding keys","Glider takes custody of funds during automation","Funds are moved to a third-party bank","Keys are uploaded to Glider servers permanently"], c: 0 },
-        { q: "What is the likely role of Glider's blog and FAQ links?", o: ["Provide product docs, updates and help materials","Only investor pitch decks","Restricted internal info","No help resources"], c: 0 },
-        { q: "If Glider promises 'deep liquidity' and 'best execution', what would that mean in practice?", o: ["Lower slippage and better fills for rebalances","Guaranteed price improvements always","Free trades with no counterparty","No market access"], c: 0 },
-        { q: "From the homepage, which outcome does Glider aim to deliver?", o: ["Control + clarity + speed so portfolios behave as intended","Guaranteed profits for all users","Custody services as primary focus","Manual-only portfolio management"], c: 0 }
+        { q: "At scale, why use batch operations for proofs/execution (platform-side)?", o: ["Reduce on-chain gas per operation and compress attestations","To increase per-trade gas linearly","To force manual settlement","To avoid proofs entirely"], c: 0 },
+        { q: "Which architectural pattern helps keep user funds non-custodial while enabling automation?", o: ["Smart wallets + delegated sessions orchestrating on-chain calls","Centralized custodial vaults","Bank custody integration only","Storing private keys centrally"], c: 0 },
+        { q: "What is an ideal production rollout plan for automation features?", o: ["Canary releases, progressive ramp, monitoring and rollback plans","Launch all users at once without monitoring","Only announce in blog","No rollback strategy"], c: 0 },
+        { q: "How do you measure execution quality for automated rebalances?", o: ["Slippage, fill rates and time-to-fill vs benchmark","Only number of API calls","Only uptime","Only front-end load times"], c: 0 },
+        { q: "Which defense reduces attack surface for session-based flows?", o: ["Limit session scopes, expiry and require proof-of-possession","Never expire sessions","Embed unlimited scopes","Ignore session scope"], c: 0 },
+        { q: "Why is idempotency important in portfolio update endpoints?", o: ["Avoid duplicated effects when retries occur","Increase complexity","Always allow duplicates","Ignore retries"], c: 0 },
+        { q: "When integrating cross-chain routing, what should you expose to users?", o: ["Estimated costs, expected slippage and fallback paths","No information at all","Only marketing copy","Hide routing entirely"], c: 0 },
+        { q: "Which monitoring metric is essential for automated finance flows?", o: ["Failure-rate of rebalances and error-code distribution","Only page views","Only social mentions","Only signup counts"], c: 0 },
+        { q: "What does robust error handling enable in automation systems?", o: ["Graceful retries, user-visible messages and safe rollbacks","Silent failures","Automatic fund loss","Unlimited retries"], c: 0 },
+        { q: "For long-running automation, which governance is helpful?", o: ["Clear owner roles, audit trails and emergency stop mechanisms","No governance","Only community polls","Only marketing approvals"], c: 0 }
       ]
     };
+
+    // Fisher–Yates shuffle utility (in-place)
+    function shuffleArray(arr){
+      for(let i = arr.length - 1; i > 0; i--){
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
 
     // App state
     let currentLevel = "Beginner";
@@ -317,7 +328,8 @@
     });
 
     function startLevel(level){
-      questions = QUIZ[level].slice();
+      // deep copy to avoid mutating original
+      questions = QUIZ[level].map(q => ({ q: q.q, o: q.o.slice(), c: q.c }));
       qidx = 0; correctCount = 0;
       document.getElementById('tot').textContent = questions.length;
       loadQuestion();
@@ -326,37 +338,51 @@
     function loadQuestion(){
       if(qidx >= questions.length) return showResults();
       const q = questions[qidx];
+
       document.getElementById('cur').textContent = qidx+1;
       document.getElementById('qtext').textContent = q.q;
+
+      // prepare option objects with original indices then shuffle
+      const optObjs = q.o.map((txt, idx) => ({ txt, orig: idx }));
+      shuffleArray(optObjs);
+
       const opts = document.getElementById('opts');
       opts.innerHTML = '';
-      q.o.forEach((optText, i)=>{
+
+      optObjs.forEach(optObj => {
         const d = document.createElement('div');
         d.className = 'option';
-        d.textContent = optText;
-        d.dataset.idx = i;
-        d.addEventListener('click', ()=> chooseOption(i, d));
+        d.textContent = optObj.txt;
+        d.dataset.orig = optObj.orig; // store original index to validate
+        d.addEventListener('click', ()=> chooseOption(d));
         opts.appendChild(d);
       });
+
       const pct = Math.round((qidx)/questions.length*100);
       document.getElementById('fill').style.width = pct + '%';
       nextBtn.disabled = true;
     }
 
-    function chooseOption(i, el){
+    function chooseOption(el){
       const q = questions[qidx];
-      // prevent multiple clicks
+      // prevent double clicks
       const first = document.querySelectorAll('.option')[0];
       if(first && first.style.pointerEvents === 'none') return;
-      document.querySelectorAll('.option').forEach((n,j)=>{
+
+      const chosenOrig = Number(el.dataset.orig);
+
+      document.querySelectorAll('.option').forEach(n=>{
         n.style.pointerEvents = 'none';
-        if(j === q.c) n.classList.add('correct');
-        else if(j === i && i !== q.c) n.classList.add('incorrect');
+        const nOrig = Number(n.dataset.orig);
+        if(nOrig === q.c) n.classList.add('correct');
+        else if(nOrig === chosenOrig && chosenOrig !== q.c) n.classList.add('incorrect');
       });
-      if(i === q.c){
+
+      if(chosenOrig === q.c){
         correctCount++;
-        if(window.confetti) confetti({ particleCount: 80, spread: 60, origin: { y: 0.6 }, colors:[getComputedStyle(document.documentElement).getPropertyValue('--accent-cyan').trim(), getComputedStyle(document.documentElement).getPropertyValue('--accent-mint').trim(), "#ffffff"] });
+        if(window.confetti) confetti({ particleCount: 48, spread: 50, origin: { y: 0.6 } });
       }
+
       nextBtn.disabled = false;
     }
 
@@ -378,10 +404,10 @@
       document.getElementById('finalWrong').textContent = wrong;
       document.getElementById('finalTot').textContent = total;
       document.getElementById('finalMsg').textContent =
-        pct>=80 ? '🏆 Excellent — you know Glider well!' :
+        pct>=80 ? '🏆 Excellent — you know this well!' :
         pct>=60 ? '👏 Good job — nice understanding!' :
         pct>=40 ? '👍 Keep learning — you are getting there!' :
-        '💪 Keep practising — read glider.fi and try again!';
+        '💪 Keep practising — read the product docs and try again!';
       renderChart(correctCount, wrong);
     }
 
