@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -46,8 +46,9 @@
       background:linear-gradient(90deg,var(--accent-cyan),var(--accent-mint));
     }
     .brand { display:flex; gap:12px; align-items:center; cursor:pointer; user-select:none; }
-    .brand img { height:64px; width:auto; display:block; }
-    /* Title layout: increased vertical gap between the two lines as requested */
+    /* LOGO SIZE: change the height value here to make logo smaller/bigger (example: 64px, 80px, 96px) */
+    .brand img { height:80px; width:auto; display:block; }
+    /* Title layout: increased vertical gap between the two lines */
     .title { line-height:1; display:flex; flex-direction:column; gap:8px; }
     .title h1{ font-size:1.45rem; margin:0; color:#012; font-weight:800; letter-spacing:0.2px; }
     .title p{ margin:0; color:#012; font-size:0.88rem; font-weight:600; opacity:0.95; }
@@ -146,7 +147,7 @@
     .footer{ padding:12px 18px; text-align:center; color:var(--text-muted); background:var(--card-bg) }
 
     @media(max-width:680px){
-      .brand img{height:40px}
+      .brand img{height:52px}
       .title h1{ font-size:1.15rem; } /* slightly reduce on small screens */
       .header h1{ font-size:1.35rem }
       .btn{ padding:10px 20px }
@@ -164,8 +165,9 @@
       <div class="brand" id="brandBtn" title="Go to Home">
         <img src="glider_logo.png" alt="Glider logo" />
         <div class="title">
-          <h1 id="brandTitle">Glider IQ Challenge</h1>
-          <p id="brandSubtitle">5 levels — 50 questions</p>
+          <!-- Topbar brand text updated as requested -->
+          <h1 id="brandTitle">Glider Quiz</h1>
+          <p id="brandSubtitle">50 questions — 5 levels (Beginner → Expert)</p>
         </div>
       </div>
       <div class="toplink"><a href="https://glider.fi/?invite=f33c4abc" target="_blank" rel="noopener">Open Glider</a></div>
@@ -180,7 +182,7 @@
     <div id="start" class="section active">
       <div class="intro">
         <h2>Choose a level</h2>
-        <p>Select a level below — each level contains 10 questions. </p>
+        <p>Select a level below — each level contains 10 questions. Complete all five to see your full summary.</p>
       </div>
 
       <div class="levels" id="levels">
@@ -223,7 +225,6 @@
       <div class="results">
         <div class="score" id="finalPct">0%</div>
         <div class="message" id="finalMsg">Message</div>
-        <!-- This detail inside the results section remains for accessibility — headerDesc will also show equivalent line on header when results active -->
         <p class="detail" id="resultDetail">Your performance for the Beginner level.</p>
 
         <div style="max-width:420px;margin:10px auto">
@@ -233,8 +234,8 @@
         <p style="color:var(--text-muted)">Correct: <span id="finalCorrect">0</span> | Wrong: <span id="finalWrong">0</span> | Total: <span id="finalTot">10</span></p>
 
         <div style="text-align:center;margin-top:12px">
-          <button id="playAgain" class="btn ghost">Play Again </button>
-          <button id="goHome" class="btn primary-highlight small" style="margin-left:8px">Next level (next)</button>
+          <button id="playAgain" class="btn ghost">Play Again (this level)</button>
+          <button id="goHome" class="btn primary-highlight small" style="margin-left:8px">Choose another level (next)</button>
         </div>
       </div>
     </div>
@@ -265,7 +266,7 @@
         </table>
 
         <div style="margin-top:14px;text-align:center">
-          <button id="resetAll" class="btn">Restart All </button>
+          <button id="resetAll" class="btn">Restart All (reset progress)</button>
           <button id="chooseLevelAfter" class="btn ghost small" style="margin-left:8px">Choose a level</button>
         </div>
       </div>
@@ -516,7 +517,7 @@
         pct>=40 ? '👍 Keep learning — you are getting there!' :
         '💪 Keep practising — read the docs and try again!';
 
-      // update the small result line inside results section (kept for clarity)
+      // update the small result line inside results section
       resultDetail.textContent = `Your performance for the ${currentLevel} level.`;
 
       renderChart(correctCount, wrong);
