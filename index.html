@@ -80,12 +80,24 @@
     .level-btn{
       padding:9px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);
       background:transparent;color:var(--text-light);cursor:pointer;font-weight:600;
+      transition:all .15s ease;
     }
     .level-btn.sel{ background:linear-gradient(90deg,var(--accent-cyan),var(--accent-mint)); color:#012; border:none; }
 
-    .btn{ padding:12px 30px; border-radius:12px; border:none; cursor:pointer; font-weight:700;
-          background:linear-gradient(90deg,var(--accent-cyan),var(--accent-mint)); color:#012; }
+    .btn{
+      padding:12px 30px; border-radius:12px; border:none; cursor:pointer; font-weight:700;
+      background:linear-gradient(90deg,var(--accent-cyan),var(--accent-mint)); color:#012;
+      transition:transform 0.15s ease, box-shadow 0.15s ease, opacity 0.12s ease;
+      will-change: transform;
+    }
     .btn.ghost{ background:transparent;border:1px solid rgba(255,255,255,0.04); color:var(--text-light); }
+
+    /* subtle press effect (works for mouse and touch) */
+    .btn:active {
+      transform: scale(0.94);
+      box-shadow: 0 0 0 rgba(0,0,0,0);
+      opacity: 0.98;
+    }
 
     .loader{ display:flex; justify-content:center; align-items:center; height:120px; }
     .loader span{ width:12px;height:12px;border-radius:50%;display:inline-block;margin:0 6px;background:var(--accent-cyan); animation:bounce .6s infinite alternate;}
@@ -103,14 +115,20 @@
     .options{ display:grid; gap:12px }
     .option{
       padding:12px 14px;border-radius:10px;background:#11161b;border:2px solid #1f262b;color:var(--text-light);
-      cursor:pointer; transition:transform .18s ease, border-color .18s ease, background .18s ease;
+      cursor:pointer; transition:transform .18s ease, border-color .18s ease, background .18s ease, box-shadow .12s ease;
       user-select:none;
     }
     .option:hover{ transform:translateY(-4px); border-color:var(--accent-mint) }
     .option.correct{ border-color:#51cf66; background:rgba(81,207,102,0.08) }
     .option.incorrect{ border-color:#f03e3e; background:rgba(240,62,62,0.06) }
 
-    .controls{ display:flex; gap:10px; justify-content:center; margin-top:12px }
+    /* reduced gap between End Early and Next + slightly smaller top margin */
+    .controls{
+      display:flex;
+      gap:6px; /* reduced from 10px */
+      justify-content:center;
+      margin-top:8px; /* reduced from 12px */
+    }
 
     .results{ text-align:center; padding:20px 24px }
     .results .score{ font-size:3rem; margin:10px 0; background:linear-gradient(90deg,var(--accent-cyan),var(--accent-mint)); -webkit-background-clip:text; -webkit-text-fill-color:transparent }
