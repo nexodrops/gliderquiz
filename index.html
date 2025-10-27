@@ -47,7 +47,8 @@
     }
     .brand { display:flex; gap:12px; align-items:center; cursor:pointer; user-select:none; }
     .brand img { height:64px; width:auto; display:block; }
-    .title { line-height:1; }
+    /* Title layout: increased vertical gap between the two lines as requested */
+    .title { line-height:1; display:flex; flex-direction:column; gap:8px; }
     .title h1{ font-size:1.45rem; margin:0; color:#012; font-weight:800; letter-spacing:0.2px; }
     .title p{ margin:0; color:#012; font-size:0.88rem; font-weight:600; opacity:0.95; }
 
@@ -222,6 +223,7 @@
       <div class="results">
         <div class="score" id="finalPct">0%</div>
         <div class="message" id="finalMsg">Message</div>
+        <!-- This detail inside the results section remains for accessibility — headerDesc will also show equivalent line on header when results active -->
         <p class="detail" id="resultDetail">Your performance for the Beginner level.</p>
 
         <div style="max-width:420px;margin:10px auto">
@@ -378,20 +380,27 @@
     const resetAllBtn = document.getElementById('resetAll');
     const chooseLevelAfter = document.getElementById('chooseLevelAfter');
 
-    // keep header description constant
-    headerDesc.textContent = 'Test your knowledge on Glider — portfolio automation, beta points & multi-chain rebalancing';
+    // default header description (kept for non-results pages)
+    const DEFAULT_HEADER_DESC = 'Test your knowledge on Glider — portfolio automation, beta points & multi-chain rebalancing';
+    headerDesc.textContent = DEFAULT_HEADER_DESC;
 
     function updateHeaderTitle(activeSectionId){
       if(activeSectionId === 'start'){
         headerTitle.textContent = 'Glider IQ Challenge';
+        headerDesc.textContent = DEFAULT_HEADER_DESC;
       } else if(activeSectionId === 'quiz'){
         headerTitle.textContent = currentLevel + ' Level';
+        headerDesc.textContent = DEFAULT_HEADER_DESC;
       } else if(activeSectionId === 'results'){
+        // replace headerDesc with per-level performance line for results page
         headerTitle.textContent = currentLevel + ' Results';
+        headerDesc.textContent = `Your performance for the ${currentLevel} level.`;
       } else if(activeSectionId === 'aggregate'){
         headerTitle.textContent = 'Final Summary';
+        headerDesc.textContent = DEFAULT_HEADER_DESC;
       } else {
         headerTitle.textContent = 'Glider IQ Challenge';
+        headerDesc.textContent = DEFAULT_HEADER_DESC;
       }
     }
 
@@ -424,7 +433,6 @@
 
     function startLevel(level){
       document.querySelectorAll('.level-btn').forEach(b=> b.classList.toggle('sel', b.dataset.level === level));
-      // deep copy so we can shuffle options per-load safely; preserve original indices in 'o' array order
       questions = QUIZ[level].map(q => ({ q: q.q, o: q.o.slice(), c: q.c }));
       qidx = 0; correctCount = 0;
       document.getElementById('tot').textContent = questions.length;
@@ -508,7 +516,7 @@
         pct>=40 ? '👍 Keep learning — you are getting there!' :
         '💪 Keep practising — read the docs and try again!';
 
-      // show per-level detail line exactly
+      // update the small result line inside results section (kept for clarity)
       resultDetail.textContent = `Your performance for the ${currentLevel} level.`;
 
       renderChart(correctCount, wrong);
