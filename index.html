@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Glider IQ Challenge — 5 levels (50 Qs)</title>
+  <title>Glider Quiz — 50 questions</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet"/>
   <style>
     :root{
@@ -46,12 +46,12 @@
       background:linear-gradient(90deg,var(--accent-cyan),var(--accent-mint));
     }
     .brand { display:flex; gap:12px; align-items:center; cursor:pointer; user-select:none; }
-    /* LOGO SIZE: change the height value here to make logo smaller/bigger (example: 64px, 80px, 96px) */
-    .brand img { height:80px; width:auto; display:block; }
-    /* Title layout: increased vertical gap between the two lines */
+    /* **UPDATED**: smaller logo height */
+    .brand img { height:48px; width:auto; display:block; }
+    /* Title layout: slightly increased vertical gap */
     .title { line-height:1; display:flex; flex-direction:column; gap:8px; }
-    .title h1{ font-size:1.45rem; margin:0; color:#012; font-weight:800; letter-spacing:0.2px; }
-    .title p{ margin:0; color:#012; font-size:0.88rem; font-weight:600; opacity:0.95; }
+    .title h1{ font-size:1.25rem; margin:0; color:#012; font-weight:800; letter-spacing:0.2px; }
+    .title p{ margin:0; color:#012; font-size:0.82rem; font-weight:600; opacity:0.95; }
 
     .toplink a{
       display:inline-block;
@@ -147,8 +147,8 @@
     .footer{ padding:12px 18px; text-align:center; color:var(--text-muted); background:var(--card-bg) }
 
     @media(max-width:680px){
-      .brand img{height:20px}
-      .title h1{ font-size:1.15rem; } /* slightly reduce on small screens */
+      .brand img{height:40px} /* mobile smaller */
+      .title h1{ font-size:1.05rem; } /* slightly reduce on small screens */
       .header h1{ font-size:1.35rem }
       .btn{ padding:10px 20px }
       .agg-table th, .agg-table td{ font-size:0.92rem }
@@ -165,7 +165,6 @@
       <div class="brand" id="brandBtn" title="Go to Home">
         <img src="glider_logo.png" alt="Glider logo" />
         <div class="title">
-          <!-- Topbar brand text updated as requested -->
           <h1 id="brandTitle">Glider Quiz</h1>
           <p id="brandSubtitle">50 questions — 5 levels (Beginner → Expert)</p>
         </div>
@@ -234,8 +233,8 @@
         <p style="color:var(--text-muted)">Correct: <span id="finalCorrect">0</span> | Wrong: <span id="finalWrong">0</span> | Total: <span id="finalTot">10</span></p>
 
         <div style="text-align:center;margin-top:12px">
-          <button id="playAgain" class="btn ghost">Play Again </button>
-          <button id="goHome" class="btn primary-highlight small" style="margin-left:8px">Next Level</button>
+          <button id="playAgain" class="btn ghost">Play Again (this level)</button>
+          <button id="goHome" class="btn primary-highlight small" style="margin-left:8px">Choose another level (next)</button>
         </div>
       </div>
     </div>
@@ -278,7 +277,6 @@
   </div>
 
   <script>
-    // QUIZ with intentionally varied 'c' values (correct option index) across questions
     const QUIZ = {
       "Beginner": [
         { q: "What is the main purpose of Glider for a crypto user?", o: ["Automate portfolio rebalances without giving up custody","Provide fiat loans to users","Host NFT marketplaces","Run a centralized exchange"], c: 0 },
