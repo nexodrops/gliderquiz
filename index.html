@@ -46,9 +46,7 @@
       background:linear-gradient(90deg,var(--accent-cyan),var(--accent-mint));
     }
     .brand { display:flex; gap:12px; align-items:center; cursor:pointer; user-select:none; }
-    /* **UPDATED**: smaller logo height */
     .brand img { height:40px; width:auto; display:block; }
-    /* Title layout: slightly increased vertical gap */
     .title { line-height:1; display:flex; flex-direction:column; gap:8px; }
     .title h1{ font-size:1.25rem; margin:0; color:#012; font-weight:800; letter-spacing:0.2px; }
     .title p{ margin:0; color:#012; font-size:0.82rem; font-weight:600; opacity:0.95; }
@@ -174,7 +172,7 @@
 
     <div class="header">
       <h1 id="headerTitle">Glider IQ Challenge</h1>
-      <p id="headerDesc">Test your knowledge on Glider — portfolio automation, beta points & multi-chain rebalancing</p>
+      <p id="headerDesc"></p>
     </div>
 
     <!-- START -->
@@ -379,27 +377,25 @@
     const resetAllBtn = document.getElementById('resetAll');
     const chooseLevelAfter = document.getElementById('chooseLevelAfter');
 
-    // default header description (kept for non-results pages)
+    // default header description (only shown on Home/start)
     const DEFAULT_HEADER_DESC = 'Test your knowledge on Glider — portfolio automation, beta points & multi-chain rebalancing';
-    headerDesc.textContent = DEFAULT_HEADER_DESC;
 
     function updateHeaderTitle(activeSectionId){
       if(activeSectionId === 'start'){
         headerTitle.textContent = 'Glider IQ Challenge';
-        headerDesc.textContent = DEFAULT_HEADER_DESC;
+        headerDesc.textContent = DEFAULT_HEADER_DESC; // <-- only on home
       } else if(activeSectionId === 'quiz'){
         headerTitle.textContent = currentLevel + ' Level';
-        headerDesc.textContent = DEFAULT_HEADER_DESC;
+        headerDesc.textContent = ''; // remove default from other pages
       } else if(activeSectionId === 'results'){
-        // replace headerDesc with per-level performance line for results page
         headerTitle.textContent = currentLevel + ' Results';
-        headerDesc.textContent = `Your performance for the ${currentLevel} level.`;
+        headerDesc.textContent = ''; // keep headerDesc empty; per-level detail shown inside results section
       } else if(activeSectionId === 'aggregate'){
         headerTitle.textContent = 'Final Summary';
-        headerDesc.textContent = DEFAULT_HEADER_DESC;
+        headerDesc.textContent = ''; // empty here too
       } else {
         headerTitle.textContent = 'Glider IQ Challenge';
-        headerDesc.textContent = DEFAULT_HEADER_DESC;
+        headerDesc.textContent = '';
       }
     }
 
@@ -652,8 +648,8 @@
       updateHeaderTitle(id);
     }
 
-    // init
-    updateHeaderTitle('start');
+    // init: show header description only on start
+    showSection('start');
 
     // expose for quick debugging
     window._QUIZ = QUIZ;
