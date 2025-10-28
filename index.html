@@ -175,11 +175,11 @@
       <p id="headerDesc"></p>
     </div>
 
-    <!-- START -->
+    <!-- START (Home) -->
     <div id="start" class="section active">
       <div class="intro">
         <h2>Choose a level</h2>
-        <p>Select a level below — each level contains 10 questions. </p>
+        <p>Select a level below — each level contains 10 questions.</p>
       </div>
 
       <div class="levels" id="levels">
@@ -222,6 +222,8 @@
       <div class="results">
         <div class="score" id="finalPct">0%</div>
         <div class="message" id="finalMsg">Message</div>
+
+        <!--  <-- This line is the per-level result text and WILL ALWAYS show on results page -->
         <p class="detail" id="resultDetail">Your performance for the Beginner level.</p>
 
         <div style="max-width:420px;margin:10px auto">
@@ -231,7 +233,7 @@
         <p style="color:var(--text-muted)">Correct: <span id="finalCorrect">0</span> | Wrong: <span id="finalWrong">0</span> | Total: <span id="finalTot">10</span></p>
 
         <div style="text-align:center;margin-top:12px">
-          <button id="playAgain" class="btn ghost">Play Again </button>
+          <button id="playAgain" class="btn ghost">Play Again</button>
           <button id="goHome" class="btn primary-highlight small" style="margin-left:8px">Next Level</button>
         </div>
       </div>
@@ -263,7 +265,7 @@
         </table>
 
         <div style="margin-top:14px;text-align:center">
-          <button id="resetAll" class="btn">Restart All </button>
+          <button id="resetAll" class="btn">Restart All</button>
           <button id="chooseLevelAfter" class="btn ghost small" style="margin-left:8px">Next Level</button>
         </div>
       </div>
@@ -275,6 +277,7 @@
   </div>
 
   <script>
+    // QUIZ data (same as before)
     const QUIZ = {
       "Beginner": [
         { q: "What is the main purpose of Glider for a crypto user?", o: ["Automate portfolio rebalances without giving up custody","Provide fiat loans to users","Host NFT marketplaces","Run a centralized exchange"], c: 0 },
@@ -383,16 +386,16 @@
     function updateHeaderTitle(activeSectionId){
       if(activeSectionId === 'start'){
         headerTitle.textContent = 'Glider IQ Challenge';
-        headerDesc.textContent = DEFAULT_HEADER_DESC; // <-- only on home
+        headerDesc.textContent = DEFAULT_HEADER_DESC; // show this only on home
       } else if(activeSectionId === 'quiz'){
         headerTitle.textContent = currentLevel + ' Level';
-        headerDesc.textContent = ''; // remove default from other pages
+        headerDesc.textContent = ''; // empty elsewhere
       } else if(activeSectionId === 'results'){
         headerTitle.textContent = currentLevel + ' Results';
-        headerDesc.textContent = ''; // keep headerDesc empty; per-level detail shown inside results section
+        headerDesc.textContent = ''; // keep headerDesc empty; per-level detail shown inside results
       } else if(activeSectionId === 'aggregate'){
         headerTitle.textContent = 'Final Summary';
-        headerDesc.textContent = ''; // empty here too
+        headerDesc.textContent = '';
       } else {
         headerTitle.textContent = 'Glider IQ Challenge';
         headerDesc.textContent = '';
@@ -511,7 +514,7 @@
         pct>=40 ? '👍 Keep learning — you are getting there!' :
         '💪 Keep practising — read the docs and try again!';
 
-      // update the small result line inside results section
+      // <<-- Crucial: ensure per-level result line is set and visible on results page
       resultDetail.textContent = `Your performance for the ${currentLevel} level.`;
 
       renderChart(correctCount, wrong);
